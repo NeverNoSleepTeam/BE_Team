@@ -1,8 +1,11 @@
 package NS.pgmg.service;
 
 import NS.pgmg.domain.user.BasicUser;
+import NS.pgmg.domain.user.ModelUser;
 import NS.pgmg.dto.BasicUserSignUpDto;
+import NS.pgmg.dto.ModelUserSignUpDto;
 import NS.pgmg.repository.BasicUserRepository;
+import NS.pgmg.repository.ModelUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class BasicUserService {
+public class UserService {
 
     private final BasicUserRepository basicUserRepository;
+    private final ModelUserRepository modelUserRepository;
 
     @Transactional
     public ResponseEntity<String> createBasicUser(BasicUserSignUpDto request) {
@@ -39,6 +43,27 @@ public class BasicUserService {
         }
 
         return entity;
+    }
+
+    @Transactional
+    public ResponseEntity<String> createModelUser(ModelUserSignUpDto request) {
+
+        ModelUser modelUser = ModelUser.builder()
+                .email(request.getEmail())
+                .gender(request.getGender())
+                .intro(request.getIntro())
+                .height(request.getHeight())
+                .weight(request.getWeight())
+                .top(request.getTop())
+                .bottom(request.getBottom())
+                .shoes(request.getShoes())
+                .nationality(request.getNationality())
+                .city(request.getCity())
+                .build();
+
+        modelUserRepository.save(modelUser);
+
+        return new ResponseEntity<>("모델 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
     public void passwdValidation(String passwd, String passwd2) throws Exception {

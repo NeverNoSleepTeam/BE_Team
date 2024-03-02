@@ -1,6 +1,6 @@
 package NS.pgmg.dto;
 
-import NS.pgmg.domain.user.Gender;
+import NS.pgmg.domain.user.enums.Gender;
 import lombok.Builder;
 import lombok.Getter;
 

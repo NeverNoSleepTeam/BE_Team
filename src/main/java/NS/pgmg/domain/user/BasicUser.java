@@ -1,7 +1,9 @@
 package NS.pgmg.domain.user;
 
+import NS.pgmg.domain.user.enums.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,17 +17,17 @@ public class BasicUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
 
-    @Column(nullable = false)
+    @NotBlank
     @Email
     private String email;
 
-    @Column(nullable = false)
+    @NotBlank
     private String passwd;
 
-    @Column(nullable = false)
+    @NotBlank
     private String name;
 
-    @Column(nullable = false)
+    @NotBlank
     @Enumerated(EnumType.STRING)
     private Gender gender;
 

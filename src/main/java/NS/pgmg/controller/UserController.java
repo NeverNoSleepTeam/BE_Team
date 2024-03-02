@@ -1,7 +1,9 @@
 package NS.pgmg.controller;
 
 import NS.pgmg.dto.BasicUserSignUpDto;
-import NS.pgmg.service.BasicUserService;
+import NS.pgmg.dto.ModelUserSignUpDto;
+import NS.pgmg.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,20 +16,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    private final BasicUserService basicUserService;
+    private final UserService userService;
 
     @PostMapping("/auth/basic-register")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> basicUserRegister(
             @RequestBody BasicUserSignUpDto basicUserSignUpDto
             ) {
-        return basicUserService.createBasicUser(basicUserSignUpDto);
+        return userService.createBasicUser(basicUserSignUpDto);
     }
 
     @PostMapping("/auth/model-register")
     @ResponseStatus(HttpStatus.CREATED)
-    public String ModelUserRegister() {
-        return "모델 회원가입이 완료되었습니다.";
+    public ResponseEntity<String> ModelUserRegister(
+            @RequestBody ModelUserSignUpDto modelUserSignUpDto
+            ) {
+        return userService.createModelUser(modelUserSignUpDto);
     }
 
     @PostMapping("/auth/prophoto-register")
