@@ -24,6 +24,9 @@ public class ModelUser {
     private String email;
 
     @NotBlank
+    private String name;
+
+    @NotBlank
     @Enumerated(EnumType.STRING)
     private Gender gender;
 

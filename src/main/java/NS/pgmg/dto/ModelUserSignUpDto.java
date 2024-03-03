@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public class ModelUserSignUpDto {
     private final String email;
+    private final String name;
     private final Gender gender;
     private final String intro;
     private final String height;
@@ -20,9 +21,10 @@ public class ModelUserSignUpDto {
     private final City city;
 
     @Builder
-    public ModelUserSignUpDto(String email, Gender gender, String intro, String height, String weight,
+    public ModelUserSignUpDto(String email, String name, Gender gender, String intro, String height, String weight,
                               String top, String bottom, String shoes, Nationality nationality, City city) {
         this.email = email;
+        this.name = name;
         this.gender = gender;
         this.intro = intro;
         this.height = height;
