@@ -24,6 +24,7 @@ public class ModelUser {
     private String email;
 
     @NotBlank
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Column(columnDefinition = "TEXT")
@@ -45,9 +46,11 @@ public class ModelUser {
     private String shoes;
 
     @NotBlank
+    @Enumerated(EnumType.STRING)
     private Nationality nationality;
 
     @NotBlank
+    @Enumerated(EnumType.STRING)
     private City city;
 
     @Builder

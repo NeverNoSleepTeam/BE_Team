@@ -2,10 +2,13 @@ package NS.pgmg.service;
 
 import NS.pgmg.domain.user.BasicUser;
 import NS.pgmg.domain.user.ModelUser;
+import NS.pgmg.domain.user.ProPhotoUser;
 import NS.pgmg.dto.BasicUserSignUpDto;
 import NS.pgmg.dto.ModelUserSignUpDto;
-import NS.pgmg.repository.BasicUserRepository;
-import NS.pgmg.repository.ModelUserRepository;
+import NS.pgmg.dto.ProPhotoUserSignUpDto;
+import NS.pgmg.repository.user.BasicUserRepository;
+import NS.pgmg.repository.user.ModelUserRepository;
+import NS.pgmg.repository.user.ProPhotoUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ public class UserService {
 
     private final BasicUserRepository basicUserRepository;
     private final ModelUserRepository modelUserRepository;
+    private final ProPhotoUserRepository proPhotoUserRepository;
 
     @Transactional
     public ResponseEntity<String> createBasicUser(BasicUserSignUpDto request) {
@@ -66,10 +70,25 @@ public class UserService {
         return new ResponseEntity<>("모델 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
-    public void passwdValidation(String passwd, String passwd2) throws Exception {
-        if (passwd.equals(passwd2)) {
+    @Transactional
+    public ResponseEntity<String> createProPhotoUser(ProPhotoUserSignUpDto request) {
 
-        } else {
+        ProPhotoUser proPhotoUser = ProPhotoUser.builder()
+                .email(request.getEmail())
+                .name(request.getName())
+                .gender(request.getGender())
+                .intro(request.getIntro())
+                .businessTrip(request.getBusinessTrip())
+                .portfolioURL(request.getPortfolioURL())
+                .build();
+
+        proPhotoUserRepository.save(proPhotoUser);
+
+        return new ResponseEntity<>("기사 회원가입이 완료되었습니다.", HttpStatus.CREATED);
+    }
+
+    public void passwdValidation(String passwd, String passwd2) throws Exception {
+        if (!passwd.equals(passwd2)) {
             throw new Exception("비밀번호가 일치하지 않습니다.");
         }
     }
