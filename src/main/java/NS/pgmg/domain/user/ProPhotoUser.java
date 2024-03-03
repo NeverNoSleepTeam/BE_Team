@@ -20,9 +20,11 @@ public class ProPhotoUser {
 
     @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
 
     @NotBlank
+    @Column(unique = true)
     private String name;
 
     @NotBlank

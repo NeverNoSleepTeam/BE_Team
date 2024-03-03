@@ -19,12 +19,14 @@ public class BasicUser {
 
     @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
 
     @NotBlank
     private String passwd;
 
     @NotBlank
+    @Column(unique = true)
     private String name;
 
     @NotBlank

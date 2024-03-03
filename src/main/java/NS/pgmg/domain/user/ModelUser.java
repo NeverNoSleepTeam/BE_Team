@@ -21,9 +21,11 @@ public class ModelUser {
 
     @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
 
     @NotBlank
+    @Column(unique = true)
     private String name;
 
     @NotBlank
