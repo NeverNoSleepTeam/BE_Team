@@ -7,13 +7,12 @@ import lombok.Getter;
 
 @Getter
 public class ProPhotoUserSignUpDto {
-
-    private final String email;
-    private final String name;
-    private final Gender gender;
-    private final String intro;
-    private final BusinessTrip businessTrip;
-    private final String portfolioURL;
+    private String email;
+    private String name;
+    private Gender gender;
+    private String intro;
+    private BusinessTrip businessTrip;
+    private String portfolioURL;
 
     @Builder
 

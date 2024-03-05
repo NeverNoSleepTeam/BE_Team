@@ -19,7 +19,7 @@ public class ProPhotoUser {
     private Long uid;
 
     @NotBlank
-    @Email
+    @Email(message = "이메일 형식이 올바르지 않습니다.")
     @Column(unique = true)
     private String email;
 
@@ -42,7 +42,8 @@ public class ProPhotoUser {
     private String portfolioURL;
 
     @Builder
-    public ProPhotoUser(String email, String name, Gender gender, String intro, BusinessTrip businessTrip, String portfolioURL) {
+    public ProPhotoUser(String email, String name, Gender gender, String intro,
+                        BusinessTrip businessTrip, String portfolioURL) {
         this.email = email;
         this.name = name;
         this.gender = gender;
