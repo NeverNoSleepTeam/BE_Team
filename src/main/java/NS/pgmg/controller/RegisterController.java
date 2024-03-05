@@ -3,7 +3,7 @@ package NS.pgmg.controller;
 import NS.pgmg.dto.BasicUserSignUpDto;
 import NS.pgmg.dto.ModelUserSignUpDto;
 import NS.pgmg.dto.ProPhotoUserSignUpDto;
-import NS.pgmg.service.UserService;
+import NS.pgmg.service.UserRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
-public class UserRegisterController {
+public class RegisterController {
 
-    private final UserService userService;
+    private final UserRegisterService userRegisterService;
 
     @PostMapping("/basic-register")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> basicUserRegister(
             @RequestBody BasicUserSignUpDto basicUserSignUpDto
             ) {
-        return userService.createBasicUser(basicUserSignUpDto);
+        return userRegisterService.createBasicUser(basicUserSignUpDto);
     }
 
     @PostMapping("/model-register")
@@ -29,7 +29,7 @@ public class UserRegisterController {
     public ResponseEntity<String> ModelUserRegister(
             @RequestBody ModelUserSignUpDto modelUserSignUpDto
             ) {
-        return userService.createModelUser(modelUserSignUpDto);
+        return userRegisterService.createModelUser(modelUserSignUpDto);
     }
 
     @PostMapping("/prophoto-register")
@@ -37,7 +37,7 @@ public class UserRegisterController {
     public ResponseEntity<String> proPhotoRegister(
             @RequestBody ProPhotoUserSignUpDto proPhotoUserSignUpDto
             ) {
-        return userService.createProPhotoUser(proPhotoUserSignUpDto);
+        return userRegisterService.createProPhotoUser(proPhotoUserSignUpDto);
     }
 
     @PostMapping("/social-register")
