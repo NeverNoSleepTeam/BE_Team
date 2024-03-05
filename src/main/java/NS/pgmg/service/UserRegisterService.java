@@ -50,15 +50,21 @@ public class UserRegisterService {
     public ResponseEntity<String> createModelUser(ModelRegisterDto request) {
         String email = request.getEmail();
         User findUser = userRepository.findByEmail(email);
+        if (findUser == null) {
+            return new ResponseEntity<>("잘못된 접근입니다.", HttpStatus.CREATED);
+        }
         findUser.setModelInfo(request);
         userRepository.save(findUser);
-        return new ResponseEntity<>("모델 회원가입이 완료되었습니다.", HttpStatus.CREATED);
+        return new ResponseEntity<>("모델 회원가입이 완료되었습니다.", HttpStatus.BAD_REQUEST);
     }
 
     @Transactional
     public ResponseEntity<String> createProPhotoUser(ProPhotoRegisterDto request) {
         String email = request.getEmail();
         User findUser = userRepository.findByEmail(email);
+        if (findUser == null){
+            return new ResponseEntity<>("잘못된 접근입니다.", HttpStatus.BAD_REQUEST);
+        }
         findUser.setProPhotoInfo(request);
         userRepository.save(findUser);
         return new ResponseEntity<>("기사 회원가입이 완료되었습니다.", HttpStatus.CREATED);
