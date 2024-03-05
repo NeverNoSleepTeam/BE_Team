@@ -1,17 +1,13 @@
 package NS.pgmg.service;
 
-import NS.pgmg.domain.user.BasicUser;
-import NS.pgmg.domain.user.ModelUser;
-import NS.pgmg.domain.user.ProPhotoUser;
-import NS.pgmg.dto.BasicUserSignUpDto;
-import NS.pgmg.dto.ModelUserSignUpDto;
-import NS.pgmg.dto.ProPhotoUserSignUpDto;
+import NS.pgmg.domain.user.User;
+import NS.pgmg.dto.register.BasicRegisterDto;
+import NS.pgmg.dto.register.ModelRegisterDto;
+import NS.pgmg.dto.register.ProPhotoRegisterDto;
 import NS.pgmg.exception.EmailDuplicateException;
 import NS.pgmg.exception.NameDuplicateException;
 import NS.pgmg.exception.PasswordMismatchException;
-import NS.pgmg.repository.user.BasicUserRepository;
-import NS.pgmg.repository.user.ModelUserRepository;
-import NS.pgmg.repository.user.ProPhotoUserRepository;
+import NS.pgmg.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserRegisterService {
 
-    private final BasicUserRepository basicUserRepository;
-    private final ModelUserRepository modelUserRepository;
-    private final ProPhotoUserRepository proPhotoUserRepository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public ResponseEntity<String> createBasicUser(BasicUserSignUpDto request) {
+    public ResponseEntity<String> createBasicUser(BasicRegisterDto request) {
 
         try {
             passwdValidation(request.getPasswd(), request.getPasswd2());
@@ -38,54 +32,35 @@ public class UserRegisterService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        BasicUser basicUser = BasicUser.builder()
+        User user = User.builder()
                 .email(request.getEmail())
                 .name(request.getName())
                 .passwd(request.getPasswd())
                 .gender(request.getGender())
                 .intro(request.getIntro())
+                .socialTF(false)
                 .build();
 
-        basicUserRepository.save(basicUser);
+        userRepository.save(user);
 
         return new ResponseEntity<>("일반 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
     @Transactional
-    public ResponseEntity<String> createModelUser(ModelUserSignUpDto request) {
-
-        ModelUser modelUser = ModelUser.builder()
-                .email(request.getEmail())
-                .gender(request.getGender())
-                .intro(request.getIntro())
-                .height(request.getHeight())
-                .weight(request.getWeight())
-                .top(request.getTop())
-                .bottom(request.getBottom())
-                .shoes(request.getShoes())
-                .nationality(request.getNationality())
-                .city(request.getCity())
-                .build();
-
-        modelUserRepository.save(modelUser);
-
+    public ResponseEntity<String> createModelUser(ModelRegisterDto request) {
+        String email = request.getEmail();
+        User findUser = userRepository.findByEmail(email);
+        findUser.setModelInfo(request);
+        userRepository.save(findUser);
         return new ResponseEntity<>("모델 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
     @Transactional
-    public ResponseEntity<String> createProPhotoUser(ProPhotoUserSignUpDto request) {
-
-        ProPhotoUser proPhotoUser = ProPhotoUser.builder()
-                .email(request.getEmail())
-                .name(request.getName())
-                .gender(request.getGender())
-                .intro(request.getIntro())
-                .businessTrip(request.getBusinessTrip())
-                .portfolioURL(request.getPortfolioURL())
-                .build();
-
-        proPhotoUserRepository.save(proPhotoUser);
-
+    public ResponseEntity<String> createProPhotoUser(ProPhotoRegisterDto request) {
+        String email = request.getEmail();
+        User findUser = userRepository.findByEmail(email);
+        findUser.setProPhotoInfo(request);
+        userRepository.save(findUser);
         return new ResponseEntity<>("기사 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
@@ -97,16 +72,16 @@ public class UserRegisterService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void basicUserEmailDuplicateCheck(String email) {
-        BasicUser findBasicUser = basicUserRepository.findByEmail(email);
-        if (findBasicUser != null) {
+        User findUser = userRepository.findByEmail(email);
+        if (findUser != null) {
             throw new EmailDuplicateException("이미 존재하는 이메일입니다.");
         }
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void basicUserNameDuplicateCheck(String name) {
-        BasicUser findBasicUser = basicUserRepository.findByEmail(name);
-        if (findBasicUser != null) {
+        User findUser = userRepository.findByEmail(name);
+        if (findUser != null) {
             throw new NameDuplicateException("이미 존재하는 닉네임입니다.");
         }
     }

@@ -1,4 +1,4 @@
-package NS.pgmg.dto;
+package NS.pgmg.dto.login;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,8 +1,8 @@
 package NS.pgmg.controller;
 
-import NS.pgmg.dto.BasicUserSignUpDto;
-import NS.pgmg.dto.ModelUserSignUpDto;
-import NS.pgmg.dto.ProPhotoUserSignUpDto;
+import NS.pgmg.dto.register.BasicRegisterDto;
+import NS.pgmg.dto.register.ModelRegisterDto;
+import NS.pgmg.dto.register.ProPhotoRegisterDto;
 import NS.pgmg.service.UserRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,30 +19,24 @@ public class RegisterController {
     @PostMapping("/basic-register")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> basicUserRegister(
-            @RequestBody BasicUserSignUpDto basicUserSignUpDto
+            @RequestBody BasicRegisterDto basicRegisterDto
             ) {
-        return userRegisterService.createBasicUser(basicUserSignUpDto);
+        return userRegisterService.createBasicUser(basicRegisterDto);
     }
 
     @PostMapping("/model-register")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> ModelUserRegister(
-            @RequestBody ModelUserSignUpDto modelUserSignUpDto
+            @RequestBody ModelRegisterDto modelRegisterDto
             ) {
-        return userRegisterService.createModelUser(modelUserSignUpDto);
+        return userRegisterService.createModelUser(modelRegisterDto);
     }
 
     @PostMapping("/prophoto-register")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> proPhotoRegister(
-            @RequestBody ProPhotoUserSignUpDto proPhotoUserSignUpDto
+            @RequestBody ProPhotoRegisterDto proPhotoRegisterDto
             ) {
-        return userRegisterService.createProPhotoUser(proPhotoUserSignUpDto);
-    }
-
-    @PostMapping("/social-register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public String socialRegister() {
-        return "소셜 회원가입이 완료되었습니다.";
+        return userRegisterService.createProPhotoUser(proPhotoRegisterDto);
     }
 }

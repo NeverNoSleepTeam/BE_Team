@@ -1,7 +1,7 @@
 package NS.pgmg.controller;
 
-import NS.pgmg.dto.DuplicateEmailDto;
-import NS.pgmg.dto.DuplicateNameDto;
+import NS.pgmg.dto.duplicate.DuplicateEmailDto;
+import NS.pgmg.dto.duplicate.DuplicateNameDto;
 import NS.pgmg.exception.EmailDuplicateException;
 import NS.pgmg.exception.NameDuplicateException;
 import NS.pgmg.service.UserRegisterService;

@@ -1,4 +1,4 @@
-package NS.pgmg.dto;
+package NS.pgmg.dto.duplicate;
 
 import lombok.Builder;
 import lombok.Getter;

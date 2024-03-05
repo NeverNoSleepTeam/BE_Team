@@ -1,14 +1,13 @@
-package NS.pgmg.dto;
+package NS.pgmg.dto.register;
 
 import NS.pgmg.domain.user.enums.Gender;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class BasicUserSignUpDto {
+public class BasicRegisterDto {
     private String email;
     private String passwd;
     private String passwd2;
@@ -17,7 +16,7 @@ public class BasicUserSignUpDto {
     private String intro;
 
     @Builder
-    public BasicUserSignUpDto(String email, String passwd, String passwd2, String name, Gender gender, String intro) {
+    public BasicRegisterDto(String email, String passwd, String passwd2, String name, Gender gender, String intro) {
         this.email = email;
         this.passwd = passwd;
         this.passwd2 = passwd2;

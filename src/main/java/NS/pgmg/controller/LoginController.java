@@ -1,11 +1,14 @@
 package NS.pgmg.controller;
 
-import NS.pgmg.dto.LoginDto;
+import NS.pgmg.dto.login.LoginDto;
+import NS.pgmg.dto.login.SocialRegisterAndLoginDto;
 import NS.pgmg.service.UserLoginService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,7 +21,14 @@ public class LoginController {
     public ResponseEntity<String> basicUserLogin(
             @RequestBody LoginDto loginDto
             ) {
-        return userLoginService.basicUserLogin(loginDto);
+        return userLoginService.login(loginDto);
     }
 
+    @PostMapping("/social-register-login")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<String> socialRegisterAndLogin(
+            @RequestBody SocialRegisterAndLoginDto socialRegisterAndLoginDto
+    ) {
+        return userLoginService.socialLogin(socialRegisterAndLoginDto);
+    }
 }
