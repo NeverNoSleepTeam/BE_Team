@@ -1,15 +1,14 @@
 package NS.pgmg.controller;
 
+import NS.pgmg.dto.DuplicateEmailDto;
+import NS.pgmg.dto.DuplicateNameDto;
 import NS.pgmg.exception.EmailDuplicateException;
 import NS.pgmg.exception.NameDuplicateException;
 import NS.pgmg.service.UserRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,9 +19,9 @@ public class DuplicateController {
 
     @PostMapping("/email")
     public ResponseEntity<String> duplicateEmailCheck(
-            @RequestParam(name = "email") String email) {
+            @RequestBody DuplicateEmailDto duplicateEmailDto) {
         try {
-            userRegisterService.basicUserEmailDuplicateCheck(email);
+            userRegisterService.basicUserEmailDuplicateCheck(duplicateEmailDto.getEmail());
             return new ResponseEntity<>("사용 가능한 이메일입니다.", HttpStatus.OK);
         } catch (EmailDuplicateException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -31,9 +30,9 @@ public class DuplicateController {
 
     @PostMapping("/name")
     public ResponseEntity<String> duplicateNameCheck(
-            @RequestParam(name = "name") String name) {
+            @RequestBody DuplicateNameDto duplicateNameDto) {
         try {
-            userRegisterService.basicUserNameDuplicateCheck(name);
+            userRegisterService.basicUserNameDuplicateCheck(duplicateNameDto.getName());
             return new ResponseEntity<>("사용 가능한 닉네임입니다.", HttpStatus.OK);
         } catch (NameDuplicateException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
