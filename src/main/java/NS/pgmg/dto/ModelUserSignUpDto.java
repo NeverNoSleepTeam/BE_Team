@@ -5,20 +5,22 @@ import NS.pgmg.domain.user.enums.Gender;
 import NS.pgmg.domain.user.enums.Nationality;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ModelUserSignUpDto {
-    private final String email;
-    private final String name;
-    private final Gender gender;
-    private final String intro;
-    private final String height;
-    private final String weight;
-    private final String top;
-    private final String bottom;
-    private final String shoes;
-    private final Nationality nationality;
-    private final City city;
+    private String email;
+    private String name;
+    private Gender gender;
+    private String intro;
+    private String height;
+    private String weight;
+    private String top;
+    private String bottom;
+    private String shoes;
+    private Nationality nationality;
+    private City city;
 
     @Builder
     public ModelUserSignUpDto(String email, String name, Gender gender, String intro, String height, String weight,

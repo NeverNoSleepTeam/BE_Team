@@ -20,7 +20,7 @@ public class ModelUser {
     private Long uid;
 
     @NotBlank
-    @Email
+    @Email(message = "이메일 형식이 올바르지 않습니다.")
     @Column(unique = true)
     private String email;
 
@@ -59,9 +59,10 @@ public class ModelUser {
     private City city;
 
     @Builder
-    public ModelUser(String email, Gender gender, String intro, String height, String weight,
+    public ModelUser(String email, String name, Gender gender, String intro, String height, String weight,
                      String top, String bottom, String shoes, Nationality nationality, City city) {
         this.email = email;
+        this.name = name;
         this.gender = gender;
         this.intro = intro;
         this.height = height;
