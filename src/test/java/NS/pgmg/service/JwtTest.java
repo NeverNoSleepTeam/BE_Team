@@ -1,6 +1,6 @@
 package NS.pgmg.service;
 
-import NS.pgmg.repository.user.BasicUserRepository;
+import NS.pgmg.repository.user.UserRepository;
 import io.jsonwebtoken.Jwts;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import javax.crypto.SecretKey;
 class JwtTest {
 
     @Autowired
-    BasicUserRepository basicUserRepository;
+    UserRepository userRepository;
     SecretKey key = Jwts.SIG.HS256.key().build();
 
     @Test
@@ -21,7 +21,7 @@ class JwtTest {
 
         String email = "woans5970@naver.com";
 
-        basicUserRepository.findByEmail(email);
+        userRepository.findByEmail(email);
 
         String jws = Jwts.builder().subject(email).signWith(key).compact();
 
