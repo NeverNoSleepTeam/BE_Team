@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/duplicate")
@@ -18,24 +21,25 @@ public class DuplicateController {
     private final UserRegisterService userRegisterService;
 
     @PostMapping("/email")
-    public ResponseEntity<String> duplicateEmailCheck(
-            @RequestBody DuplicateEmailDto duplicateEmailDto) {
+    public Map<HttpStatus, String> duplicateEmailCheck(
+            @RequestBody DuplicateEmailDto duplicateEmailDto
+    ) {
         try {
             userRegisterService.basicUserEmailDuplicateCheck(duplicateEmailDto.getEmail());
-            return new ResponseEntity<>("사용 가능한 이메일입니다.", HttpStatus.OK);
+            return Map.of(HttpStatus.OK, "사용가능한 이메일입니다.");
         } catch (EmailDuplicateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return Map.of(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
     @PostMapping("/name")
-    public ResponseEntity<String> duplicateNameCheck(
+    public Map<HttpStatus, String> duplicateNameCheck(
             @RequestBody DuplicateNameDto duplicateNameDto) {
         try {
             userRegisterService.basicUserNameDuplicateCheck(duplicateNameDto.getName());
-            return new ResponseEntity<>("사용 가능한 닉네임입니다.", HttpStatus.OK);
+            return Map.of(HttpStatus.OK, "사용가능한 닉네임입니다.");
         } catch (NameDuplicateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return Map.of(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
