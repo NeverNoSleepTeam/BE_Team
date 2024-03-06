@@ -6,11 +6,9 @@ import NS.pgmg.exception.EmailDuplicateException;
 import NS.pgmg.exception.NameDuplicateException;
 import NS.pgmg.service.UserRegisterService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -21,25 +19,26 @@ public class DuplicateController {
     private final UserRegisterService userRegisterService;
 
     @PostMapping("/email")
-    public Map<HttpStatus, String> duplicateEmailCheck(
+    public ResponseEntity<Map<String, String>> duplicateEmailCheck(
             @RequestBody DuplicateEmailDto duplicateEmailDto
     ) {
         try {
             userRegisterService.basicUserEmailDuplicateCheck(duplicateEmailDto.getEmail());
-            return Map.of(HttpStatus.OK, "사용가능한 이메일입니다.");
+            return ResponseEntity.ok().body(Map.of("message", "사용가능한 이메일입니다."));
         } catch (EmailDuplicateException e) {
-            return Map.of(HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.ok().body(Map.of("message", e.getMessage()));
+
         }
     }
 
     @PostMapping("/name")
-    public Map<HttpStatus, String> duplicateNameCheck(
+    public ResponseEntity<Map<String, String>> duplicateNameCheck(
             @RequestBody DuplicateNameDto duplicateNameDto) {
         try {
             userRegisterService.basicUserNameDuplicateCheck(duplicateNameDto.getName());
-            return Map.of(HttpStatus.OK, "사용가능한 닉네임입니다.");
+            return ResponseEntity.ok().body(Map.of("message", "사용가능한 닉네임입니다."));
         } catch (NameDuplicateException e) {
-            return Map.of(HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.ok().body(Map.of("message", e.getMessage()));
         }
     }
 
