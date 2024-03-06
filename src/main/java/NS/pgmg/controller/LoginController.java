@@ -25,7 +25,6 @@ public class LoginController {
     }
 
     @PostMapping("/social-register-login")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> socialRegisterAndLogin(
             @RequestBody SocialRegisterAndLoginDto socialRegisterAndLoginDto
     ) {
