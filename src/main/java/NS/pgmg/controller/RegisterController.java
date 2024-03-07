@@ -25,7 +25,7 @@ public class RegisterController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> basicUserRegister(
             @RequestBody BasicRegisterDto basicRegisterDto
-            ) {
+    ) {
         return userRegisterService.createBasicUser(basicRegisterDto);
     }
 
@@ -33,7 +33,7 @@ public class RegisterController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> ModelUserRegister(
             @RequestBody ModelRegisterDto modelRegisterDto
-            ) {
+    ) {
         return userRegisterService.createModelUser(modelRegisterDto);
     }
 
@@ -43,7 +43,7 @@ public class RegisterController {
     public ResponseEntity<String> proPhotoRegister(
             @RequestPart(value = "Request Body") ProPhotoRegisterDto proPhotoRegisterDto,
             @RequestPart(value = "file", required = false) MultipartFile file
-            ) {
+    ) {
         return userRegisterService.createProPhotoUser(proPhotoRegisterDto, file);
     }
 }
