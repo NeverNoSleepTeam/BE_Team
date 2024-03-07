@@ -18,7 +18,7 @@ public class LoginController {
     @PostMapping("/basic-login")
     public ResponseEntity<String> basicUserLogin(
             @RequestBody LoginDto loginDto
-            ) {
+    ) {
         return userLoginService.login(loginDto);
     }
 
