@@ -5,10 +5,15 @@ import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
 import NS.pgmg.service.UserRegisterService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
@@ -32,11 +37,13 @@ public class RegisterController {
         return userRegisterService.createModelUser(modelRegisterDto);
     }
 
-    @PostMapping("/prophoto-register")
+    @PostMapping(value = "/prophoto-register",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> proPhotoRegister(
-            @RequestBody ProPhotoRegisterDto proPhotoRegisterDto
+            @RequestPart(value = "Request Body") ProPhotoRegisterDto proPhotoRegisterDto,
+            @RequestPart(value = "file", required = false) MultipartFile file
             ) {
-        return userRegisterService.createProPhotoUser(proPhotoRegisterDto);
+        return userRegisterService.createProPhotoUser(proPhotoRegisterDto, file);
     }
 }
