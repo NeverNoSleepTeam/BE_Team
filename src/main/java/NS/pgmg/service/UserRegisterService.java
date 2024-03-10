@@ -65,7 +65,7 @@ public class UserRegisterService {
         }
         findUser.setModelInfo(request);
         userRepository.save(findUser);
-        return new ResponseEntity<>("모델 회원가입이 완료되었습니다.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("모델 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
     @Transactional
