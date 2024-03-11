@@ -22,6 +22,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/portfolio/**")
-                .addResourceLocations("file:///home/ubuntu/proPhotoPDF/");
+                .addResourceLocations("file:///app/pdf/");
     }
 }
