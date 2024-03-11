@@ -40,7 +40,7 @@ public class RegisterController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> proPhotoRegister(
-            @RequestPart(value = "Request Body") ProPhotoRegisterDto proPhotoRegisterDto,
+            @RequestPart(value = "RequestBody") ProPhotoRegisterDto proPhotoRegisterDto,
             @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         return userRegisterService.createProPhotoUser(proPhotoRegisterDto, file);
