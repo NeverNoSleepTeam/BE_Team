@@ -36,6 +36,9 @@ dependencies {
 	// h2 database
 	runtimeOnly 'com.h2database:h2'
 
+	// MySQL
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
 	// jwt
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
