@@ -27,11 +27,17 @@ public class User {
 
     private String passwd;
 
-    @Column(unique = true)
+    @Column(length = 10, unique = true)
     private String name;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    private Nationality nationality;
+
+    @Enumerated(EnumType.STRING)
+    private City city;
 
     @Column(columnDefinition = "TEXT")
     private String intro;
@@ -48,12 +54,6 @@ public class User {
     private String bottom;
 
     private String shoes;
-
-    @Enumerated(EnumType.STRING)
-    private Nationality nationality;
-
-    @Enumerated(EnumType.STRING)
-    private City city;
 
     private boolean modelTF;
 
@@ -73,11 +73,14 @@ public class User {
 
 
     @Builder
-    public User(String email, String passwd, String name, Gender gender, String intro, boolean socialTF) {
+    public User(String email, String passwd, String name, Gender gender, City city, Nationality nationality,
+                String intro, boolean socialTF) {
         this.email = email;
         this.passwd = passwd;
         this.name = name;
         this.gender = gender;
+        this.city = city;
+        this.nationality = nationality;
         this.intro = intro;
         this.socialTF = socialTF;
     }
@@ -88,8 +91,6 @@ public class User {
         this.top = modelInfo.getTop();
         this.bottom = modelInfo.getBottom();
         this.shoes = modelInfo.getShoes();
-        this.nationality = modelInfo.getNationality();
-        this.city = modelInfo.getCity();
         this.modelTF = true;
     }
 

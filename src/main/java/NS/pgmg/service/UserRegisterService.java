@@ -47,6 +47,8 @@ public class UserRegisterService {
                 .name(request.getName())
                 .passwd(request.getPasswd())
                 .gender(request.getGender())
+                .city(request.getCity())
+                .nationality(request.getNationality())
                 .intro(request.getIntro())
                 .socialTF(false)
                 .build();

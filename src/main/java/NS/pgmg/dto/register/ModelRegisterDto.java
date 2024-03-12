@@ -15,19 +15,14 @@ public class ModelRegisterDto {
     private String top;
     private String bottom;
     private String shoes;
-    private Nationality nationality;
-    private City city;
 
     @Builder
-    public ModelRegisterDto(String email, String height, String weight, String top, String bottom, String shoes,
-                            Nationality nationality, City city) {
+    public ModelRegisterDto(String email, String height, String weight, String top, String bottom, String shoes) {
         this.email = email;
         this.height = height;
         this.weight = weight;
         this.top = top;
         this.bottom = bottom;
         this.shoes = shoes;
-        this.nationality = nationality;
-        this.city = city;
     }
 }
