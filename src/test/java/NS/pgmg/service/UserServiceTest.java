@@ -57,8 +57,6 @@ public class UserServiceTest {
                 .top("top")
                 .bottom("bottom")
                 .shoes("shoes")
-                .nationality(Nationality.내국인)
-                .city(City.강원)
                 .build();
 
         user.setModelInfo(modelRegisterDto);
@@ -67,7 +65,6 @@ public class UserServiceTest {
         List<User> all = userRepository.findAll();
 
         assertThat(all.size()).isEqualTo(1);
-        assertThat(user.getCity()).isEqualTo(City.강원);
     }
 
     @Test
