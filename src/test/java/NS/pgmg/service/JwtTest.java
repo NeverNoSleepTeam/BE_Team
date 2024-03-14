@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.SecretKey;
 
@@ -17,6 +18,7 @@ class JwtTest {
     SecretKey key = Jwts.SIG.HS256.key().build();
 
     @Test
+    @Transactional
     void jwtTokenTest() {
 
         String email = "woans5970@naver.com";
