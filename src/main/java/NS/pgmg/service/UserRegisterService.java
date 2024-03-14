@@ -77,8 +77,8 @@ public class UserRegisterService {
         if (findUser == null){
             return new ResponseEntity<>("잘못된 접근입니다.", HttpStatus.BAD_REQUEST);
         }
-        findUser.setProPhotoInfo(request);
-        emptyFileCheck(file, email);
+        String fullPath = emptyFileCheck(file, email);
+        findUser.setProPhotoInfo(request, fullPath);
         userRepository.save(findUser);
         return new ResponseEntity<>("기사 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
@@ -105,7 +105,7 @@ public class UserRegisterService {
         }
     }
 
-    public void emptyFileCheck(MultipartFile file, String email) {
+    public String emptyFileCheck(MultipartFile file, String email) {
 
         if (file != null) {
             String fullPath = fileDir + email + ".pdf";
@@ -116,7 +116,10 @@ public class UserRegisterService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            return fullPath;
         }
+
+        return "파일이 없습니다.";
     }
 }
 

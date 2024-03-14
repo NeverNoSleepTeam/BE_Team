@@ -87,7 +87,7 @@ public class UserServiceTest {
                 .portfolioURL("url")
                 .build();
 
-        user.setProPhotoInfo(proPhotoRegisterDto);
+        user.setProPhotoInfo(proPhotoRegisterDto, "filePath");
         userRepository.save(user);
 
         List<User> all = userRepository.findAll();

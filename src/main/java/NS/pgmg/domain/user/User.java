@@ -69,6 +69,8 @@ public class User {
 
     private String portfolioURL;
 
+    private String portfolioPath;
+
     private boolean proPhotoTF;
 
 
@@ -79,8 +81,8 @@ public class User {
         this.passwd = passwd;
         this.name = name;
         this.gender = gender;
-        this.city = city;
         this.nationality = nationality;
+        this.city = city;
         this.intro = intro;
         this.socialTF = socialTF;
     }
@@ -94,11 +96,12 @@ public class User {
         this.modelTF = true;
     }
 
-    public void setProPhotoInfo(ProPhotoRegisterDto proPhotoInfo) {
+    public void setProPhotoInfo(ProPhotoRegisterDto proPhotoInfo, String filePath) {
         this.businessTrip = proPhotoInfo.getBusinessTrip();
         this.correction = proPhotoInfo.getCorrection();
         this.production = proPhotoInfo.getProduction();
         this.portfolioURL = proPhotoInfo.getPortfolioURL();
+        this.portfolioPath = filePath;
         this.proPhotoTF = true;
     }
 }
