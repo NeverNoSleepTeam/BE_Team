@@ -33,6 +33,10 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	// testCode lombok
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
 	// h2 database
 	runtimeOnly 'com.h2database:h2'
 
@@ -43,6 +47,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+
 }
 
 tasks.named('test') {
