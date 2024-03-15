@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -28,8 +29,8 @@ public class UserRegisterService {
 
     private final UserRepository userRepository;
 
-    @Value("${file.dir}")
-    private String fileDir;
+    @Value("${pdf.path}")
+    private String filePath;
 
     @Transactional
     public ResponseEntity<String> createBasicUser(BasicRegisterDto request) {
@@ -54,6 +55,7 @@ public class UserRegisterService {
                 .build();
 
         userRepository.save(user);
+        log.info("일반 회원가입 완료, email = {}", request.getEmail());
 
         return new ResponseEntity<>("일반 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
@@ -67,6 +69,7 @@ public class UserRegisterService {
         }
         findUser.setModelInfo(request);
         userRepository.save(findUser);
+        log.info("모델 회원가입 완료, email = {}", request.getEmail());
         return new ResponseEntity<>("모델 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
@@ -77,9 +80,15 @@ public class UserRegisterService {
         if (findUser == null){
             return new ResponseEntity<>("잘못된 접근입니다.", HttpStatus.BAD_REQUEST);
         }
-        String fullPath = emptyFileCheck(file, email);
-        findUser.setProPhotoInfo(request, fullPath);
+        String savedPath = null;
+        try {
+            savedPath = emptyFileCheck(file, email);
+        } catch (IOException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        findUser.setProPhotoInfo(request, savedPath);
         userRepository.save(findUser);
+        log.info("기사 회원가입 완료, email = {}", request.getEmail());
         return new ResponseEntity<>("기사 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
@@ -105,21 +114,24 @@ public class UserRegisterService {
         }
     }
 
-    public String emptyFileCheck(MultipartFile file, String email) {
+    private String emptyFileCheck(MultipartFile file, String email) throws IOException {
 
-        if (file != null) {
-            String fullPath = fileDir + email + ".pdf";
-            log.info("파일 저장 fullPath = {}", fullPath);
-
-            try {
-                file.transferTo(new File(fullPath));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return fullPath;
+        if (file == null) {
+            return "파일이 없습니다.";
         }
 
-        return "파일이 없습니다.";
+        String fullPath = filePath + email + ".pdf";
+        String savedPath = "/portfolio/" + email + ".pdf";
+
+        try {
+            file.transferTo(new File(fullPath));
+            log.info("PDF 저장 = {}", savedPath);
+        } catch (IOException e) {
+            log.warn("message = PDF 저장 오류");
+            throw new IOException("PDF 저장 오류");
+        }
+
+        return savedPath;
     }
 }
 

@@ -1,25 +1,24 @@
 package NS.pgmg.service;
 
+import NS.pgmg.config.JwtConfig;
 import NS.pgmg.domain.user.User;
 import NS.pgmg.dto.login.LoginDto;
 import NS.pgmg.dto.login.SocialRegisterAndLoginDto;
 import NS.pgmg.repository.user.UserRepository;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.crypto.SecretKey;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserLoginService {
 
     private final UserRepository userRepository;
-
-    SecretKey key = Jwts.SIG.HS256.key().build();
 
     @Transactional(readOnly = true)
     public ResponseEntity<String> login(LoginDto request) {
@@ -32,8 +31,8 @@ public class UserLoginService {
         } else if (!request.getPasswd().equals(findUser.getPasswd())) {
             return new ResponseEntity<>("비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
         } else {
-            String jws = Jwts.builder().subject(requestEmail).signWith(key).compact();
-            return new ResponseEntity<>(jws, HttpStatus.OK);
+            log.info("로그인 이메일 = {}", requestEmail);
+            return new ResponseEntity<>(JwtConfig.getToken(requestEmail), HttpStatus.OK);
         }
     }
 
@@ -49,11 +48,9 @@ public class UserLoginService {
                     .socialTF(true)
                     .build();
             userRepository.save(user);
-            String jws = Jwts.builder().subject(requestEmail).signWith(key).compact();
-            return new ResponseEntity<>(jws, HttpStatus.OK);
+            return new ResponseEntity<>(JwtConfig.getToken(requestEmail), HttpStatus.OK);
         } else if (findUser.isSocialTF()) {
-            String jws = Jwts.builder().subject(requestEmail).signWith(key).compact();
-            return new ResponseEntity<>(jws, HttpStatus.OK);
+            return new ResponseEntity<>(JwtConfig.getToken(requestEmail), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("일반 유저이메일입니다.", HttpStatus.BAD_REQUEST);
         }
