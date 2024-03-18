@@ -1,7 +1,7 @@
-package NS.pgmg.controller.board;
+package NS.pgmg.controller;
 
 import NS.pgmg.dto.board.ModelAssistanceCreateDto;
-import NS.pgmg.service.board.ModelAssistanceBoardService;
+import NS.pgmg.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,9 +16,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/board")
 @ResponseStatus(HttpStatus.CREATED)
-public class ModelAssistanceBoardController {
+public class BoardController {
 
-    private final ModelAssistanceBoardService modelAssistanceBoardService;
+    private final BoardService boardService;
 
     @PostMapping(value = "/model-assistance",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -28,7 +28,7 @@ public class ModelAssistanceBoardController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
-        return modelAssistanceBoardService.create(token, modelAssistanceCreateDto, title, details);
+        return boardService.create(token, modelAssistanceCreateDto, title, details);
     }
 
     @GetMapping("/model-assistance")
