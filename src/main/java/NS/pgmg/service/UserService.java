@@ -36,6 +36,9 @@ public class UserService {
     @Value("${pdf.path}")
     private String filePath;
 
+    /**
+     * 일반 회원가입
+     */
     @Transactional
     public ResponseEntity<String> createBasicUser(BasicRegisterDto request) {
 
@@ -64,6 +67,9 @@ public class UserService {
         return new ResponseEntity<>("일반 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
+    /**
+     * 모델 회원가입
+     */
     @Transactional
     public ResponseEntity<String> createModelUser(ModelRegisterDto request) {
         String email = request.getEmail();
@@ -77,6 +83,9 @@ public class UserService {
         return new ResponseEntity<>("모델 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
+    /**
+     * 사진기사 회원가입
+     */
     @Transactional
     public ResponseEntity<String> createProPhotoUser(ProPhotoRegisterDto request, MultipartFile file) {
         String email = request.getEmail();
@@ -96,6 +105,9 @@ public class UserService {
         return new ResponseEntity<>("기사 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
+    /**
+     * 로그인
+     */
     @Transactional(readOnly = true)
     public ResponseEntity<String> login(LoginDto request) {
 
@@ -112,6 +124,9 @@ public class UserService {
         }
     }
 
+    /**
+     * 소셜 로그인
+     */
     @Transactional
     public ResponseEntity<String> socialLogin(SocialRegisterAndLoginDto request) {
 
@@ -132,6 +147,10 @@ public class UserService {
         }
     }
 
+    /**
+     * 유저페이지 조회
+     */
+    @Transactional
     public FindUserPageResponseDto findUserPage(FindUserPageRequestDto request) {
 
         User findUser = userRepository.findByName(request.getName());
@@ -144,12 +163,18 @@ public class UserService {
                 .build();
     }
 
+    /**
+     * 비밀번호 검사 함수
+     */
     public void passwdValidation(String passwd, String passwd2) {
         if (!passwd.equals(passwd2)) {
             throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
         }
     }
 
+    /**
+     * 이메일 중복 검사 함수
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void basicUserEmailDuplicateCheck(String email) {
         User findUser = userRepository.findByEmail(email);
@@ -158,6 +183,9 @@ public class UserService {
         }
     }
 
+    /**
+     * 닉네임 중복 검사 함수
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void basicUserNameDuplicateCheck(String name) {
         User findUser = userRepository.findByEmail(name);
@@ -166,6 +194,9 @@ public class UserService {
         }
     }
 
+    /**
+     * PDF 저장 함수
+     */
     private String emptyFileCheck(MultipartFile file, String email) throws IOException {
 
         if (file == null) {
