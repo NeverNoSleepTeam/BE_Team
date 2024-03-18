@@ -1,9 +1,14 @@
 package NS.pgmg.service;
 
+import NS.pgmg.config.JwtConfig;
 import NS.pgmg.domain.user.User;
+import NS.pgmg.dto.login.LoginDto;
+import NS.pgmg.dto.login.SocialRegisterAndLoginDto;
 import NS.pgmg.dto.register.BasicRegisterDto;
 import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
+import NS.pgmg.dto.userpage.FindUserPageRequestDto;
+import NS.pgmg.dto.userpage.FindUserPageResponseDto;
 import NS.pgmg.exception.EmailDuplicateException;
 import NS.pgmg.exception.NameDuplicateException;
 import NS.pgmg.exception.PasswordMismatchException;
@@ -24,12 +29,12 @@ import java.io.IOException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserRegisterService {
+public class UserService {
 
     private final UserRepository userRepository;
 
-    @Value("${file.dir}")
-    private String fileDir;
+    @Value("${pdf.path}")
+    private String filePath;
 
     @Transactional
     public ResponseEntity<String> createBasicUser(BasicRegisterDto request) {
@@ -54,6 +59,7 @@ public class UserRegisterService {
                 .build();
 
         userRepository.save(user);
+        log.info("일반 회원가입 완료, email = {}", request.getEmail());
 
         return new ResponseEntity<>("일반 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
@@ -67,6 +73,7 @@ public class UserRegisterService {
         }
         findUser.setModelInfo(request);
         userRepository.save(findUser);
+        log.info("모델 회원가입 완료, email = {}", request.getEmail());
         return new ResponseEntity<>("모델 회원가입이 완료되었습니다.", HttpStatus.CREATED);
     }
 
@@ -77,10 +84,64 @@ public class UserRegisterService {
         if (findUser == null){
             return new ResponseEntity<>("잘못된 접근입니다.", HttpStatus.BAD_REQUEST);
         }
-        String fullPath = emptyFileCheck(file, email);
-        findUser.setProPhotoInfo(request, fullPath);
+        String savedPath = null;
+        try {
+            savedPath = emptyFileCheck(file, email);
+        } catch (IOException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        findUser.setProPhotoInfo(request, savedPath);
         userRepository.save(findUser);
+        log.info("기사 회원가입 완료, email = {}", request.getEmail());
         return new ResponseEntity<>("기사 회원가입이 완료되었습니다.", HttpStatus.CREATED);
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<String> login(LoginDto request) {
+
+        String requestEmail = request.getEmail();
+        User findUser = userRepository.findByEmail(requestEmail);
+
+        if (!request.getEmail().equals(findUser.getEmail())) {
+            return new ResponseEntity<>("이메일이 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
+        } else if (!request.getPasswd().equals(findUser.getPasswd())) {
+            return new ResponseEntity<>("비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
+        } else {
+            log.info("로그인 이메일 = {}", requestEmail);
+            return new ResponseEntity<>(JwtConfig.getToken(requestEmail), HttpStatus.OK);
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<String> socialLogin(SocialRegisterAndLoginDto request) {
+
+        String requestEmail = request.getEmail();
+        User findUser = userRepository.findByEmail(requestEmail);
+
+        if (findUser == null) {
+            User user = User.builder()
+                    .email(requestEmail)
+                    .socialTF(true)
+                    .build();
+            userRepository.save(user);
+            return new ResponseEntity<>(JwtConfig.getToken(requestEmail), HttpStatus.OK);
+        } else if (findUser.isSocialTF()) {
+            return new ResponseEntity<>(JwtConfig.getToken(requestEmail), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("일반 유저이메일입니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public FindUserPageResponseDto findUserPage(FindUserPageRequestDto request) {
+
+        User findUser = userRepository.findByName(request.getName());
+
+        return FindUserPageResponseDto.builder()
+                .email(findUser.getEmail())
+                .name(findUser.getName())
+                .baseUser("일반유저")
+                .intro(findUser.getIntro())
+                .build();
     }
 
     public void passwdValidation(String passwd, String passwd2) {
@@ -105,21 +166,24 @@ public class UserRegisterService {
         }
     }
 
-    public String emptyFileCheck(MultipartFile file, String email) {
+    private String emptyFileCheck(MultipartFile file, String email) throws IOException {
 
-        if (file != null) {
-            String fullPath = fileDir + email + ".pdf";
-            log.info("파일 저장 fullPath = {}", fullPath);
-
-            try {
-                file.transferTo(new File(fullPath));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return fullPath;
+        if (file == null) {
+            return "파일이 없습니다.";
         }
 
-        return "파일이 없습니다.";
+        String fullPath = filePath + email + ".pdf";
+        String savedPath = "/portfolio/" + email + ".pdf";
+
+        try {
+            file.transferTo(new File(fullPath));
+            log.info("PDF 저장 = {}", savedPath);
+        } catch (IOException e) {
+            log.warn("message = PDF 저장 오류");
+            throw new IOException("PDF 저장 오류");
+        }
+
+        return savedPath;
     }
 }
 
