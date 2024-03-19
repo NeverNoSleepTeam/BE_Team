@@ -34,6 +34,14 @@ public class ModelAssistanceBoard {
         this.price = price;
     }
 
+    public void setUpdateBoard(BaseBoard baseBoard, List<ModelAssistanceCategory> modelAssistanceCategory,
+                               String place, Integer price) {
+        this.base = baseBoard;
+        this.modelAssistanceCategory = modelAssistanceCategory;
+        this.place = place;
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "ModelAssistanceBoard{" +

@@ -38,12 +38,12 @@ public class ModelAssistanceBoardTest {
                 .lastDate("lastDate")
                 .build();
 
-        List<ModelAssistanceCategory> categories = Arrays.asList(new ModelAssistanceCategory[]{
+        List<ModelAssistanceCategory> modelAssistanceCategory = Arrays.asList(new ModelAssistanceCategory[]{
                 ModelAssistanceCategory.손, ModelAssistanceCategory.얼굴});
 
         ModelAssistanceBoard modelAssistanceBoard = ModelAssistanceBoard.builder()
                 .base(base)
-                .modelAssistanceCategory(categories)
+                .modelAssistanceCategory(modelAssistanceCategory)
                 .price(10000)
                 .place("place")
                 .build();

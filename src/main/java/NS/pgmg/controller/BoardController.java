@@ -1,6 +1,9 @@
 package NS.pgmg.controller;
 
+import NS.pgmg.domain.board.ModelAssistanceBoard;
+import NS.pgmg.dto.board.BoardRequestDto;
 import NS.pgmg.dto.board.ModelAssistanceCreateDto;
+import NS.pgmg.dto.board.ModelAssistanceUpdateDto;
 import NS.pgmg.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,22 +31,31 @@ public class BoardController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
-        return boardService.create(token, modelAssistanceCreateDto, title, details);
+        return boardService.createMA(token, modelAssistanceCreateDto, title, details);
     }
 
     @GetMapping("/model-assistance")
-    public ResponseEntity<Map<String, String>> findModelAssistanceBoard() {
-        return ResponseEntity.ok().body(Map.of("read", "modelAssistance"));
+    public List<ModelAssistanceBoard> findModelAssistanceBoard() {
+        return boardService.findAllMA();
     }
 
-    @PutMapping("/model-assistance")
-    public ResponseEntity<Map<String, String>> updateModelAssistanceBoard() {
-        return ResponseEntity.ok().body(Map.of("update", "modelAssistance"));
+    @PutMapping(value = "/model-assistance",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Map<String, String>> updateModelAssistanceBoard(
+            @RequestHeader(value = "Token") String token,
+            @RequestPart(value = "RequestBody", required = false) ModelAssistanceUpdateDto modelAssistanceUpdateDto,
+            @RequestPart(value = "Title", required = false) MultipartFile title,
+            @RequestPart(value = "Details", required = false) List<MultipartFile> details
+    ) {
+        return boardService.updateMA(token, modelAssistanceUpdateDto, title, details);
     }
 
 
     @DeleteMapping("/model-assistance")
-    public ResponseEntity<Map<String, String>> deleteModelAssistanceBoard() {
-        return ResponseEntity.ok().body(Map.of("delete", "modelAssistance"));
+    public ResponseEntity<Map<String, String>> deleteModelAssistanceBoard(
+            @RequestHeader(value = "Token") String token,
+            @RequestBody BoardRequestDto boardRequestDto
+    ) {
+        return boardService.deleteMA(token, boardRequestDto);
     }
 }
