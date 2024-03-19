@@ -84,7 +84,8 @@ public class UserController {
 
     @PostMapping("/duplicate/name")
     public ResponseEntity<Map<String, String>> duplicateNameCheck(
-            @RequestBody DuplicateNameDto duplicateNameDto) {
+            @RequestBody DuplicateNameDto duplicateNameDto
+    ) {
         try {
             userService.basicUserNameDuplicateCheck(duplicateNameDto.getName());
             return ResponseEntity.ok().body(Map.of("message", "사용가능한 닉네임입니다."));
@@ -93,7 +94,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user-page")
+    @PostMapping("/user-page")
     public FindUserPageResponseDto findUserPage(
             @RequestBody FindUserPageRequestDto findUserPageRequestDto
     ) {
