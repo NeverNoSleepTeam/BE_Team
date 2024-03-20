@@ -34,8 +34,16 @@ public class BoardController {
         return boardService.createMA(token, modelAssistanceCreateDto, title, details);
     }
 
+    @PostMapping("/model-assistance/detail")
+    public ResponseEntity<?> findModelAssistanceBoard(
+            @RequestHeader(value = "Token") String token,
+            @RequestBody BoardRequestDto boardRequestDto
+    ) {
+        return boardService.findMA(token, boardRequestDto);
+    }
+
     @GetMapping("/model-assistance")
-    public List<ModelAssistanceBoard> findModelAssistanceBoard() {
+    public List<ModelAssistanceBoard> findAllModelAssistanceBoard() {
         return boardService.findAllMA();
     }
 
@@ -49,7 +57,6 @@ public class BoardController {
     ) {
         return boardService.updateMA(token, modelAssistanceUpdateDto, title, details);
     }
-
 
     @DeleteMapping("/model-assistance")
     public ResponseEntity<Map<String, String>> deleteModelAssistanceBoard(

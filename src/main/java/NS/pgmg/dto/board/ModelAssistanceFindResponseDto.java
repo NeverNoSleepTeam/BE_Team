@@ -20,7 +20,7 @@ public class ModelAssistanceFindResponseDto {
     private Integer price;
     private List<ModelAssistanceCategory> modelAssistanceCategory;
     private String firstDate;
-    private String endDate;
+    private String lastDate;
     private String place;
     private Gender gender;
     private String height;
@@ -34,7 +34,7 @@ public class ModelAssistanceFindResponseDto {
     @Builder
 
     public ModelAssistanceFindResponseDto(String name, LocalDateTime createdAt, String title, Integer price,
-                                          List<ModelAssistanceCategory> modelAssistanceCategory, String firstDate, String endDate,
+                                          List<ModelAssistanceCategory> modelAssistanceCategory, String firstDate, String lastDate,
                                           String place, Gender gender, String height, String weight, String top,
                                           String bottom, String shoes, Nationality nationality, City city) {
         this.name = name;
@@ -43,7 +43,7 @@ public class ModelAssistanceFindResponseDto {
         this.price = price;
         this.modelAssistanceCategory = modelAssistanceCategory;
         this.firstDate = firstDate;
-        this.endDate = endDate;
+        this.lastDate = lastDate;
         this.place = place;
         this.gender = gender;
         this.height = height;

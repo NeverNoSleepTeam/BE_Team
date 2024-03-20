@@ -3,11 +3,14 @@ package NS.pgmg.service;
 import NS.pgmg.config.JwtConfig;
 import NS.pgmg.domain.board.BaseBoard;
 import NS.pgmg.domain.board.ModelAssistanceBoard;
+import NS.pgmg.domain.user.User;
 import NS.pgmg.dto.board.BoardRequestDto;
 import NS.pgmg.dto.board.ModelAssistanceCreateDto;
+import NS.pgmg.dto.board.ModelAssistanceFindResponseDto;
 import NS.pgmg.dto.board.ModelAssistanceUpdateDto;
 import NS.pgmg.exception.TokenNullException;
 import NS.pgmg.repository.board.ModelAssistanceBoardRepository;
+import NS.pgmg.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +29,7 @@ import java.util.*;
 public class BoardService {
 
     private final ModelAssistanceBoardRepository modelAssistanceBoardRepository;
+    private final UserRepository userRepository;
 
     @Value("${board.path}")
     private String filePath;
@@ -53,6 +57,41 @@ public class BoardService {
         } catch (TokenNullException | IOException e) {
             return ResponseEntity.ok().body(Map.of("message", e.getMessage()));
         }
+    }
+
+    @Transactional
+    public ResponseEntity<?> findMA(String token, BoardRequestDto request) {
+        String requestEmail = tokenCheck(token);
+
+        if (!requestEmail.equals(request.getEmail())) {
+            return ResponseEntity.badRequest().body("이메일이 올바르지 않습니다.");
+        }
+
+        User findUser = userRepository.findByEmail(requestEmail);
+        ModelAssistanceBoard findBoard = modelAssistanceBoardRepository.
+                findByBidAndBase_Email(request.getId(), requestEmail);
+
+        BaseBoard findBase = findBoard.getBase();
+
+        return ResponseEntity.ok().body(ModelAssistanceFindResponseDto.builder()
+                        .name(findUser.getName())
+                        .createdAt(findBase.getCreatedAt())
+                        .title(findBase.getTitle())
+                        .price(findBoard.getPrice())
+                        .modelAssistanceCategory(findBoard.getModelAssistanceCategory())
+                        .firstDate(findBase.getFirstDate())
+                        .lastDate(findBase.getLastDate())
+                        .place(findBoard.getPlace())
+                        .gender(findUser.getGender())
+                        .height(findUser.getHeight())
+                        .weight(findUser.getWeight())
+                        .top(findUser.getTop())
+                        .bottom(findUser.getBottom())
+                        .shoes(findUser.getShoes())
+                        .nationality(findUser.getNationality())
+                        .city(findUser.getCity())
+                .build()
+        );
     }
 
     @Transactional
@@ -115,7 +154,7 @@ public class BoardService {
     private String tokenCheck(String token) {
 
         if (token == null) {
-            throw new TokenNullException("토큰이 없습니다.");
+            log.warn("토큰이 없습니다.");
         }
 
         return JwtConfig.getEmail(token);
