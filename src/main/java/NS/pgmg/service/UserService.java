@@ -7,8 +7,7 @@ import NS.pgmg.dto.login.SocialRegisterAndLoginDto;
 import NS.pgmg.dto.register.BasicRegisterDto;
 import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
-import NS.pgmg.dto.userpage.FindUserPageRequestDto;
-import NS.pgmg.dto.userpage.FindUserPageResponseDto;
+import NS.pgmg.dto.userpage.*;
 import NS.pgmg.exception.EmailDuplicateException;
 import NS.pgmg.exception.NameDuplicateException;
 import NS.pgmg.exception.PasswordMismatchException;
@@ -21,10 +20,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -62,9 +64,8 @@ public class UserService {
                 .build();
 
         userRepository.save(user);
-        log.info("일반 회원가입 완료, email = {}", request.getEmail());
 
-        return new ResponseEntity<>("일반 회원가입이 완료되었습니다.", HttpStatus.CREATED);
+        return new ResponseEntity<>("일반 회원가입이 완료됐습니다.", HttpStatus.CREATED);
     }
 
     /**
@@ -79,8 +80,7 @@ public class UserService {
         }
         findUser.setModelInfo(request);
         userRepository.save(findUser);
-        log.info("모델 회원가입 완료, email = {}", request.getEmail());
-        return new ResponseEntity<>("모델 회원가입이 완료되었습니다.", HttpStatus.CREATED);
+        return new ResponseEntity<>("모델 회원가입이 완료됐습니다.", HttpStatus.CREATED);
     }
 
     /**
@@ -93,16 +93,15 @@ public class UserService {
         if (findUser == null){
             return new ResponseEntity<>("잘못된 접근입니다.", HttpStatus.BAD_REQUEST);
         }
-        String savedPath = null;
+        String savedPath;
         try {
             savedPath = emptyFileCheck(file, email);
-        } catch (IOException e) {
+        } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         findUser.setProPhotoInfo(request, savedPath);
         userRepository.save(findUser);
-        log.info("기사 회원가입 완료, email = {}", request.getEmail());
-        return new ResponseEntity<>("기사 회원가입이 완료되었습니다.", HttpStatus.CREATED);
+        return new ResponseEntity<>("기사 회원가입이 완료됐습니다.", HttpStatus.CREATED);
     }
 
     /**
@@ -119,7 +118,6 @@ public class UserService {
         } else if (!request.getPasswd().equals(findUser.getPasswd())) {
             return new ResponseEntity<>("비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
         } else {
-            log.info("로그인 이메일 = {}", requestEmail);
             return new ResponseEntity<>(JwtConfig.getToken(requestEmail), HttpStatus.OK);
         }
     }
@@ -143,37 +141,124 @@ public class UserService {
         } else if (findUser.isSocialTF()) {
             return new ResponseEntity<>(JwtConfig.getToken(requestEmail), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("일반 유저이메일입니다.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("일반사용자 이메일입니다.", HttpStatus.BAD_REQUEST);
         }
     }
 
     /**
-     * 유저페이지 조회
+     * 사용자페이지 조회
      */
     @Transactional
-    public FindUserPageResponseDto findUserPage(FindUserPageRequestDto request) {
+    public FindUserPageResponseDto findUserPage(FindByNameDto request) {
 
         User findUser = userRepository.findByName(request.getName());
 
         return FindUserPageResponseDto.builder()
                 .email(findUser.getEmail())
                 .name(findUser.getName())
-                .baseUser("일반유저")
+                .userInfo("일반회원")
                 .intro(findUser.getIntro())
+                .profileImgPath(findUser.getProfileImgPath())
                 .build();
     }
 
     /**
-     * 비밀번호 검사 함수
+     * 일반 정보 조회
      */
-    public void passwdValidation(String passwd, String passwd2) {
-        if (!passwd.equals(passwd2)) {
-            throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
+    @Transactional
+    public ResponseEntity<?> findBasicInfo(FindByNameDto request) {
+
+        User findUser = userRepository.findByName(request.getName());
+
+        if (findUser == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
         }
+
+        FindBasicInfoResponseDto response = FindBasicInfoResponseDto.builder()
+                .email(findUser.getEmail())
+                .name(findUser.getName())
+                .gender(findUser.getGender())
+                .city(findUser.getCity())
+                .nationality(findUser.getNationality())
+                .intro(findUser.getIntro())
+                .profileImgPath(findUser.getProfileImgPath())
+                .build();
+
+        return ResponseEntity.ok().body(response);
     }
 
     /**
-     * 이메일 중복 검사 함수
+     * 모델 정보 조회
+     */
+    @Transactional
+    public ResponseEntity<?> findModelInfo(FindByNameDto request) {
+
+        User findUser = userRepository.findByName(request.getName());
+
+        if (findUser == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
+        }
+
+        FindModelInfoResponseDto response = FindModelInfoResponseDto.builder()
+                .email(findUser.getEmail())
+                .name(findUser.getName())
+                .height(findUser.getHeight())
+                .weight(findUser.getWeight())
+                .top(findUser.getTop())
+                .bottom(findUser.getBottom())
+                .shoes(findUser.getShoes())
+                .build();
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * 사진기사 정보 조회
+     */
+    @Transactional
+    public ResponseEntity<?> findProPhotoInfo(FindByNameDto request) {
+
+        User findUser = userRepository.findByName(request.getName());
+
+        if (findUser == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
+        }
+
+        FindProPhotoInfoResponseDto response = FindProPhotoInfoResponseDto.builder()
+                .email(findUser.getEmail())
+                .name(findUser.getName())
+                .businessTrip(findUser.getBusinessTrip())
+                .correction(findUser.getCorrection())
+                .production(findUser.getProduction())
+                .portfolioPath(findUser.getPortfolioPath())
+                .build();
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * 전체 정보 조회
+     */
+    public ResponseEntity<?> findAllInfo(FindByNameDto request) {
+
+        User findUser = userRepository.findByName(request.getName());
+
+        if (findUser == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
+        }
+        return ResponseEntity.ok().body(findUser);
+    }
+
+    /**
+     * 마이페이지 수정
+     */
+    @Transactional
+    public ResponseEntity<Map<String, String>> updateUserPage(String token, MultipartFile pdf) {
+        return ResponseEntity.ok().body(Map.of("message", "마이페이지 수정이 완료됐습니다."));
+    }
+
+    /**
+     * 이메일 중복 검사
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void basicUserEmailDuplicateCheck(String email) {
@@ -184,7 +269,7 @@ public class UserService {
     }
 
     /**
-     * 닉네임 중복 검사 함수
+     * 닉네임 중복 검사
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void basicUserNameDuplicateCheck(String name) {
@@ -195,9 +280,18 @@ public class UserService {
     }
 
     /**
+     * 비밀번호 검사 함수
+     */
+    private void passwdValidation(String passwd, String passwd2) {
+        if (!passwd.equals(passwd2)) {
+            throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
+        }
+    }
+
+    /**
      * PDF 저장 함수
      */
-    private String emptyFileCheck(MultipartFile file, String email) throws IOException {
+    private String emptyFileCheck(MultipartFile file, String email) {
 
         if (file == null) {
             return "파일이 없습니다.";
@@ -208,10 +302,8 @@ public class UserService {
 
         try {
             file.transferTo(new File(fullPath));
-            log.info("PDF 저장 = {}", savedPath);
         } catch (IOException e) {
-            log.warn("message = PDF 저장 오류");
-            throw new IOException("PDF 저장 오류");
+            throw new RuntimeException("PDF 저장 오류");
         }
 
         return savedPath;
