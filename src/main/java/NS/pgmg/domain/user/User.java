@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Entity
 @Table(name = "users")
@@ -42,6 +44,9 @@ public class User {
     @Column(columnDefinition = "TEXT")
     private String intro;
 
+    @ElementCollection
+    private List<String> profileImgPath;
+
     private boolean socialTF;
 
     // ---------------------------------- Model Info ----------------------------------
@@ -66,8 +71,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Production production;
-
-    private String portfolioURL;
 
     private String portfolioPath;
 
@@ -100,7 +103,6 @@ public class User {
         this.businessTrip = proPhotoInfo.getBusinessTrip();
         this.correction = proPhotoInfo.getCorrection();
         this.production = proPhotoInfo.getProduction();
-        this.portfolioURL = proPhotoInfo.getPortfolioURL();
         this.portfolioPath = filePath;
         this.proPhotoTF = true;
     }
