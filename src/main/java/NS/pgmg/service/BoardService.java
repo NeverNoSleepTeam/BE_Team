@@ -37,7 +37,6 @@ public class BoardService {
     @Transactional
     public ResponseEntity<Map<String, String>> createMA(String token, ModelAssistanceCreateDto request,
                                                         MultipartFile title, List<MultipartFile> details) {
-
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
@@ -63,9 +62,7 @@ public class BoardService {
     public ResponseEntity<?> findMA(String token, BoardRequestDto request) {
         try {
             String requestEmail = tokenCheck(token);
-
             emailCheck(requestEmail, request.getEmail());
-
             User findUser = userRepository.findByEmail(requestEmail);
             ModelAssistanceBoard findBoard = modelAssistanceBoardRepository.
                     findByBidAndBase_Email(request.getId(), requestEmail);
