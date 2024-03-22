@@ -30,13 +30,16 @@ public class ModelAssistanceFindResponseDto {
     private String shoes;
     private Nationality nationality;
     private City city;
+    private String titlePath;
+    private List<String> detailPath;
 
     @Builder
 
     public ModelAssistanceFindResponseDto(String name, LocalDateTime createdAt, String title, Integer price,
                                           List<ModelAssistanceCategory> modelAssistanceCategory, String firstDate, String lastDate,
                                           String place, Gender gender, String height, String weight, String top,
-                                          String bottom, String shoes, Nationality nationality, City city) {
+                                          String bottom, String shoes, Nationality nationality, City city,
+                                          String titlePath, List<String> detailPath) {
         this.name = name;
         this.createdAt = createdAt;
         this.title = title;
@@ -53,5 +56,7 @@ public class ModelAssistanceFindResponseDto {
         this.shoes = shoes;
         this.nationality = nationality;
         this.city = city;
+        this.titlePath = titlePath;
+        this.detailPath = detailPath;
     }
 }
