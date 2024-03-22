@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class ModelAssistanceCreateDto {
+    private String email;
     private String title;
     private List<ModelAssistanceCategory> modelAssistanceCategory;
     private String place;
@@ -19,8 +20,9 @@ public class ModelAssistanceCreateDto {
     private String lastDate;
 
     @Builder
-    public ModelAssistanceCreateDto(String title, List<ModelAssistanceCategory> modelAssistanceCategory, String place,
+    public ModelAssistanceCreateDto(String email, String title, List<ModelAssistanceCategory> modelAssistanceCategory, String place,
                                     Integer price, String contents, String firstDate, String lastDate) {
+        this.email = email;
         this.title = title;
         this.modelAssistanceCategory = modelAssistanceCategory;
         this.place = place;
