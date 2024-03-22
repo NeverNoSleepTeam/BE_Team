@@ -29,12 +29,14 @@ public class UserServiceTest {
                 .passwd("passwd")
                 .gender(Gender.남성)
                 .intro("intro")
+                .profileImgPath(null)
                 .build();
 
         userRepository.save(user);
         User findUser = userRepository.findByEmail("email");
 
         assertThat(user).isEqualTo(findUser);
+        assertThat(user.getProfileImgPath()).isEqualTo(null);
     }
 
     @Test
