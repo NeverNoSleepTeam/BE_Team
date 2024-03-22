@@ -148,17 +148,22 @@ public class UserService {
      * 사용자페이지 조회
      */
     @Transactional
-    public FindUserPageResponseDto findUserPage(FindByNameDto request) {
+    public ResponseEntity<?> findUserPage(FindByNameDto request) {
 
+        //오류처리해야됨
         User findUser = userRepository.findByName(request.getName());
 
-        return FindUserPageResponseDto.builder()
+        if (findUser == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
+        }
+
+        return ResponseEntity.ok().body(FindUserPageResponseDto.builder()
                 .email(findUser.getEmail())
                 .name(findUser.getName())
                 .userInfo("일반회원")
                 .intro(findUser.getIntro())
                 .profileImgPath(findUser.getProfileImgPath())
-                .build();
+                .build());
     }
 
     /**
