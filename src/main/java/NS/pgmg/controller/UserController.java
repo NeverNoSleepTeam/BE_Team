@@ -19,27 +19,27 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Map;
 
 @Slf4j
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/join/basic")
+    @PostMapping("/user/join/basic")
     public ResponseEntity<Map<String, String>> basicUserRegister(
             @RequestBody BasicRegisterDto basicRegisterDto
     ) {
         return userService.createBasicUser(basicRegisterDto);
     }
 
-    @PostMapping("/join/model")
+    @PostMapping("/user/join/model")
     public ResponseEntity<Map<String, String>> ModelUserRegister(
             @RequestBody ModelRegisterDto modelRegisterDto
     ) {
         return userService.createModelUser(modelRegisterDto);
     }
 
-    @PostMapping(value = "/join/pro-photo",
+    @PostMapping(value = "/user/join/pro-photo",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Map<String, String>> proPhotoRegister(
             @RequestPart(value = "RequestBody") ProPhotoRegisterDto proPhotoRegisterDto,
@@ -62,7 +62,7 @@ public class UserController {
         return userService.socialLogin(socialRegisterAndLoginDto);
     }
 
-    @PostMapping("/duplicate/email")
+    @PostMapping("/user/duplicate/email")
     public ResponseEntity<Map<String, String>> duplicateEmailCheck(
             @RequestBody DuplicateEmailDto duplicateEmailDto
     ) {
@@ -75,7 +75,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/duplicate/name")
+    @PostMapping("/user/duplicate/name")
     public ResponseEntity<Map<String, String>> duplicateNameCheck(
             @RequestBody DuplicateNameDto duplicateNameDto
     ) {
@@ -87,35 +87,35 @@ public class UserController {
         }
     }
 
-    @PostMapping("/my-page")
+    @PostMapping("/user/my-page")
     public ResponseEntity<?> findUserPage(
             @RequestBody FindByNameDto findByNameDto
     ) {
         return userService.findUserPage(findByNameDto);
     }
 
-    @PostMapping("/info/basic")
+    @PostMapping("/user/info/basic")
     public ResponseEntity<?> findBasicInfo(
             @RequestBody FindByNameDto findByNameDto
     ) {
         return userService.findBasicInfo(findByNameDto);
     }
 
-    @PostMapping("/info/model")
+    @PostMapping("/user/info/model")
     public ResponseEntity<?> findModelInfo(
             @RequestBody FindByNameDto findByNameDto
     ) {
         return userService.findModelInfo(findByNameDto);
     }
 
-    @PostMapping("/info/pro-photo")
+    @PostMapping("/user/info/pro-photo")
     public ResponseEntity<?> findProPhotoInfo(
             @RequestBody FindByNameDto findByNameDto
     ) {
         return userService.findProPhotoInfo(findByNameDto);
     }
 
-    @PostMapping("/info/all")
+    @PostMapping("/user/info/all")
     public ResponseEntity<?> findAllInfo(
             @RequestBody FindByNameDto findByNameDto
     ) {
