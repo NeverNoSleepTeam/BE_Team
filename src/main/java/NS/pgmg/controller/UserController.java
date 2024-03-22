@@ -30,16 +30,14 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/join/basic")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> basicUserRegister(
+    public ResponseEntity<Map<String, String>> basicUserRegister(
             @RequestBody BasicRegisterDto basicRegisterDto
     ) {
         return userService.createBasicUser(basicRegisterDto);
     }
 
     @PostMapping("/join/model")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> ModelUserRegister(
+    public ResponseEntity<Map<String, String>> ModelUserRegister(
             @RequestBody ModelRegisterDto modelRegisterDto
     ) {
         return userService.createModelUser(modelRegisterDto);
@@ -47,8 +45,7 @@ public class UserController {
 
     @PostMapping(value = "/join/pro-photo",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> proPhotoRegister(
+    public ResponseEntity<Map<String, String>> proPhotoRegister(
             @RequestPart(value = "RequestBody") ProPhotoRegisterDto proPhotoRegisterDto,
             @RequestPart(value = "file", required = false) MultipartFile file
     ) {
@@ -56,14 +53,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> basicUserLogin(
+    public ResponseEntity<Map<String, String>> basicUserLogin(
             @RequestBody LoginDto loginDto
     ) {
         return userService.login(loginDto);
     }
 
     @PostMapping("/social")
-    public ResponseEntity<String> socialRegisterAndLogin(
+    public ResponseEntity<Map<String, String>> socialRegisterAndLogin(
             @RequestBody SocialRegisterAndLoginDto socialRegisterAndLoginDto
     ) {
         return userService.socialLogin(socialRegisterAndLoginDto);
