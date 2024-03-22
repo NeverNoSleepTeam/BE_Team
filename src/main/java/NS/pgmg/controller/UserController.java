@@ -92,7 +92,7 @@ public class UserController {
     }
 
     @PostMapping("/my-page")
-    public FindUserPageResponseDto findUserPage(
+    public ResponseEntity<?> findUserPage(
             @RequestBody FindByNameDto findByNameDto
     ) {
         return userService.findUserPage(findByNameDto);
