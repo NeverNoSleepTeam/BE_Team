@@ -7,7 +7,7 @@ import NS.pgmg.dto.login.SocialRegisterAndLoginDto;
 import NS.pgmg.dto.register.BasicRegisterDto;
 import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
-import NS.pgmg.dto.userpage.FindUserPageRequestDto;
+import NS.pgmg.dto.userpage.FindByNameDto;
 import NS.pgmg.dto.userpage.FindUserPageResponseDto;
 import NS.pgmg.exception.EmailDuplicateException;
 import NS.pgmg.exception.NameDuplicateException;
@@ -94,10 +94,38 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user-page")
+    @PostMapping("/my-page")
     public FindUserPageResponseDto findUserPage(
-            @RequestBody FindUserPageRequestDto findUserPageRequestDto
+            @RequestBody FindByNameDto findByNameDto
     ) {
-        return userService.findUserPage(findUserPageRequestDto);
+        return userService.findUserPage(findByNameDto);
+    }
+
+    @PostMapping("/info/basic")
+    public ResponseEntity<?> findBasicInfo(
+            @RequestBody FindByNameDto findByNameDto
+    ) {
+        return userService.findBasicInfo(findByNameDto);
+    }
+
+    @PostMapping("/info/model")
+    public ResponseEntity<?> findModelInfo(
+            @RequestBody FindByNameDto findByNameDto
+    ) {
+        return userService.findModelInfo(findByNameDto);
+    }
+
+    @PostMapping("/info/pro-photo")
+    public ResponseEntity<?> findProPhotoInfo(
+            @RequestBody FindByNameDto findByNameDto
+    ) {
+        return userService.findProPhotoInfo(findByNameDto);
+    }
+
+    @PostMapping("/info/all")
+    public ResponseEntity<?> findAllInfo(
+            @RequestBody FindByNameDto findByNameDto
+    ) {
+        return userService.findAllInfo(findByNameDto);
     }
 }
