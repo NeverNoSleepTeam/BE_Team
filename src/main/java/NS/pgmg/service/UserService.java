@@ -42,83 +42,82 @@ public class UserService {
      * 일반 회원가입
      */
     @Transactional
-    public ResponseEntity<String> createBasicUser(BasicRegisterDto request) {
-
+    public ResponseEntity<Map<String,String>> createBasicUser(BasicRegisterDto request) {
         try {
             passwdValidation(request.getPasswd(), request.getPasswd2());
             basicUserEmailDuplicateCheck(request.getEmail());
             basicUserNameDuplicateCheck(request.getName());
+
+            User user = User.builder()
+                    .email(request.getEmail())
+                    .name(request.getName())
+                    .passwd(request.getPasswd())
+                    .gender(request.getGender())
+                    .city(request.getCity())
+                    .nationality(request.getNationality())
+                    .intro(request.getIntro())
+                    .socialTF(false)
+                    .build();
+
+            userRepository.save(user);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "일반 회원가입이 완료됐습니다."));
         } catch (PasswordMismatchException | EmailDuplicateException | NameDuplicateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
-
-        User user = User.builder()
-                .email(request.getEmail())
-                .name(request.getName())
-                .passwd(request.getPasswd())
-                .gender(request.getGender())
-                .city(request.getCity())
-                .nationality(request.getNationality())
-                .intro(request.getIntro())
-                .socialTF(false)
-                .build();
-
-        userRepository.save(user);
-
-        return new ResponseEntity<>("일반 회원가입이 완료됐습니다.", HttpStatus.CREATED);
     }
 
     /**
      * 모델 회원가입
      */
     @Transactional
-    public ResponseEntity<String> createModelUser(ModelRegisterDto request) {
+    public ResponseEntity<Map<String, String>> createModelUser(ModelRegisterDto request) {
         String email = request.getEmail();
         User findUser = userRepository.findByEmail(email);
         if (findUser == null) {
-            return new ResponseEntity<>("잘못된 접근입니다.", HttpStatus.CREATED);
+            return ResponseEntity.badRequest().body(Map.of("message", "잘못된 접근입니다."));
         }
         findUser.setModelInfo(request);
         userRepository.save(findUser);
-        return new ResponseEntity<>("모델 회원가입이 완료됐습니다.", HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "모델 회원가입이 완료됐습니다."));
     }
 
     /**
      * 사진기사 회원가입
      */
     @Transactional
-    public ResponseEntity<String> createProPhotoUser(ProPhotoRegisterDto request, MultipartFile file) {
+    public ResponseEntity<Map<String, String>> createProPhotoUser(ProPhotoRegisterDto request, MultipartFile file) {
         String email = request.getEmail();
         User findUser = userRepository.findByEmail(email);
         if (findUser == null){
-            return new ResponseEntity<>("잘못된 접근입니다.", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(Map.of("message", "잘못된 접근입니다."));
         }
         String savedPath;
         try {
             savedPath = emptyFileCheck(file, email);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
         findUser.setProPhotoInfo(request, savedPath);
         userRepository.save(findUser);
-        return new ResponseEntity<>("기사 회원가입이 완료됐습니다.", HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "기사 회원가입이 완료됐습니다."));
     }
 
     /**
      * 로그인
      */
     @Transactional(readOnly = true)
-    public ResponseEntity<String> login(LoginDto request) {
+    public ResponseEntity<Map<String, String>> login(LoginDto request) {
 
         String requestEmail = request.getEmail();
         User findUser = userRepository.findByEmail(requestEmail);
 
         if (!request.getEmail().equals(findUser.getEmail())) {
-            return new ResponseEntity<>("이메일이 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(Map.of("message", "이메일이 올바르지 않습니다."));
         } else if (!request.getPasswd().equals(findUser.getPasswd())) {
-            return new ResponseEntity<>("비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(Map.of("message", "비밀번호가 올바르지 않습니다."));
         } else {
-            return new ResponseEntity<>(JwtConfig.getToken(requestEmail), HttpStatus.OK);
+            return ResponseEntity.ok().body(Map.of("token", JwtConfig.getToken(requestEmail)));
         }
     }
 
@@ -126,7 +125,7 @@ public class UserService {
      * 소셜 로그인
      */
     @Transactional
-    public ResponseEntity<String> socialLogin(SocialRegisterAndLoginDto request) {
+    public ResponseEntity<Map<String, String>> socialLogin(SocialRegisterAndLoginDto request) {
 
         String requestEmail = request.getEmail();
         User findUser = userRepository.findByEmail(requestEmail);
@@ -137,11 +136,11 @@ public class UserService {
                     .socialTF(true)
                     .build();
             userRepository.save(user);
-            return new ResponseEntity<>(JwtConfig.getToken(requestEmail), HttpStatus.OK);
+            return ResponseEntity.ok().body(Map.of("token", JwtConfig.getToken(requestEmail)));
         } else if (findUser.isSocialTF()) {
-            return new ResponseEntity<>(JwtConfig.getToken(requestEmail), HttpStatus.OK);
+            return ResponseEntity.ok().body(Map.of("token", JwtConfig.getToken(requestEmail)));
         } else {
-            return new ResponseEntity<>("일반사용자 이메일입니다.", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(Map.of("message", "잘못된 접근입니다."));
         }
     }
 
@@ -239,6 +238,7 @@ public class UserService {
     /**
      * 전체 정보 조회
      */
+    @Transactional
     public ResponseEntity<?> findAllInfo(FindByNameDto request) {
 
         User findUser = userRepository.findByName(request.getName());
