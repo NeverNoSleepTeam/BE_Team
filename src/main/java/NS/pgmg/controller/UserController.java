@@ -8,13 +8,9 @@ import NS.pgmg.dto.register.BasicRegisterDto;
 import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
 import NS.pgmg.dto.userpage.FindByNameDto;
-import NS.pgmg.dto.userpage.FindUserPageResponseDto;
-import NS.pgmg.exception.EmailDuplicateException;
-import NS.pgmg.exception.NameDuplicateException;
 import NS.pgmg.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -73,7 +69,7 @@ public class UserController {
         try {
             userService.basicUserEmailDuplicateCheck(duplicateEmailDto.getEmail());
             return ResponseEntity.ok().body(Map.of("message", "사용가능한 이메일입니다."));
-        } catch (EmailDuplicateException e) {
+        } catch (RuntimeException e) {
             return ResponseEntity.ok().body(Map.of("message", e.getMessage()));
 
         }
@@ -86,7 +82,7 @@ public class UserController {
         try {
             userService.basicUserNameDuplicateCheck(duplicateNameDto.getName());
             return ResponseEntity.ok().body(Map.of("message", "사용가능한 닉네임입니다."));
-        } catch (NameDuplicateException e) {
+        } catch (RuntimeException e) {
             return ResponseEntity.ok().body(Map.of("message", e.getMessage()));
         }
     }
