@@ -14,15 +14,12 @@ public class ProPhotoRegisterDto {
     private BusinessTrip businessTrip;
     private Correction correction;
     private Production production;
-    private String portfolioURL;
 
     @Builder
-    public ProPhotoRegisterDto(String email, BusinessTrip businessTrip, Correction correction,
-                               Production production, String portfolioURL) {
+    public ProPhotoRegisterDto(String email, BusinessTrip businessTrip, Correction correction, Production production) {
         this.email = email;
         this.businessTrip = businessTrip;
         this.correction = correction;
         this.production = production;
-        this.portfolioURL = portfolioURL;
     }
 }
