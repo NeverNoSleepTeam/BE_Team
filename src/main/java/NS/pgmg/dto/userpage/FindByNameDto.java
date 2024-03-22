@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class FindUserPageRequestDto {
+public class FindByNameDto {
 
     private String name;
 
     @Builder
-    public FindUserPageRequestDto(String name) {
+    public FindByNameDto(String name) {
         this.name = name;
     }
 }
