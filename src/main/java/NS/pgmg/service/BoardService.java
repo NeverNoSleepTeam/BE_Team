@@ -1,6 +1,5 @@
 package NS.pgmg.service;
 
-import NS.pgmg.config.JwtConfig;
 import NS.pgmg.domain.board.BaseBoard;
 import NS.pgmg.domain.board.ModelAssistanceBoard;
 import NS.pgmg.domain.user.User;
@@ -22,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+
+import static NS.pgmg.service.CommonMethod.*;
 
 @Slf4j
 @Service
@@ -51,10 +52,9 @@ public class BoardService {
                     .price(request.getPrice())
                     .build();
             modelAssistanceBoardRepository.save(modelAssistanceBoard);
-            log.info("모델 해줄게 게시글 작성, email = {}", email);
 
-            return ResponseEntity.ok().body(Map.of("message", "게시물 생성 완료"));
-        } catch (TokenNullException | IOException e) {
+            return ResponseEntity.ok().body(Map.of("message", "게시물이 생성됐습니다."));
+        } catch (RuntimeException e) {
             return ResponseEntity.ok().body(Map.of("message", e.getMessage()));
         }
     }
@@ -64,7 +64,7 @@ public class BoardService {
         String requestEmail = tokenCheck(token);
 
         if (!requestEmail.equals(request.getEmail())) {
-            return ResponseEntity.badRequest().body("이메일이 올바르지 않습니다.");
+            return ResponseEntity.badRequest().body("토큰 정보와 요청하신 이메일의 정보가 일치하지 않습니다.");
         }
 
         User findUser = userRepository.findByEmail(requestEmail);
@@ -105,7 +105,7 @@ public class BoardService {
         String requestEmail = tokenCheck(token);
 
         if (!requestEmail.equals(request.getEmail())) {
-            return ResponseEntity.ok().body(Map.of("message", "잘못된 접근입니다."));
+            return ResponseEntity.ok().body(Map.of("message", "토큰 정보와 요청하신 이메일의 정보가 일치하지 않습니다."));
         }
 
         try {
@@ -131,12 +131,11 @@ public class BoardService {
             findBoard.setUpdateBoard(updateBase, request.getModelAssistanceCategory(), request.getPlace(), request.getPrice());
 
             modelAssistanceBoardRepository.save(findBoard);
-
-        } catch (IOException e) {
+        } catch (RuntimeException e) {
             return ResponseEntity.ok().body(Map.of("message", e.getMessage()));
         }
 
-        return ResponseEntity.ok().body(Map.of("message", "게시물 수정 완료"));
+        return ResponseEntity.ok().body(Map.of("message", "게시물이 수정됐습니다."));
     }
 
     @Transactional
@@ -144,27 +143,14 @@ public class BoardService {
         String requestEmail = tokenCheck(token);
 
         if (!requestEmail.equals(request.getEmail())) {
-            return ResponseEntity.ok().body(Map.of("message", "잘못된 접근입니다."));
+            return ResponseEntity.ok().body(Map.of("message", "토큰 정보와 요청하신 이메일의 정보가 일치하지 않습니다."));
         }
 
         modelAssistanceBoardRepository.deleteByBid(request.getId());
-        return ResponseEntity.ok().body(Map.of("message", "게시물 삭제 완료"));
+        return ResponseEntity.ok().body(Map.of("message", "게시물이 삭제됐습니다."));
     }
 
-    private String tokenCheck(String token) {
-
-        if (token == null) {
-            log.warn("토큰이 없습니다.");
-        }
-
-        return JwtConfig.getEmail(token);
-    }
-
-    private String createRandomUuid() {
-        return UUID.randomUUID().toString();
-    }
-
-    private String saveTitleFile(MultipartFile file) throws IOException {
+    private String saveTitleFile(MultipartFile file) {
 
         if (file == null) {
             return null;
@@ -174,13 +160,13 @@ public class BoardService {
         try {
             file.transferTo(new File(filePath + fileName));
         } catch (IOException e) {
-            throw new IOException("Title 이미지 저장 오류");
+            throw new RuntimeException("Title 이미지 저장 오류", e);
         }
 
         return "/img/" + fileName;
     }
 
-    private List<String> saveDetailFiles(List<MultipartFile> files) throws IOException {
+    private List<String> saveDetailFiles(List<MultipartFile> files) {
 
         if (files == null) {
             return null;
@@ -194,7 +180,7 @@ public class BoardService {
             try {
                 f.transferTo(new File(filePath + fileName));
             } catch (IOException e) {
-                throw new IOException("Details 이미지 저장 오류");
+                throw new RuntimeException("Details 이미지 저장 오류", e);
             }
             imgPaths.add("/img/" + fileName);
         }
@@ -202,7 +188,7 @@ public class BoardService {
         return imgPaths;
     }
 
-    private String updateTitleFile(MultipartFile file, String path) throws IOException {
+    private String updateTitleFile(MultipartFile file, String path) {
         String fileName;
 
         if (file == null) {
@@ -223,13 +209,13 @@ public class BoardService {
         try {
             file.transferTo(new File(filePath + fileName));
         } catch (IOException e) {
-            throw new IOException("Title 이미지 저장 오류");
+            throw new RuntimeException("Title 이미지 저장 오류", e);
         }
 
         return "/img/" + fileName;
     }
 
-    private List<String> updateDetailFiles(List<MultipartFile> files, List<String> path) throws IOException {
+    private List<String> updateDetailFiles(List<MultipartFile> files, List<String> path) {
 
         if (files == null) {
             return path;
@@ -254,7 +240,7 @@ public class BoardService {
                 f.transferTo(new File(filePath + fileName));
                 paths.add("/img/" + fileName);
             } catch (IOException e) {
-                throw new IOException("Details 이미지 저장 오류");
+                throw new RuntimeException("Details 이미지 저장 오류", e);
             }
         }
 
