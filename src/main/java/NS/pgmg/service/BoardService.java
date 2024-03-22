@@ -89,6 +89,8 @@ public class BoardService {
                     .shoes(findUser.getShoes())
                     .nationality(findUser.getNationality())
                     .city(findUser.getCity())
+                    .titlePath(findBase.getTitlePath())
+                    .detailPath(findBase.getDetailPaths())
                     .build()
             );
         } catch (RuntimeException e) {
