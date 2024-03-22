@@ -47,7 +47,7 @@ public class User {
     @ElementCollection
     private List<String> profileImgPath;
 
-    private boolean socialTF;
+    private boolean isSocial;
 
     // ---------------------------------- Model Info ----------------------------------
     private String height;
@@ -60,7 +60,7 @@ public class User {
 
     private String shoes;
 
-    private boolean modelTF;
+    private boolean isModel;
 
     // ---------------------------------- ProPhoto Info ----------------------------------
     @Enumerated(EnumType.STRING)
@@ -74,12 +74,12 @@ public class User {
 
     private String portfolioPath;
 
-    private boolean proPhotoTF;
+    private boolean isProPhoto;
 
 
     @Builder
     public User(String email, String passwd, String name, Gender gender, City city, Nationality nationality,
-                String intro, boolean socialTF) {
+                String intro, List<String> profileImgPath, boolean isSocial) {
         this.email = email;
         this.passwd = passwd;
         this.name = name;
@@ -87,7 +87,8 @@ public class User {
         this.nationality = nationality;
         this.city = city;
         this.intro = intro;
-        this.socialTF = socialTF;
+        this.profileImgPath = profileImgPath;
+        this.isSocial = isSocial;
     }
 
     public void setModelInfo(ModelRegisterDto modelInfo) {
@@ -96,7 +97,7 @@ public class User {
         this.top = modelInfo.getTop();
         this.bottom = modelInfo.getBottom();
         this.shoes = modelInfo.getShoes();
-        this.modelTF = true;
+        this.isModel = true;
     }
 
     public void setProPhotoInfo(ProPhotoRegisterDto proPhotoInfo, String filePath) {
@@ -104,6 +105,6 @@ public class User {
         this.correction = proPhotoInfo.getCorrection();
         this.production = proPhotoInfo.getProduction();
         this.portfolioPath = filePath;
-        this.proPhotoTF = true;
+        this.isProPhoto = true;
     }
 }
