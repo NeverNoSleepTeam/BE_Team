@@ -8,9 +8,6 @@ import NS.pgmg.dto.register.BasicRegisterDto;
 import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
 import NS.pgmg.dto.userpage.*;
-import NS.pgmg.exception.EmailDuplicateException;
-import NS.pgmg.exception.NameDuplicateException;
-import NS.pgmg.exception.PasswordMismatchException;
 import NS.pgmg.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -62,7 +57,7 @@ public class UserService {
             userRepository.save(user);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "일반 회원가입이 완료됐습니다."));
-        } catch (PasswordMismatchException | EmailDuplicateException | NameDuplicateException e) {
+        } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
@@ -150,7 +145,6 @@ public class UserService {
     @Transactional
     public ResponseEntity<?> findUserPage(FindByNameDto request) {
 
-        //오류처리해야됨
         User findUser = userRepository.findByName(request.getName());
 
         if (findUser == null) {
@@ -269,7 +263,7 @@ public class UserService {
     public void basicUserEmailDuplicateCheck(String email) {
         User findUser = userRepository.findByEmail(email);
         if (findUser != null) {
-            throw new EmailDuplicateException("이미 존재하는 이메일입니다.");
+            throw new RuntimeException("이미 존재하는 이메일입니다.");
         }
     }
 
@@ -280,7 +274,7 @@ public class UserService {
     public void basicUserNameDuplicateCheck(String name) {
         User findUser = userRepository.findByEmail(name);
         if (findUser != null) {
-            throw new NameDuplicateException("이미 존재하는 닉네임입니다.");
+            throw new RuntimeException("이미 존재하는 닉네임입니다.");
         }
     }
 
@@ -289,7 +283,7 @@ public class UserService {
      */
     private void passwdValidation(String passwd, String passwd2) {
         if (!passwd.equals(passwd2)) {
-            throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
     }
 
