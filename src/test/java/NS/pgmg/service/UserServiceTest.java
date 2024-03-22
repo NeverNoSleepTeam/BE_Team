@@ -84,7 +84,6 @@ public class UserServiceTest {
                 .businessTrip(BusinessTrip.가능)
                 .correction(Correction.가능)
                 .production(Production.가능)
-                .portfolioURL("url")
                 .build();
 
         user.setProPhotoInfo(proPhotoRegisterDto, "filePath");
