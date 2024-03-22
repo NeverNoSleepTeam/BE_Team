@@ -1,7 +1,6 @@
 package NS.pgmg.service;
 
 import NS.pgmg.config.JwtConfig;
-import NS.pgmg.exception.TokenNullException;
 
 import java.util.UUID;
 
