@@ -7,7 +7,8 @@ import NS.pgmg.dto.login.SocialRegisterAndLoginDto;
 import NS.pgmg.dto.register.BasicRegisterDto;
 import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
-import NS.pgmg.dto.userpage.FindByNameDto;
+import NS.pgmg.dto.userpage.FindByEmailDto;
+import NS.pgmg.dto.userpage.UpdateBasicInfoRequestDto;
 import NS.pgmg.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -87,38 +88,43 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user/my-page")
-    public ResponseEntity<?> findUserPage(
-            @RequestBody FindByNameDto findByNameDto
-    ) {
-        return userService.findUserPage(findByNameDto);
-    }
-
     @PostMapping("/user/info/basic")
     public ResponseEntity<?> findBasicInfo(
-            @RequestBody FindByNameDto findByNameDto
+            @RequestHeader(value = "Token", required = false) String token,
+            @RequestBody FindByEmailDto findByEmailDto
     ) {
-        return userService.findBasicInfo(findByNameDto);
+        return userService.findBasicInfo(token, findByEmailDto);
     }
 
     @PostMapping("/user/info/model")
     public ResponseEntity<?> findModelInfo(
-            @RequestBody FindByNameDto findByNameDto
+            @RequestHeader(value = "Token", required = false) String token,
+            @RequestBody FindByEmailDto findByEmailDto
     ) {
-        return userService.findModelInfo(findByNameDto);
+        return userService.findModelInfo(token, findByEmailDto);
     }
 
     @PostMapping("/user/info/pro-photo")
     public ResponseEntity<?> findProPhotoInfo(
-            @RequestBody FindByNameDto findByNameDto
+            @RequestHeader(value = "Token", required = false) String token,
+            @RequestBody FindByEmailDto findByEmailDto
     ) {
-        return userService.findProPhotoInfo(findByNameDto);
+        return userService.findProPhotoInfo(token, findByEmailDto);
     }
 
     @PostMapping("/user/info/all")
     public ResponseEntity<?> findAllInfo(
-            @RequestBody FindByNameDto findByNameDto
+            @RequestHeader(value = "Token", required = false) String token,
+            @RequestBody FindByEmailDto findByEmailDto
     ) {
-        return userService.findAllInfo(findByNameDto);
+        return userService.findAllInfo(token, findByEmailDto);
+    }
+
+    @PutMapping("/user/info/basic")
+    public ResponseEntity<Map<String, String>> updateBasicInfo(
+            @RequestHeader(value = "Token") String token,
+            @RequestBody UpdateBasicInfoRequestDto updateBasicInfoRequestDto
+    ) {
+        return userService.updateBasicInfo(token, updateBasicInfoRequestDto);
     }
 }
