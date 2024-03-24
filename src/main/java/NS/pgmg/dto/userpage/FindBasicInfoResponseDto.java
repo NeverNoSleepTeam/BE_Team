@@ -19,11 +19,11 @@ public class FindBasicInfoResponseDto {
     private Nationality nationality;
     private String intro;
     private List<String> profileImgPath;
+    private boolean isSelf;
 
     @Builder
-
     public FindBasicInfoResponseDto(String email, String name, Gender gender, City city, Nationality nationality,
-                                    String intro, List<String> profileImgPath) {
+                                    String intro, List<String> profileImgPath, boolean isSelf) {
         this.email = email;
         this.name = name;
         this.gender = gender;
@@ -31,5 +31,6 @@ public class FindBasicInfoResponseDto {
         this.nationality = nationality;
         this.intro = intro;
         this.profileImgPath = profileImgPath;
+        this.isSelf = isSelf;
     }
 }
