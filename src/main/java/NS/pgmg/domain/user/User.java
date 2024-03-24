@@ -3,6 +3,7 @@ package NS.pgmg.domain.user;
 import NS.pgmg.domain.user.enums.*;
 import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
+import NS.pgmg.dto.userpage.UpdateBasicInfoRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -106,5 +107,13 @@ public class User {
         this.production = proPhotoInfo.getProduction();
         this.portfolioPath = filePath;
         this.isProPhoto = true;
+    }
+
+    public void updateBasicInfo(UpdateBasicInfoRequestDto basicInfo) {
+        this.passwd = basicInfo.getPasswd();
+        this.gender = basicInfo.getGender();
+        this.nationality = basicInfo.getNationality();
+        this.city = basicInfo.getCity();
+        this.intro = basicInfo.getIntro();
     }
 }
