@@ -36,10 +36,9 @@ public class BoardController {
 
     @PostMapping("/model-assistance/detail")
     public ResponseEntity<?> findModelAssistanceBoard(
-            @RequestHeader(value = "Token") String token,
             @RequestBody BoardRequestDto boardRequestDto
     ) {
-        return boardService.findMA(token, boardRequestDto);
+        return boardService.findMA(boardRequestDto);
     }
 
     @GetMapping("/model-assistance")
