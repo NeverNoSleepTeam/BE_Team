@@ -16,15 +16,17 @@ public class FindProPhotoInfoResponseDto {
     private Correction correction;
     private Production production;
     private String portfolioPath;
+    private boolean isSelf;
 
     @Builder
     public FindProPhotoInfoResponseDto(String email, String name, BusinessTrip businessTrip, Correction correction,
-                                       Production production, String portfolioPath) {
+                                       Production production, String portfolioPath, boolean isSelf) {
         this.email = email;
         this.name = name;
         this.businessTrip = businessTrip;
         this.correction = correction;
         this.production = production;
         this.portfolioPath = portfolioPath;
+        this.isSelf = isSelf;
     }
 }
