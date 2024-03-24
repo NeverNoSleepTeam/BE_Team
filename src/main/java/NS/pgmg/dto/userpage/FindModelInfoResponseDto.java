@@ -14,10 +14,11 @@ public class FindModelInfoResponseDto {
     private String top;
     private String bottom;
     private String shoes;
+    private boolean isSelf;
 
     @Builder
     public FindModelInfoResponseDto(String email, String name, String height, String weight, String top, String bottom,
-                                    String shoes) {
+                                    String shoes, boolean isSelf) {
         this.email = email;
         this.name = name;
         this.height = height;
@@ -25,5 +26,6 @@ public class FindModelInfoResponseDto {
         this.top = top;
         this.bottom = bottom;
         this.shoes = shoes;
+        this.isSelf = isSelf;
     }
 }
