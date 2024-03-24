@@ -22,6 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
+
+import static NS.pgmg.service.CommonMethod.emailCheck;
+import static NS.pgmg.service.CommonMethod.tokenCheck;
 
 @Slf4j
 @Service
@@ -51,7 +55,8 @@ public class UserService {
                     .city(request.getCity())
                     .nationality(request.getNationality())
                     .intro(request.getIntro())
-                    .socialTF(false)
+                    .profileImgPath(null)
+                    .isSocial(false)
                     .build();
 
             userRepository.save(user);
@@ -128,11 +133,12 @@ public class UserService {
         if (findUser == null) {
             User user = User.builder()
                     .email(requestEmail)
-                    .socialTF(true)
+                    .name(UUID.randomUUID().toString().replace("-", "").substring(0, 10))
+                    .isSocial(true)
                     .build();
             userRepository.save(user);
             return ResponseEntity.ok().body(Map.of("token", JwtConfig.getToken(requestEmail)));
-        } else if (findUser.isSocialTF()) {
+        } else if (findUser.isSocial()) {
             return ResponseEntity.ok().body(Map.of("token", JwtConfig.getToken(requestEmail)));
         } else {
             return ResponseEntity.badRequest().body(Map.of("message", "잘못된 접근입니다."));
@@ -140,39 +146,20 @@ public class UserService {
     }
 
     /**
-     * 사용자페이지 조회
-     */
-    @Transactional
-    public ResponseEntity<?> findUserPage(FindByNameDto request) {
-
-        User findUser = userRepository.findByName(request.getName());
-
-        if (findUser == null) {
-            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
-        }
-
-        return ResponseEntity.ok().body(FindUserPageResponseDto.builder()
-                .email(findUser.getEmail())
-                .name(findUser.getName())
-                .userInfo("일반회원")
-                .intro(findUser.getIntro())
-                .profileImgPath(findUser.getProfileImgPath())
-                .build());
-    }
-
-    /**
      * 일반 정보 조회
      */
     @Transactional
-    public ResponseEntity<?> findBasicInfo(FindByNameDto request) {
+    public ResponseEntity<?> findBasicInfo(String token, FindByEmailDto request) {
 
-        User findUser = userRepository.findByName(request.getName());
+        boolean isSelf = (token != null) && tokenCheck(token).equals(request.getEmail());
+
+        User findUser = userRepository.findByEmail(request.getEmail());
 
         if (findUser == null) {
             return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
         }
 
-        FindBasicInfoResponseDto response = FindBasicInfoResponseDto.builder()
+        return ResponseEntity.ok().body(FindBasicInfoResponseDto.builder()
                 .email(findUser.getEmail())
                 .name(findUser.getName())
                 .gender(findUser.getGender())
@@ -180,24 +167,25 @@ public class UserService {
                 .nationality(findUser.getNationality())
                 .intro(findUser.getIntro())
                 .profileImgPath(findUser.getProfileImgPath())
-                .build();
-
-        return ResponseEntity.ok().body(response);
+                .isSelf(isSelf)
+                .build());
     }
 
     /**
      * 모델 정보 조회
      */
     @Transactional
-    public ResponseEntity<?> findModelInfo(FindByNameDto request) {
+    public ResponseEntity<?> findModelInfo(String token, FindByEmailDto request) {
 
-        User findUser = userRepository.findByName(request.getName());
+        boolean isSelf = (token != null) && tokenCheck(token).equals(request.getEmail());
+
+        User findUser = userRepository.findByEmail(request.getEmail());
 
         if (findUser == null) {
             return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
         }
 
-        FindModelInfoResponseDto response = FindModelInfoResponseDto.builder()
+        return ResponseEntity.ok().body(FindModelInfoResponseDto.builder()
                 .email(findUser.getEmail())
                 .name(findUser.getName())
                 .height(findUser.getHeight())
@@ -205,55 +193,66 @@ public class UserService {
                 .top(findUser.getTop())
                 .bottom(findUser.getBottom())
                 .shoes(findUser.getShoes())
-                .build();
-
-        return ResponseEntity.ok().body(response);
+                .isSelf(isSelf)
+                .build());
     }
 
     /**
      * 사진기사 정보 조회
      */
     @Transactional
-    public ResponseEntity<?> findProPhotoInfo(FindByNameDto request) {
+    public ResponseEntity<?> findProPhotoInfo(String token, FindByEmailDto request) {
 
-        User findUser = userRepository.findByName(request.getName());
+        boolean isSelf = (token != null) && tokenCheck(token).equals(request.getEmail());
+
+        User findUser = userRepository.findByEmail(request.getEmail());
 
         if (findUser == null) {
             return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
         }
 
-        FindProPhotoInfoResponseDto response = FindProPhotoInfoResponseDto.builder()
+        return ResponseEntity.ok().body(FindProPhotoInfoResponseDto.builder()
                 .email(findUser.getEmail())
                 .name(findUser.getName())
                 .businessTrip(findUser.getBusinessTrip())
                 .correction(findUser.getCorrection())
                 .production(findUser.getProduction())
                 .portfolioPath(findUser.getPortfolioPath())
-                .build();
-
-        return ResponseEntity.ok().body(response);
+                .isSelf(isSelf)
+                .build());
     }
 
     /**
      * 전체 정보 조회
      */
     @Transactional
-    public ResponseEntity<?> findAllInfo(FindByNameDto request) {
+    public ResponseEntity<?> findAllInfo(String token, FindByEmailDto request) {
 
-        User findUser = userRepository.findByName(request.getName());
+        boolean isSelf = (token != null) && tokenCheck(token).equals(request.getEmail());
+
+        User findUser = userRepository.findByEmail(request.getEmail());
 
         if (findUser == null) {
             return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
         }
-        return ResponseEntity.ok().body(findUser);
+        return ResponseEntity.ok().body(Map.of("requestBody", findUser, "self", isSelf));
     }
 
     /**
-     * 마이페이지 수정
+     * 일반 정보 수정
      */
     @Transactional
-    public ResponseEntity<Map<String, String>> updateUserPage(String token, MultipartFile pdf) {
-        return ResponseEntity.ok().body(Map.of("message", "마이페이지 수정이 완료됐습니다."));
+    public ResponseEntity<Map<String, String>> updateBasicInfo(String token, UpdateBasicInfoRequestDto request) {
+        try {
+            String requestEmail = tokenCheck(token);
+            emailCheck(requestEmail, request.getEmail());
+            User findUser = userRepository.findByEmail(requestEmail);
+            findUser.updateBasicInfo(request);
+            userRepository.save(findUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+        return ResponseEntity.ok().body(Map.of("message", "수정이 완료됐습니다."));
     }
 
     /**
