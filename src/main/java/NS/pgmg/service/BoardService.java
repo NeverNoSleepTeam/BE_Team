@@ -59,13 +59,11 @@ public class BoardService {
     }
 
     @Transactional
-    public ResponseEntity<?> findMA(String token, BoardRequestDto request) {
+    public ResponseEntity<?> findMA(BoardRequestDto request) {
         try {
-            String requestEmail = tokenCheck(token);
-            emailCheck(requestEmail, request.getEmail());
-            User findUser = userRepository.findByEmail(requestEmail);
+            User findUser = userRepository.findByEmail(request.getEmail());
             ModelAssistanceBoard findBoard = modelAssistanceBoardRepository.
-                    findByBidAndBase_Email(request.getId(), requestEmail);
+                    findByBidAndBase_Email(request.getId(), request.getEmail());
 
             BaseBoard findBase = findBoard.getBase();
 
