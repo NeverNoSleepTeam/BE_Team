@@ -94,7 +94,7 @@ public class UserService {
         }
         String savedPath;
         try {
-            savedPath = emptyFileCheck(file, email);
+            savedPath = savePDF(file, email);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
@@ -112,13 +112,16 @@ public class UserService {
         String requestEmail = request.getEmail();
         User findUser = userRepository.findByEmail(requestEmail);
 
-        if (!request.getEmail().equals(findUser.getEmail())) {
-            return ResponseEntity.badRequest().body(Map.of("message", "이메일이 올바르지 않습니다."));
-        } else if (!request.getPasswd().equals(findUser.getPasswd())) {
-            return ResponseEntity.badRequest().body(Map.of("message", "비밀번호가 올바르지 않습니다."));
+        if (findUser == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "회원 정보가 없습니다."));
         } else {
-            return ResponseEntity.ok().body(Map.of("token", JwtConfig.getToken(requestEmail)));
+            if (findUser.isSocial()) {
+                return ResponseEntity.badRequest().body(Map.of("message", "잘못된 접근입니다."));
+            } else if (!request.getPasswd().equals(findUser.getPasswd())) {
+                return ResponseEntity.badRequest().body(Map.of("message", "비밀번호가 올바르지 않습니다."));
+            }
         }
+        return ResponseEntity.ok().body(Map.of("token", JwtConfig.getToken(requestEmail)));
     }
 
     /**
@@ -289,10 +292,10 @@ public class UserService {
     /**
      * PDF 저장 함수
      */
-    private String emptyFileCheck(MultipartFile file, String email) {
+    private String savePDF(MultipartFile file, String email) {
 
         if (file == null) {
-            return "파일이 없습니다.";
+            return null;
         }
 
         String fullPath = filePath + email + ".pdf";
