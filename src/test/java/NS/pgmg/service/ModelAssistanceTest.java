@@ -1,10 +1,9 @@
 package NS.pgmg.service;
 
-import NS.pgmg.domain.board.BaseBoard;
-import NS.pgmg.domain.board.ModelAssistanceBoard;
+import NS.pgmg.domain.board.Base;
+import NS.pgmg.domain.board.ModelAssistance;
 import NS.pgmg.domain.board.ModelAssistanceCategory;
-import NS.pgmg.repository.board.ModelAssistanceBoardRepository;
-import lombok.extern.slf4j.Slf4j;
+import NS.pgmg.repository.board.ModelAssistanceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,16 +17,16 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-public class ModelAssistanceBoardTest {
+public class ModelAssistanceTest {
 
     @Autowired
-    ModelAssistanceBoardRepository modelAssistanceBoardRepository;
+    ModelAssistanceRepository modelAssistanceRepository;
 
     @Test
     @Transactional
     void createModelAssistanceBoardTest() {
 
-        BaseBoard base = BaseBoard.builder()
+        Base base = Base.builder()
                 .email("email")
                 .title("title")
                 .contents("contents")
@@ -41,17 +40,17 @@ public class ModelAssistanceBoardTest {
         List<ModelAssistanceCategory> modelAssistanceCategory = Arrays.asList(new ModelAssistanceCategory[]{
                 ModelAssistanceCategory.손, ModelAssistanceCategory.얼굴});
 
-        ModelAssistanceBoard modelAssistanceBoard = ModelAssistanceBoard.builder()
+        ModelAssistance modelAssistance = ModelAssistance.builder()
                 .base(base)
                 .modelAssistanceCategory(modelAssistanceCategory)
                 .price(10000)
                 .place("place")
                 .build();
 
-        modelAssistanceBoardRepository.save(modelAssistanceBoard);
+        modelAssistanceRepository.save(modelAssistance);
 
-        ModelAssistanceBoard findBoard = modelAssistanceBoardRepository.findByBidAndBase_Email(1L, "email");
+        ModelAssistance findBoard = modelAssistanceRepository.findByBidAndBase_Email(1L, "email");
 
-        assertThat(modelAssistanceBoard).isEqualTo(findBoard);
+        assertThat(modelAssistance).isEqualTo(findBoard);
     }
 }
