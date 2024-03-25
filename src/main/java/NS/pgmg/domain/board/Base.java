@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Embeddable
 @NoArgsConstructor
-public class BaseBoard {
+public class Base {
 
     private String email;
 
@@ -35,9 +35,9 @@ public class BaseBoard {
     private String lastDate;
 
     @Builder
-    public BaseBoard(String email, String title, String contents,
-                     LocalDateTime createdAt, String firstDate, String lastDate,
-                     String titlePath, List<String> detailPaths) {
+    public Base(String email, String title, String contents,
+                LocalDateTime createdAt, String firstDate, String lastDate,
+                String titlePath, List<String> detailPaths) {
         this.email = email;
         this.title = title;
         this.contents = contents;
@@ -48,9 +48,9 @@ public class BaseBoard {
         this.detailPaths = detailPaths;
     }
 
-    public static BaseBoard setBaseBoard(ModelAssistanceCreateDto request, String email,
-                                         String titlePath, List<String> detailPaths) {
-        return BaseBoard.builder()
+    public static Base setBaseBoard(ModelAssistanceCreateDto request, String email,
+                                    String titlePath, List<String> detailPaths) {
+        return Base.builder()
                 .email(email)
                 .title(request.getTitle())
                 .contents(request.getContents())
