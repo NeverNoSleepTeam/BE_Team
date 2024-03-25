@@ -10,14 +10,14 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-public class ModelAssistanceBoard {
+public class ModelAssistance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bid;
 
     @Embedded
-    private BaseBoard base;
+    private Base base;
 
     private List<ModelAssistanceCategory> modelAssistanceCategory;
 
@@ -26,17 +26,17 @@ public class ModelAssistanceBoard {
     private Integer price;
 
     @Builder
-    public ModelAssistanceBoard(BaseBoard base, List<ModelAssistanceCategory> modelAssistanceCategory,
-                                String place, Integer price) {
+    public ModelAssistance(Base base, List<ModelAssistanceCategory> modelAssistanceCategory,
+                           String place, Integer price) {
         this.base = base;
         this.modelAssistanceCategory = modelAssistanceCategory;
         this.place = place;
         this.price = price;
     }
 
-    public void setUpdateBoard(BaseBoard baseBoard, List<ModelAssistanceCategory> modelAssistanceCategory,
+    public void setUpdateBoard(Base base, List<ModelAssistanceCategory> modelAssistanceCategory,
                                String place, Integer price) {
-        this.base = baseBoard;
+        this.base = base;
         this.modelAssistanceCategory = modelAssistanceCategory;
         this.place = place;
         this.price = price;
