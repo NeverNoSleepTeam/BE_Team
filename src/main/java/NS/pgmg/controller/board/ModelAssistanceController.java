@@ -1,10 +1,10 @@
-package NS.pgmg.controller;
+package NS.pgmg.controller.board;
 
-import NS.pgmg.domain.board.ModelAssistanceBoard;
+import NS.pgmg.domain.board.ModelAssistance;
 import NS.pgmg.dto.board.BoardRequestDto;
 import NS.pgmg.dto.board.ModelAssistanceCreateDto;
 import NS.pgmg.dto.board.ModelAssistanceUpdateDto;
-import NS.pgmg.service.BoardService;
+import NS.pgmg.service.board.ModelAssistanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,9 +19,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/board")
 @ResponseStatus(HttpStatus.CREATED)
-public class BoardController {
+public class ModelAssistanceController {
 
-    private final BoardService boardService;
+    private final ModelAssistanceService modelAssistanceService;
 
     @PostMapping(value = "/model-assistance",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -31,19 +31,19 @@ public class BoardController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
-        return boardService.createMA(token, modelAssistanceCreateDto, title, details);
+        return modelAssistanceService.createMA(token, modelAssistanceCreateDto, title, details);
     }
 
     @PostMapping("/model-assistance/detail")
     public ResponseEntity<?> findModelAssistanceBoard(
             @RequestBody BoardRequestDto boardRequestDto
     ) {
-        return boardService.findMA(boardRequestDto);
+        return modelAssistanceService.findMA(boardRequestDto);
     }
 
     @GetMapping("/model-assistance")
-    public List<ModelAssistanceBoard> findAllModelAssistanceBoard() {
-        return boardService.findAllMA();
+    public List<ModelAssistance> findAllModelAssistanceBoard() {
+        return modelAssistanceService.findAllMA();
     }
 
     @PutMapping(value = "/model-assistance",
@@ -54,7 +54,7 @@ public class BoardController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
-        return boardService.updateMA(token, modelAssistanceUpdateDto, title, details);
+        return modelAssistanceService.updateMA(token, modelAssistanceUpdateDto, title, details);
     }
 
     @DeleteMapping("/model-assistance")
@@ -62,6 +62,6 @@ public class BoardController {
             @RequestHeader(value = "Token") String token,
             @RequestBody BoardRequestDto boardRequestDto
     ) {
-        return boardService.deleteMA(token, boardRequestDto);
+        return modelAssistanceService.deleteMA(token, boardRequestDto);
     }
 }
