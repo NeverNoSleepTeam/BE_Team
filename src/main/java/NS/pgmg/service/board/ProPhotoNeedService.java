@@ -53,7 +53,7 @@ public class ProPhotoNeedService {
         try {
             User findUser = userRepository.findByEmail(request.getEmail());
             ProPhotoBoard findBoard = proPhotoNeedRepository.
-                    findByBidAndBase_Email(request.getId(), request.getEmail());
+                    findByBidAndBaseBoard_Email(request.getId(), request.getEmail());
 
             BaseBoard findBaseBoard = findBoard.getBaseBoard();
 
@@ -90,7 +90,7 @@ public class ProPhotoNeedService {
             emailCheck(requestEmail, request.getEmail());
 
             ProPhotoBoard findBoard = proPhotoNeedRepository
-                    .findByBidAndBase_Email(request.getId(), request.getEmail());
+                    .findByBidAndBaseBoard_Email(request.getId(), request.getEmail());
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 

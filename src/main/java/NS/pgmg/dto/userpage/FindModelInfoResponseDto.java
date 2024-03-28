@@ -3,7 +3,7 @@ package NS.pgmg.dto.userpage;
 import NS.pgmg.domain.user.enums.City;
 import NS.pgmg.domain.user.enums.Gender;
 import NS.pgmg.domain.user.enums.Nationality;
-import NS.pgmg.domain.user.enums.Rank;
+import NS.pgmg.domain.user.enums.UserRank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ public class FindModelInfoResponseDto {
     private City city;
     private Nationality nationality;
     private String intro;
-    private Rank rank;
+    private UserRank userRank;
     private List<String> profileImgPath;
     private String height;
     private String weight;
@@ -30,7 +30,7 @@ public class FindModelInfoResponseDto {
 
     @Builder
     public FindModelInfoResponseDto(String email, String name, Gender gender, City city, Nationality nationality,
-                                    String intro, Rank rank, List<String> profileImgPath, String height,
+                                    String intro, UserRank userRank, List<String> profileImgPath, String height,
                                     String weight, String top, String bottom, String shoes, boolean isSelf) {
         this.email = email;
         this.name = name;
@@ -38,7 +38,7 @@ public class FindModelInfoResponseDto {
         this.city = city;
         this.nationality = nationality;
         this.intro = intro;
-        this.rank = rank;
+        this.userRank = userRank;
         this.profileImgPath = profileImgPath;
         this.height = height;
         this.weight = weight;

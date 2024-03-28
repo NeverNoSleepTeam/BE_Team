@@ -51,7 +51,7 @@ public class TalentDonationService {
         try {
             User findUser = userRepository.findByEmail(request.getEmail());
             TalentDonationBoard findBoard = talentDonationRepository.
-                    findByBidAndBase_Email(request.getId(), request.getEmail());
+                    findByBidAndBaseBoard_Email(request.getId(), request.getEmail());
 
             BaseBoard findBaseBoard = findBoard.getBaseBoard();
 
@@ -86,7 +86,7 @@ public class TalentDonationService {
             emailCheck(requestEmail, request.getEmail());
 
             TalentDonationBoard findBoard = talentDonationRepository
-                    .findByBidAndBase_Email(request.getId(), request.getEmail());
+                    .findByBidAndBaseBoard_Email(request.getId(), request.getEmail());
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 

@@ -49,7 +49,7 @@ public class ModelBoardTest {
 
         modelAssistanceRepository.save(modelBoard);
 
-        ModelBoard findBoard = modelAssistanceRepository.findByBidAndBase_Email(1L, "email");
+        ModelBoard findBoard = modelAssistanceRepository.findByBidAndBaseBoard_Email(1L, "email");
 
         assertThat(modelBoard).isEqualTo(findBoard);
     }

@@ -57,7 +57,7 @@ public class ModelAssistanceService {
         try {
             User findUser = userRepository.findByEmail(request.getEmail());
             ModelBoard findBoard = modelAssistanceRepository.
-                    findByBidAndBase_Email(request.getId(), request.getEmail());
+                    findByBidAndBaseBoard_Email(request.getId(), request.getEmail());
 
             BaseBoard findBaseBoard = findBoard.getBaseBoard();
 
@@ -102,7 +102,7 @@ public class ModelAssistanceService {
             emailCheck(requestEmail, request.getEmail());
 
             ModelBoard findBoard = modelAssistanceRepository
-                    .findByBidAndBase_Email(request.getId(), request.getEmail());
+                    .findByBidAndBaseBoard_Email(request.getId(), request.getEmail());
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 

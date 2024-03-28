@@ -52,7 +52,7 @@ public class PhotoShopService {
         try {
             User findUser = userRepository.findByEmail(request.getEmail());
             PhotoShopBoard findBoard = photoShopRepository.
-                    findByBidAndBase_Email(request.getId(), request.getEmail());
+                    findByBidAndBaseBoard_Email(request.getId(), request.getEmail());
 
             BaseBoard findBaseBoard = findBoard.getBaseBoard();
 
@@ -88,7 +88,7 @@ public class PhotoShopService {
             emailCheck(requestEmail, request.getEmail());
 
             PhotoShopBoard findBoard = photoShopRepository
-                    .findByBidAndBase_Email(request.getId(), request.getEmail());
+                    .findByBidAndBaseBoard_Email(request.getId(), request.getEmail());
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 

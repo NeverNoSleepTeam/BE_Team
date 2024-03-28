@@ -54,7 +54,7 @@ public class ModelNeedService {
         try {
             User findUser = userRepository.findByEmail(request.getEmail());
             ModelBoard findBoard = modelNeedRepository.
-                    findByBidAndBase_Email(request.getId(), request.getEmail());
+                    findByBidAndBaseBoard_Email(request.getId(), request.getEmail());
 
             BaseBoard findBaseBoard = findBoard.getBaseBoard();
 
@@ -91,7 +91,7 @@ public class ModelNeedService {
             emailCheck(requestEmail, request.getEmail());
 
             ModelBoard findBoard = modelNeedRepository
-                    .findByBidAndBase_Email(request.getId(), request.getEmail());
+                    .findByBidAndBaseBoard_Email(request.getId(), request.getEmail());
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 

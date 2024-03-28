@@ -2,7 +2,7 @@ package NS.pgmg.service;
 
 import NS.pgmg.config.JwtConfig;
 import NS.pgmg.domain.user.User;
-import NS.pgmg.domain.user.enums.Rank;
+import NS.pgmg.domain.user.enums.UserRank;
 import NS.pgmg.dto.login.LoginDto;
 import NS.pgmg.dto.login.SocialRegisterAndLoginDto;
 import NS.pgmg.dto.register.BasicRegisterDto;
@@ -56,7 +56,7 @@ public class UserService {
                     .city(request.getCity())
                     .nationality(request.getNationality())
                     .intro(request.getIntro())
-                    .rank(Rank.일반회원)
+                    .userRank(UserRank.일반회원)
                     .profileImgPath(null)
                     .isSocial(false)
                     .build();
@@ -171,7 +171,7 @@ public class UserService {
                 .city(findUser.getCity())
                 .nationality(findUser.getNationality())
                 .intro(findUser.getIntro())
-                .rank(findUser.getRank())
+                .userRank(findUser.getUserRank())
                 .profileImgPath(findUser.getProfileImgPath())
                 .isSelf(isSelf)
                 .build());
@@ -198,7 +198,7 @@ public class UserService {
                 .city(findUser.getCity())
                 .nationality(findUser.getNationality())
                 .intro(findUser.getIntro())
-                .rank(findUser.getRank())
+                .userRank(findUser.getUserRank())
                 .profileImgPath(findUser.getProfileImgPath())
                 .height(findUser.getHeight())
                 .weight(findUser.getWeight())
@@ -230,7 +230,7 @@ public class UserService {
                 .city(findUser.getCity())
                 .nationality(findUser.getNationality())
                 .intro(findUser.getIntro())
-                .rank(findUser.getRank())
+                .userRank(findUser.getUserRank())
                 .businessTrip(findUser.getBusinessTrip())
                 .correction(findUser.getCorrection())
                 .production(findUser.getProduction())
@@ -305,7 +305,7 @@ public class UserService {
             return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 이메일입니다."));
         }
 
-        findUser.updateRank(request.getRank());
+        findUser.updateRank(request.getUserRank());
         return ResponseEntity.ok().body(Map.of("message", "프로필 전환이 완료됐습니다."));
     }
 

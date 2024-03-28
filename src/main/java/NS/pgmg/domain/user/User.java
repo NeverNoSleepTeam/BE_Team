@@ -48,7 +48,7 @@ public class User {
     @ElementCollection
     private List<String> profileImgPath;
 
-    private Rank rank;
+    private UserRank userRank;
 
     private boolean isSocial;
 
@@ -84,7 +84,7 @@ public class User {
 
     @Builder
     public User(String email, String passwd, String name, Gender gender, City city, Nationality nationality,
-                String intro, Rank rank, List<String> profileImgPath, boolean isSocial) {
+                String intro, UserRank userRank, List<String> profileImgPath, boolean isSocial) {
         this.email = email;
         this.passwd = passwd;
         this.name = name;
@@ -92,7 +92,7 @@ public class User {
         this.nationality = nationality;
         this.city = city;
         this.intro = intro;
-        this.rank = rank;
+        this.userRank = userRank;
         this.profileImgPath = profileImgPath;
         this.isSocial = isSocial;
     }
@@ -123,7 +123,7 @@ public class User {
         this.intro = basicInfo.getIntro();
     }
 
-    public void updateRank(Rank rank) {
-        this.rank = rank;
+    public void updateRank(UserRank userRank) {
+        this.userRank = userRank;
     }
 }

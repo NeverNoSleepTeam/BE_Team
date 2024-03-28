@@ -1,6 +1,6 @@
 package NS.pgmg.dto.userpage;
 
-import NS.pgmg.domain.user.enums.Rank;
+import NS.pgmg.domain.user.enums.UserRank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChangeRankRequestDto {
     String email;
-    Rank rank;
+    UserRank userRank;
 }

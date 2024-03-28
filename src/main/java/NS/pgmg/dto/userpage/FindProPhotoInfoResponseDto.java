@@ -16,7 +16,7 @@ public class FindProPhotoInfoResponseDto {
     private City city;
     private Nationality nationality;
     private String intro;
-    private Rank rank;
+    private UserRank userRank;
     private List<String> profileImgPath;
     private BusinessTrip businessTrip;
     private Correction correction;
@@ -26,7 +26,7 @@ public class FindProPhotoInfoResponseDto {
 
     @Builder
     public FindProPhotoInfoResponseDto(String email, String name, Gender gender, City city, Nationality nationality,
-                                       String intro, Rank rank, List<String> profileImgPath,
+                                       String intro, UserRank userRank, List<String> profileImgPath,
                                        BusinessTrip businessTrip, Correction correction, Production production,
                                        String portfolioPath, boolean isSelf) {
         this.email = email;
@@ -35,7 +35,7 @@ public class FindProPhotoInfoResponseDto {
         this.city = city;
         this.nationality = nationality;
         this.intro = intro;
-        this.rank = rank;
+        this.userRank = userRank;
         this.profileImgPath = profileImgPath;
         this.businessTrip = businessTrip;
         this.correction = correction;
