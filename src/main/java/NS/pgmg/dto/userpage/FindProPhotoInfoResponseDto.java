@@ -1,17 +1,23 @@
 package NS.pgmg.dto.userpage;
 
-import NS.pgmg.domain.user.enums.BusinessTrip;
-import NS.pgmg.domain.user.enums.Correction;
-import NS.pgmg.domain.user.enums.Production;
+import NS.pgmg.domain.user.enums.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class FindProPhotoInfoResponseDto {
     private String email;
     private String name;
+    private Gender gender;
+    private City city;
+    private Nationality nationality;
+    private String intro;
+    private Rank rank;
+    private List<String> profileImgPath;
     private BusinessTrip businessTrip;
     private Correction correction;
     private Production production;
@@ -19,10 +25,18 @@ public class FindProPhotoInfoResponseDto {
     private boolean isSelf;
 
     @Builder
-    public FindProPhotoInfoResponseDto(String email, String name, BusinessTrip businessTrip, Correction correction,
-                                       Production production, String portfolioPath, boolean isSelf) {
+    public FindProPhotoInfoResponseDto(String email, String name, Gender gender, City city, Nationality nationality,
+                                       String intro, Rank rank, List<String> profileImgPath,
+                                       BusinessTrip businessTrip, Correction correction, Production production,
+                                       String portfolioPath, boolean isSelf) {
         this.email = email;
         this.name = name;
+        this.gender = gender;
+        this.city = city;
+        this.nationality = nationality;
+        this.intro = intro;
+        this.rank = rank;
+        this.profileImgPath = profileImgPath;
         this.businessTrip = businessTrip;
         this.correction = correction;
         this.production = production;
