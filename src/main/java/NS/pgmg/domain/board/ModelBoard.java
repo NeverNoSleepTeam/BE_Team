@@ -10,34 +10,32 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-public class ModelAssistance {
+public class ModelBoard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bid;
 
     @Embedded
-    private Base base;
+    private BaseBoard baseBoard;
 
-    private List<ModelAssistanceCategory> modelAssistanceCategory;
+    private List<ModelCategory> modelCategory;
 
     private String place;
 
     private Integer price;
 
     @Builder
-    public ModelAssistance(Base base, List<ModelAssistanceCategory> modelAssistanceCategory,
-                           String place, Integer price) {
-        this.base = base;
-        this.modelAssistanceCategory = modelAssistanceCategory;
+    public ModelBoard(BaseBoard baseBoard, List<ModelCategory> modelCategory, String place, Integer price) {
+        this.baseBoard = baseBoard;
+        this.modelCategory = modelCategory;
         this.place = place;
         this.price = price;
     }
 
-    public void setUpdateBoard(Base base, List<ModelAssistanceCategory> modelAssistanceCategory,
-                               String place, Integer price) {
-        this.base = base;
-        this.modelAssistanceCategory = modelAssistanceCategory;
+    public void updateBoard(BaseBoard baseBoard, List<ModelCategory> modelCategory, String place, Integer price) {
+        this.baseBoard = baseBoard;
+        this.modelCategory = modelCategory;
         this.place = place;
         this.price = price;
     }
@@ -46,8 +44,8 @@ public class ModelAssistance {
     public String toString() {
         return "ModelAssistanceBoard{" +
                 "bid=" + bid +
-                ", base=" + base +
-                ", modelAssistanceCategory=" + modelAssistanceCategory +
+                ", base=" + baseBoard +
+                ", modelCategory=" + modelCategory +
                 ", place='" + place + '\'' +
                 ", price=" + price +
                 '}';
