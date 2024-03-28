@@ -1,6 +1,6 @@
 package NS.pgmg.dto.board;
 
-import NS.pgmg.domain.board.ModelAssistanceCategory;
+import NS.pgmg.domain.board.ModelCategory;
 import NS.pgmg.domain.user.enums.City;
 import NS.pgmg.domain.user.enums.Gender;
 import NS.pgmg.domain.user.enums.Nationality;
@@ -13,15 +13,16 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class ModelAssistanceFindResponseDto {
+public class FindModelAssistanceResponseDto {
     private String name;
-    private LocalDateTime createdAt;
     private String title;
+    private String contents;
     private Integer price;
-    private List<ModelAssistanceCategory> modelAssistanceCategory;
+    private String place;
+    private List<ModelCategory> modelCategory;
+    private LocalDateTime createdAt;
     private String firstDate;
     private String lastDate;
-    private String place;
     private Gender gender;
     private String height;
     private String weight;
@@ -34,20 +35,20 @@ public class ModelAssistanceFindResponseDto {
     private List<String> detailPath;
 
     @Builder
-
-    public ModelAssistanceFindResponseDto(String name, LocalDateTime createdAt, String title, Integer price,
-                                          List<ModelAssistanceCategory> modelAssistanceCategory, String firstDate, String lastDate,
-                                          String place, Gender gender, String height, String weight, String top,
+    public FindModelAssistanceResponseDto(String name, String title, String contents, Integer price, String place,
+                                          List<ModelCategory> modelCategory, LocalDateTime createdAt, String firstDate,
+                                          String lastDate, Gender gender, String height, String weight, String top,
                                           String bottom, String shoes, Nationality nationality, City city,
                                           String titlePath, List<String> detailPath) {
         this.name = name;
-        this.createdAt = createdAt;
         this.title = title;
+        this.contents = contents;
         this.price = price;
-        this.modelAssistanceCategory = modelAssistanceCategory;
+        this.place = place;
+        this.modelCategory = modelCategory;
+        this.createdAt = createdAt;
         this.firstDate = firstDate;
         this.lastDate = lastDate;
-        this.place = place;
         this.gender = gender;
         this.height = height;
         this.weight = weight;
