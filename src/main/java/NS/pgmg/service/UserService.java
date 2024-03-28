@@ -2,6 +2,7 @@ package NS.pgmg.service;
 
 import NS.pgmg.config.JwtConfig;
 import NS.pgmg.domain.user.User;
+import NS.pgmg.domain.user.enums.Rank;
 import NS.pgmg.dto.login.LoginDto;
 import NS.pgmg.dto.login.SocialRegisterAndLoginDto;
 import NS.pgmg.dto.register.BasicRegisterDto;
@@ -55,6 +56,7 @@ public class UserService {
                     .city(request.getCity())
                     .nationality(request.getNationality())
                     .intro(request.getIntro())
+                    .rank(Rank.일반회원)
                     .profileImgPath(null)
                     .isSocial(false)
                     .build();
@@ -159,7 +161,7 @@ public class UserService {
         User findUser = userRepository.findByEmail(request.getEmail());
 
         if (findUser == null) {
-            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 이메일입니다."));
         }
 
         return ResponseEntity.ok().body(FindBasicInfoResponseDto.builder()
@@ -169,6 +171,7 @@ public class UserService {
                 .city(findUser.getCity())
                 .nationality(findUser.getNationality())
                 .intro(findUser.getIntro())
+                .rank(findUser.getRank())
                 .profileImgPath(findUser.getProfileImgPath())
                 .isSelf(isSelf)
                 .build());
@@ -185,12 +188,18 @@ public class UserService {
         User findUser = userRepository.findByEmail(request.getEmail());
 
         if (findUser == null) {
-            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 이메일입니다."));
         }
 
         return ResponseEntity.ok().body(FindModelInfoResponseDto.builder()
                 .email(findUser.getEmail())
                 .name(findUser.getName())
+                .gender(findUser.getGender())
+                .city(findUser.getCity())
+                .nationality(findUser.getNationality())
+                .intro(findUser.getIntro())
+                .rank(findUser.getRank())
+                .profileImgPath(findUser.getProfileImgPath())
                 .height(findUser.getHeight())
                 .weight(findUser.getWeight())
                 .top(findUser.getTop())
@@ -211,12 +220,17 @@ public class UserService {
         User findUser = userRepository.findByEmail(request.getEmail());
 
         if (findUser == null) {
-            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 이메일입니다."));
         }
 
         return ResponseEntity.ok().body(FindProPhotoInfoResponseDto.builder()
                 .email(findUser.getEmail())
                 .name(findUser.getName())
+                .gender(findUser.getGender())
+                .city(findUser.getCity())
+                .nationality(findUser.getNationality())
+                .intro(findUser.getIntro())
+                .rank(findUser.getRank())
                 .businessTrip(findUser.getBusinessTrip())
                 .correction(findUser.getCorrection())
                 .production(findUser.getProduction())
@@ -236,7 +250,7 @@ public class UserService {
         User findUser = userRepository.findByEmail(request.getEmail());
 
         if (findUser == null) {
-            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 닉네임입니다."));
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 이메일입니다."));
         }
         return ResponseEntity.ok().body(Map.of("requestBody", findUser, "self", isSelf));
     }
@@ -274,10 +288,25 @@ public class UserService {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void basicUserNameDuplicateCheck(String name) {
-        User findUser = userRepository.findByEmail(name);
+        User findUser = userRepository.findByName(name);
         if (findUser != null) {
             throw new RuntimeException("이미 존재하는 닉네임입니다.");
         }
+    }
+
+    /**
+     * 회원등급변경
+     */
+    @Transactional
+    public ResponseEntity<Map<String, String>> changeRank(ChangeRankRequestDto request) {
+        User findUser = userRepository.findByEmail(request.getEmail());
+
+        if (findUser == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 이메일입니다."));
+        }
+
+        findUser.updateRank(request.getRank());
+        return ResponseEntity.ok().body(Map.of("message", "프로필 전환이 완료됐습니다."));
     }
 
     /**
