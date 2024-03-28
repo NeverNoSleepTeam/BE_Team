@@ -67,6 +67,7 @@ public class PhotoShopService {
                     .lastDate(findBaseBoard.getLastDate())
                     .titlePath(findBaseBoard.getTitlePath())
                     .detailPath(findBaseBoard.getDetailPaths())
+                    .userRank(findUser.getUserRank())
                     .build()
             );
         } catch (RuntimeException e) {

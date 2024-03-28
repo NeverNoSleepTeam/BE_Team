@@ -81,6 +81,7 @@ public class ModelAssistanceService {
                     .city(findUser.getCity())
                     .titlePath(findBaseBoard.getTitlePath())
                     .detailPath(findBaseBoard.getDetailPaths())
+                    .userRank(findUser.getUserRank())
                     .build()
             );
         } catch (RuntimeException e) {

@@ -65,6 +65,7 @@ public class TalentDonationService {
                     .lastDate(findBaseBoard.getLastDate())
                     .titlePath(findBaseBoard.getTitlePath())
                     .detailPath(findBaseBoard.getDetailPaths())
+                    .userRank(findUser.getUserRank())
                     .build()
             );
         } catch (RuntimeException e) {

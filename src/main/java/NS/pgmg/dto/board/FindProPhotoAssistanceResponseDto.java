@@ -31,6 +31,7 @@ public class FindProPhotoAssistanceResponseDto {
     private String portfolioPath;
     private String titlePath;
     private List<String> detailPath;
+    private UserRank userRank;
 
     @Builder
     public FindProPhotoAssistanceResponseDto(String name, String title, String contents, Integer price, String place,
@@ -38,7 +39,7 @@ public class FindProPhotoAssistanceResponseDto {
                                              String firstDate, String lastDate, Gender gender, Nationality nationality,
                                              City city, BusinessTrip businessTrip, Correction correction,
                                              Production production, String URL, String portfolioPath, String titlePath,
-                                             List<String> detailPath) {
+                                             List<String> detailPath, UserRank userRank) {
         this.name = name;
         this.title = title;
         this.contents = contents;
@@ -58,5 +59,6 @@ public class FindProPhotoAssistanceResponseDto {
         this.portfolioPath = portfolioPath;
         this.titlePath = titlePath;
         this.detailPath = detailPath;
+        this.userRank = userRank;
     }
 }
