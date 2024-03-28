@@ -1,12 +1,12 @@
 package NS.pgmg.service.board;
 
-import NS.pgmg.domain.board.Base;
-import NS.pgmg.domain.board.ModelAssistance;
+import NS.pgmg.domain.board.BaseBoard;
+import NS.pgmg.domain.board.ModelBoard;
 import NS.pgmg.domain.user.User;
 import NS.pgmg.dto.board.BoardRequestDto;
-import NS.pgmg.dto.board.ModelAssistanceCreateDto;
-import NS.pgmg.dto.board.ModelAssistanceFindResponseDto;
-import NS.pgmg.dto.board.ModelAssistanceUpdateDto;
+import NS.pgmg.dto.board.CreateModelDto;
+import NS.pgmg.dto.board.FindModelAssistanceResponseDto;
+import NS.pgmg.dto.board.UpdateModelDto;
 import NS.pgmg.repository.board.ModelAssistanceRepository;
 import NS.pgmg.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,22 +29,22 @@ public class ModelAssistanceService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ResponseEntity<Map<String, String>> createMA(String token, ModelAssistanceCreateDto request,
-                                                        MultipartFile title, List<MultipartFile> details) {
+    public ResponseEntity<Map<String, String>> create(String token, CreateModelDto request,
+                                                      MultipartFile title, List<MultipartFile> details) {
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
             String titleValue = saveFile(title);
             List<String> detailsValue = saveFiles(details);
 
-            Base base = Base.setBaseBoard(request, requestEmail, titleValue, detailsValue);
-            ModelAssistance modelAssistance = ModelAssistance.builder()
-                    .base(base)
-                    .modelAssistanceCategory(request.getModelAssistanceCategory())
+            BaseBoard baseBoard = BaseBoard.setModelBase(request, requestEmail, titleValue, detailsValue);
+            ModelBoard modelBoard = ModelBoard.builder()
+                    .baseBoard(baseBoard)
+                    .modelCategory(request.getModelCategory())
                     .place(request.getPlace())
                     .price(request.getPrice())
                     .build();
-            modelAssistanceRepository.save(modelAssistance);
+            modelAssistanceRepository.save(modelBoard);
 
             return ResponseEntity.ok().body(Map.of("message", "게시물이 생성됐습니다."));
         } catch (RuntimeException e) {
@@ -53,23 +53,24 @@ public class ModelAssistanceService {
     }
 
     @Transactional
-    public ResponseEntity<?> findMA(BoardRequestDto request) {
+    public ResponseEntity<?> find(BoardRequestDto request) {
         try {
             User findUser = userRepository.findByEmail(request.getEmail());
-            ModelAssistance findBoard = modelAssistanceRepository.
+            ModelBoard findBoard = modelAssistanceRepository.
                     findByBidAndBase_Email(request.getId(), request.getEmail());
 
-            Base findBase = findBoard.getBase();
+            BaseBoard findBaseBoard = findBoard.getBaseBoard();
 
-            return ResponseEntity.ok().body(ModelAssistanceFindResponseDto.builder()
+            return ResponseEntity.ok().body(FindModelAssistanceResponseDto.builder()
                     .name(findUser.getName())
-                    .createdAt(findBase.getCreatedAt())
-                    .title(findBase.getTitle())
+                    .createdAt(findBaseBoard.getCreatedAt())
+                    .title(findBaseBoard.getTitle())
+                    .contents(findBaseBoard.getContents())
                     .price(findBoard.getPrice())
-                    .modelAssistanceCategory(findBoard.getModelAssistanceCategory())
-                    .firstDate(findBase.getFirstDate())
-                    .lastDate(findBase.getLastDate())
                     .place(findBoard.getPlace())
+                    .modelCategory(findBoard.getModelCategory())
+                    .firstDate(findBaseBoard.getFirstDate())
+                    .lastDate(findBaseBoard.getLastDate())
                     .gender(findUser.getGender())
                     .height(findUser.getHeight())
                     .weight(findUser.getWeight())
@@ -78,8 +79,8 @@ public class ModelAssistanceService {
                     .shoes(findUser.getShoes())
                     .nationality(findUser.getNationality())
                     .city(findUser.getCity())
-                    .titlePath(findBase.getTitlePath())
-                    .detailPath(findBase.getDetailPaths())
+                    .titlePath(findBaseBoard.getTitlePath())
+                    .detailPath(findBaseBoard.getDetailPaths())
                     .build()
             );
         } catch (RuntimeException e) {
@@ -88,38 +89,38 @@ public class ModelAssistanceService {
     }
 
     @Transactional
-    public List<ModelAssistance> findAllMA() {
+    public List<ModelBoard> findAll() {
         return modelAssistanceRepository.findAll();
     }
 
     @Transactional
-    public ResponseEntity<Map<String, String>> updateMA(String token, ModelAssistanceUpdateDto request,
-                                                     MultipartFile title, List<MultipartFile> details) {
+    public ResponseEntity<Map<String, String>> update(String token, UpdateModelDto request,
+                                                      MultipartFile title, List<MultipartFile> details) {
         try {
             String requestEmail = tokenCheck(token);
 
             emailCheck(requestEmail, request.getEmail());
 
-            ModelAssistance findBoard = modelAssistanceRepository
+            ModelBoard findBoard = modelAssistanceRepository
                     .findByBidAndBase_Email(request.getId(), request.getEmail());
 
-            Base base = findBoard.getBase();
+            BaseBoard baseBoard = findBoard.getBaseBoard();
 
-            String titlePath = updateFile(title, base.getTitlePath());
-            List<String> detailsPaths = updateFiles(details, base.getDetailPaths());
+            String titlePath = updateFile(title, baseBoard.getTitlePath());
+            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths());
 
-            Base updateBase = Base.builder()
+            BaseBoard updateBaseBoard = BaseBoard.builder()
                     .email(request.getEmail())
                     .title(request.getTitle())
                     .contents(request.getContents())
-                    .createdAt(base.getCreatedAt())
+                    .createdAt(baseBoard.getCreatedAt())
                     .firstDate(request.getFirstDate())
                     .lastDate(request.getLastDate())
                     .titlePath(titlePath)
                     .detailPaths(detailsPaths)
                     .build();
 
-            findBoard.setUpdateBoard(updateBase, request.getModelAssistanceCategory(), request.getPlace(), request.getPrice());
+            findBoard.updateBoard(updateBaseBoard, request.getModelCategory(), request.getPlace(), request.getPrice());
 
             modelAssistanceRepository.save(findBoard);
 
@@ -131,7 +132,7 @@ public class ModelAssistanceService {
     }
 
     @Transactional
-    public ResponseEntity<Map<String, String>> deleteMA(String token, BoardRequestDto request) {
+    public ResponseEntity<Map<String, String>> delete(String token, BoardRequestDto request) {
         try {
             String requestEmail = tokenCheck(token);
 
