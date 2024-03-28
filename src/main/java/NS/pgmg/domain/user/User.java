@@ -48,6 +48,8 @@ public class User {
     @ElementCollection
     private List<String> profileImgPath;
 
+    private Rank rank;
+
     private boolean isSocial;
 
     // ---------------------------------- Model Info ----------------------------------
@@ -73,6 +75,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Production production;
 
+    private String URL;
+
     private String portfolioPath;
 
     private boolean isProPhoto;
@@ -80,7 +84,7 @@ public class User {
 
     @Builder
     public User(String email, String passwd, String name, Gender gender, City city, Nationality nationality,
-                String intro, List<String> profileImgPath, boolean isSocial) {
+                String intro, Rank rank, List<String> profileImgPath, boolean isSocial) {
         this.email = email;
         this.passwd = passwd;
         this.name = name;
@@ -88,6 +92,7 @@ public class User {
         this.nationality = nationality;
         this.city = city;
         this.intro = intro;
+        this.rank = rank;
         this.profileImgPath = profileImgPath;
         this.isSocial = isSocial;
     }
@@ -105,6 +110,7 @@ public class User {
         this.businessTrip = proPhotoInfo.getBusinessTrip();
         this.correction = proPhotoInfo.getCorrection();
         this.production = proPhotoInfo.getProduction();
+        this.URL = proPhotoInfo.getURL();
         this.portfolioPath = filePath;
         this.isProPhoto = true;
     }
@@ -115,5 +121,9 @@ public class User {
         this.nationality = basicInfo.getNationality();
         this.city = basicInfo.getCity();
         this.intro = basicInfo.getIntro();
+    }
+
+    public void updateRank(Rank rank) {
+        this.rank = rank;
     }
 }
