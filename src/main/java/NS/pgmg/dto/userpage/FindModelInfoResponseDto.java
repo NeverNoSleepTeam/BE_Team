@@ -20,7 +20,7 @@ public class FindModelInfoResponseDto {
     private Nationality nationality;
     private String intro;
     private UserRank userRank;
-    private List<String> profileImgPath;
+    private List<String> profileModelImgPath;
     private String height;
     private String weight;
     private String top;
@@ -30,7 +30,7 @@ public class FindModelInfoResponseDto {
 
     @Builder
     public FindModelInfoResponseDto(String email, String name, Gender gender, City city, Nationality nationality,
-                                    String intro, UserRank userRank, List<String> profileImgPath, String height,
+                                    String intro, UserRank userRank, List<String> profileModelImgPath, String height,
                                     String weight, String top, String bottom, String shoes, boolean isSelf) {
         this.email = email;
         this.name = name;
@@ -39,7 +39,7 @@ public class FindModelInfoResponseDto {
         this.nationality = nationality;
         this.intro = intro;
         this.userRank = userRank;
-        this.profileImgPath = profileImgPath;
+        this.profileModelImgPath = profileModelImgPath;
         this.height = height;
         this.weight = weight;
         this.top = top;
