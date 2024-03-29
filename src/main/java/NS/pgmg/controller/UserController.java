@@ -9,6 +9,8 @@ import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
 import NS.pgmg.dto.userpage.FindByEmailDto;
 import NS.pgmg.dto.userpage.UpdateBasicInfoRequestDto;
+import NS.pgmg.dto.userpage.UpdateModelInfoRequestDto;
+import NS.pgmg.dto.userpage.UpdateProPhotoInfoRequestDto;
 import NS.pgmg.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -44,7 +47,7 @@ public class UserController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Map<String, String>> proPhotoRegister(
             @RequestPart(value = "RequestBody") ProPhotoRegisterDto proPhotoRegisterDto,
-            @RequestPart(value = "file", required = false) MultipartFile file
+            @RequestPart(value = "File", required = false) MultipartFile file
     ) {
         return userService.createProPhotoUser(proPhotoRegisterDto, file);
     }
@@ -127,4 +130,78 @@ public class UserController {
     ) {
         return userService.updateBasicInfo(token, updateBasicInfoRequestDto);
     }
+
+    @PutMapping("/user/info/model")
+    public ResponseEntity<Map<String, String>> updateModelInfo(
+            @RequestHeader(value = "Token") String token,
+            @RequestBody UpdateModelInfoRequestDto updateModelInfoRequestDto
+    ) {
+        return userService.updateModelInfo(token, updateModelInfoRequestDto);
+    }
+
+    @PutMapping(value = "/user/info/pro-photo",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Map<String, String>> updateProPhotoInfo(
+            @RequestHeader(value = "Token") String token,
+            @RequestPart(value = "RequestBody") UpdateProPhotoInfoRequestDto updateProPhotoInfoRequestDto,
+            @RequestPart(value = "File", required = false) MultipartFile file
+    ) {
+        return userService.updateProPhotoInfo(token, updateProPhotoInfoRequestDto, file);
+    }
+
+    @PutMapping("/user/info/rank/basic")
+    public ResponseEntity<Map<String, String>> transformBasic(
+            @RequestHeader(value = "Token") String token,
+            @RequestBody FindByEmailDto findByEmailDto
+    ) {
+        return userService.changeBasicRank(token, findByEmailDto);
+    }
+
+    @PutMapping("/user/info/rank/model")
+    public ResponseEntity<Map<String, String>> transformModel(
+            @RequestHeader(value = "Token") String token,
+            @RequestBody FindByEmailDto findByEmailDto
+    ) {
+        return userService.changeModelRank(token, findByEmailDto);
+    }
+
+    @PutMapping("/user/info/rank/pro-photo")
+    public ResponseEntity<Map<String, String>> transformProPhoto(
+            @RequestHeader(value = "Token") String token,
+            @RequestBody FindByEmailDto findByEmailDto
+    ) {
+        return userService.changeProPhotoRank(token, findByEmailDto);
+    }
+
+    @PutMapping(value = "/user/info/img/basic",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Map<String, String>> transformBasicImg(
+            @RequestHeader(value = "Token") String token,
+            @RequestPart(value = "RequestBody") FindByEmailDto findByEmailDto,
+            @RequestPart(value = "Files", required = false) List<MultipartFile> files
+    ) {
+        return userService.changeBasicImg(token, findByEmailDto, files);
+    }
+
+    @PutMapping(value = "/user/info/img/model",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Map<String, String>> transformModelImg(
+            @RequestHeader(value = "Token") String token,
+            @RequestPart(value = "RequestBody") FindByEmailDto findByEmailDto,
+            @RequestPart(value = "Files", required = false) List<MultipartFile> files
+    ) {
+        return userService.changeModelImg(token, findByEmailDto, files);
+    }
+
+    @PutMapping(value = "/user/info/img/pro-photo",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Map<String, String>> transformProPhotoImg(
+            @RequestHeader(value = "Token") String token,
+            @RequestPart(value = "RequestBody") FindByEmailDto findByEmailDto,
+            @RequestPart(value = "Files", required = false) List<MultipartFile> files
+    ) {
+        return userService.changeProPhotoImg(token, findByEmailDto, files);
+    }
+
+
 }
