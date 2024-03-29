@@ -22,11 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static NS.pgmg.service.CommonMethod.emailCheck;
-import static NS.pgmg.service.CommonMethod.tokenCheck;
+import static NS.pgmg.service.CommonMethod.*;
 
 @Slf4j
 @Service
@@ -57,7 +57,6 @@ public class UserService {
                     .nationality(request.getNationality())
                     .intro(request.getIntro())
                     .userRank(UserRank.일반회원)
-                    .profileImgPath(null)
                     .isSocial(false)
                     .build();
 
@@ -172,7 +171,7 @@ public class UserService {
                 .nationality(findUser.getNationality())
                 .intro(findUser.getIntro())
                 .userRank(findUser.getUserRank())
-                .profileImgPath(findUser.getProfileImgPath())
+                .profileBasicImgPath(findUser.getProfileBasicImgPath())
                 .isSelf(isSelf)
                 .build());
     }
@@ -199,7 +198,7 @@ public class UserService {
                 .nationality(findUser.getNationality())
                 .intro(findUser.getIntro())
                 .userRank(findUser.getUserRank())
-                .profileImgPath(findUser.getProfileImgPath())
+                .profileModelImgPath(findUser.getProfileModelImgPath())
                 .height(findUser.getHeight())
                 .weight(findUser.getWeight())
                 .top(findUser.getTop())
@@ -234,6 +233,7 @@ public class UserService {
                 .businessTrip(findUser.getBusinessTrip())
                 .correction(findUser.getCorrection())
                 .production(findUser.getProduction())
+                .profileProPhotoImgPath(findUser.getProfileProPhotoImgPath())
                 .portfolioPath(findUser.getPortfolioPath())
                 .isSelf(isSelf)
                 .build());
@@ -263,8 +263,37 @@ public class UserService {
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
-            User findUser = userRepository.findByEmail(requestEmail);
+            User findUser = userRepository.findByEmail(request.getEmail());
             findUser.updateBasicInfo(request);
+            userRepository.save(findUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+        return ResponseEntity.ok().body(Map.of("message", "수정이 완료됐습니다."));
+    }
+
+    @Transactional
+    public ResponseEntity<Map<String, String>> updateModelInfo(String token, UpdateModelInfoRequestDto request) {
+        try {
+            String requestEmail = tokenCheck(token);
+            emailCheck(requestEmail, request.getEmail());
+            User findUser = userRepository.findByEmail(request.getEmail());
+            findUser.updateModelInfo(request);
+            userRepository.save(findUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+        return ResponseEntity.ok().body(Map.of("message", "수정이 완료됐습니다."));
+    }
+
+    @Transactional
+    public ResponseEntity<Map<String, String>> updateProPhotoInfo(String token, UpdateProPhotoInfoRequestDto request,
+                                                                  MultipartFile file) {
+        try {
+            String requestEmail = tokenCheck(token);
+            emailCheck(requestEmail, request.getEmail());
+            User findUser = userRepository.findByEmail(request.getEmail());
+            findUser.updateProPhotoInfo(request, updatePDF(file, findUser.getPortfolioPath()));
             userRepository.save(findUser);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
@@ -295,18 +324,123 @@ public class UserService {
     }
 
     /**
-     * 회원등급변경
+     * 회원 등급 변경(일반)
      */
     @Transactional
-    public ResponseEntity<Map<String, String>> changeRank(ChangeRankRequestDto request) {
+    public ResponseEntity<Map<String, String>> changeBasicRank(String token, FindByEmailDto request) {
+        try {
+            String requestEmail = tokenCheck(token);
+            emailCheck(requestEmail, request.getEmail());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+
         User findUser = userRepository.findByEmail(request.getEmail());
 
         if (findUser == null) {
             return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 이메일입니다."));
         }
 
-        findUser.updateRank(request.getUserRank());
+        findUser.updateRank(UserRank.일반회원);
+        userRepository.save(findUser);
         return ResponseEntity.ok().body(Map.of("message", "프로필 전환이 완료됐습니다."));
+    }
+
+    /**
+     * 회원 등급 변경(모델)
+     */
+    @Transactional
+    public ResponseEntity<Map<String, String>> changeModelRank(String token, FindByEmailDto request) {
+        try {
+            String requestEmail = tokenCheck(token);
+            emailCheck(requestEmail, request.getEmail());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+
+        User findUser = userRepository.findByEmail(request.getEmail());
+
+        if (findUser == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 이메일입니다."));
+        }
+
+        findUser.updateRank(UserRank.모델회원);
+        userRepository.save(findUser);
+        return ResponseEntity.ok().body(Map.of("message", "프로필 전환이 완료됐습니다."));
+    }
+
+    /**
+     * 회원 등급 변경(사진기사)
+     */
+    @Transactional
+    public ResponseEntity<Map<String, String>> changeProPhotoRank(String token, FindByEmailDto request) {
+        try {
+            String requestEmail = tokenCheck(token);
+            emailCheck(requestEmail, request.getEmail());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+
+        User findUser = userRepository.findByEmail(request.getEmail());
+
+        if (findUser == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "존재하지 않는 이메일입니다."));
+        }
+
+        findUser.updateRank(UserRank.사진기사회원);
+        userRepository.save(findUser);
+        return ResponseEntity.ok().body(Map.of("message", "프로필 전환이 완료됐습니다."));
+    }
+
+    @Transactional
+    public ResponseEntity<Map<String,String>> changeBasicImg(String token, FindByEmailDto request,
+                                                             List<MultipartFile> files) {
+        try {
+            String requestEmail = tokenCheck(token);
+            emailCheck(requestEmail, request.getEmail());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+
+        User findUser = userRepository.findByEmail(request.getEmail());
+        findUser.changeBasicImg(updateFiles(files, findUser.getProfileBasicImgPath(), filePath));
+        userRepository.save(findUser);
+
+        return ResponseEntity.ok().body(Map.of("message", "변경이 완료됐습니다."));
+    }
+
+    @Transactional
+    public ResponseEntity<Map<String, String>> changeModelImg(String token, FindByEmailDto request,
+                                                              List<MultipartFile> files) {
+        try {
+            String requestEmail = tokenCheck(token);
+            emailCheck(requestEmail, request.getEmail());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+
+        User findUser = userRepository.findByEmail(request.getEmail());
+        findUser.changeModelImg(updateFiles(files, findUser.getProfileModelImgPath(), filePath));
+        userRepository.save(findUser);
+
+        return ResponseEntity.ok().body(Map.of("message", "변경이 완료됐습니다."));
+    }
+
+    @Transactional
+    public ResponseEntity<Map<String, String>> changeProPhotoImg(String token, FindByEmailDto request,
+                                                                 List<MultipartFile> files) {
+        try {
+            String requestEmail = tokenCheck(token);
+            emailCheck(requestEmail, request.getEmail());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+
+        User findUser = userRepository.findByEmail(request.getEmail());
+        findUser.changeProPhotoImg(updateFiles(files, findUser.getProfileProPhotoImgPath(), filePath));
+        userRepository.save(findUser);
+
+        return ResponseEntity.ok().body(Map.of("message", "변경이 완료됐습니다."));
     }
 
     /**
@@ -337,6 +471,30 @@ public class UserService {
         }
 
         return savedPath;
+    }
+
+    private String updatePDF(MultipartFile file, String path) {
+
+        String fileName;
+
+        if (path != null) {
+            fileName = path.replace("/portfolio/", "");
+            deleteFile(fileName, filePath);
+        }
+
+        if (file != null) {
+            fileName = createRandomUuid() + ".pdf";
+
+            try {
+                file.transferTo(new File(filePath + fileName));
+            } catch (IOException e) {
+                throw new RuntimeException("pdf 저장 오류", e);
+            }
+
+            return "/portfolio/" + fileName;
+        }
+
+        return null;
     }
 }
 
