@@ -4,6 +4,8 @@ import NS.pgmg.domain.user.enums.*;
 import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
 import NS.pgmg.dto.userpage.UpdateBasicInfoRequestDto;
+import NS.pgmg.dto.userpage.UpdateModelInfoRequestDto;
+import NS.pgmg.dto.userpage.UpdateProPhotoInfoRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -46,7 +48,7 @@ public class User {
     private String intro;
 
     @ElementCollection
-    private List<String> profileImgPath;
+    private List<String> profileBasicImgPath;
 
     private UserRank userRank;
 
@@ -63,6 +65,9 @@ public class User {
 
     private String shoes;
 
+    @ElementCollection
+    private List<String> profileModelImgPath;
+
     private boolean isModel;
 
     // ---------------------------------- ProPhoto Info ----------------------------------
@@ -75,6 +80,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Production production;
 
+    @ElementCollection
+    private List<String> profileProPhotoImgPath;
+
     private String URL;
 
     private String portfolioPath;
@@ -84,7 +92,7 @@ public class User {
 
     @Builder
     public User(String email, String passwd, String name, Gender gender, City city, Nationality nationality,
-                String intro, UserRank userRank, List<String> profileImgPath, boolean isSocial) {
+                String intro, UserRank userRank, boolean isSocial) {
         this.email = email;
         this.passwd = passwd;
         this.name = name;
@@ -93,7 +101,6 @@ public class User {
         this.city = city;
         this.intro = intro;
         this.userRank = userRank;
-        this.profileImgPath = profileImgPath;
         this.isSocial = isSocial;
     }
 
@@ -123,7 +130,45 @@ public class User {
         this.intro = basicInfo.getIntro();
     }
 
+    public void updateModelInfo(UpdateModelInfoRequestDto modelInfo) {
+        this.passwd = modelInfo.getPasswd();
+        this.gender = modelInfo.getGender();
+        this.nationality = modelInfo.getNationality();
+        this.city = modelInfo.getCity();
+        this.intro = modelInfo.getIntro();
+        this.height = modelInfo.getHeight();
+        this.weight = modelInfo.getWeight();
+        this.top = modelInfo.getTop();
+        this.bottom = modelInfo.getBottom();
+        this.shoes = modelInfo.getShoes();
+    }
+
+    public void updateProPhotoInfo(UpdateProPhotoInfoRequestDto proPhotoInfo, String portfolioPath) {
+        this.passwd = proPhotoInfo.getPasswd();
+        this.gender = proPhotoInfo.getGender();
+        this.nationality = proPhotoInfo.getNationality();
+        this.city = proPhotoInfo.getCity();
+        this.intro = proPhotoInfo.getIntro();
+        this.businessTrip = proPhotoInfo.getBusinessTrip();
+        this.correction = proPhotoInfo.getCorrection();
+        this.production = proPhotoInfo.getProduction();
+        this.URL = proPhotoInfo.getURL();
+        this.portfolioPath = portfolioPath;
+    }
+
     public void updateRank(UserRank userRank) {
         this.userRank = userRank;
+    }
+
+    public void changeBasicImg(List<String> profileBasicImgPath) {
+        this.profileBasicImgPath = profileBasicImgPath;
+    }
+
+    public void changeModelImg(List<String> profileModelImgPath) {
+        this.profileModelImgPath = profileModelImgPath;
+    }
+
+    public void changeProPhotoImg(List<String> profileProPhotoImgPath) {
+        this.profileProPhotoImgPath = profileProPhotoImgPath;
     }
 }
