@@ -34,8 +34,15 @@ public class ModelAssistanceService {
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
-            String titleValue = saveFile(title);
-            List<String> detailsValue = saveFiles(details);
+
+            User findUser = userRepository.findByEmail(request.getEmail());
+
+            if (!findUser.isModel()) {
+                return ResponseEntity.badRequest().body(Map.of("message", "권한이 없습니다."));
+            }
+
+            String titleValue = updateFile(title, null, boardPath);
+            List<String> detailsValue = updateFiles(details, null, boardPath);
 
             BaseBoard baseBoard = BaseBoard.setModelBase(request, requestEmail, titleValue, detailsValue);
             ModelBoard modelBoard = ModelBoard.builder()
@@ -107,8 +114,8 @@ public class ModelAssistanceService {
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 
-            String titlePath = updateFile(title, baseBoard.getTitlePath());
-            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths());
+            String titlePath = updateFile(title, baseBoard.getTitlePath(), boardPath);
+            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths(), boardPath);
 
             BaseBoard updateBaseBoard = BaseBoard.builder()
                     .email(request.getEmail())
