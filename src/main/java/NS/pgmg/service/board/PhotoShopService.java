@@ -30,8 +30,8 @@ public class PhotoShopService {
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
-            String titleValue = saveFile(title);
-            List<String> detailsValue = saveFiles(details);
+            String titleValue = updateFile(title, null, boardPath);
+            List<String> detailsValue = updateFiles(details, null, boardPath);
 
             BaseBoard baseBoard = BaseBoard.setPhotoShopBase(request, requestEmail, titleValue, detailsValue);
             PhotoShopBoard photoShopBoard = PhotoShopBoard.builder()
@@ -93,8 +93,8 @@ public class PhotoShopService {
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 
-            String titlePath = updateFile(title, baseBoard.getTitlePath());
-            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths());
+            String titlePath = updateFile(title, baseBoard.getTitlePath(), boardPath);
+            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths(), boardPath);
 
             BaseBoard updateBaseBoard = BaseBoard.builder()
                     .email(request.getEmail())
