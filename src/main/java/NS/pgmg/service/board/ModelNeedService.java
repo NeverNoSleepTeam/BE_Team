@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import static NS.pgmg.service.CommonMethod.*;
-import static NS.pgmg.service.CommonMethod.saveFiles;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +30,8 @@ public class ModelNeedService {
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
-            String titleValue = saveFile(title);
-            List<String> detailsValue = saveFiles(details);
+            String titleValue = updateFile(title, null, boardPath);
+            List<String> detailsValue = updateFiles(details, null, boardPath);
 
             BaseBoard baseBoard = BaseBoard.setModelBase(request, requestEmail, titleValue, detailsValue);
             ModelBoard modelBoard = ModelBoard.builder()
@@ -96,8 +95,8 @@ public class ModelNeedService {
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 
-            String titlePath = updateFile(title, baseBoard.getTitlePath());
-            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths());
+            String titlePath = updateFile(title, baseBoard.getTitlePath(), boardPath);
+            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths(), boardPath);
 
             BaseBoard updateBaseBoard = BaseBoard.builder()
                     .email(request.getEmail())
