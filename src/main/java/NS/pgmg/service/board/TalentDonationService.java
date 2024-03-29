@@ -30,8 +30,8 @@ public class TalentDonationService {
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
-            String titleValue = saveFile(title);
-            List<String> detailsValue = saveFiles(details);
+            String titleValue = updateFile(title, null, boardPath);
+            List<String> detailsValue = updateFiles(details, null, boardPath);
 
             BaseBoard baseBoard = BaseBoard.setTalentDonationBase(request, requestEmail, titleValue, detailsValue);
             TalentDonationBoard talentDonationBoard = TalentDonationBoard.builder()
@@ -91,8 +91,8 @@ public class TalentDonationService {
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 
-            String titlePath = updateFile(title, baseBoard.getTitlePath());
-            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths());
+            String titlePath = updateFile(title, baseBoard.getTitlePath(), boardPath);
+            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths(), boardPath);
 
             BaseBoard updateBaseBoard = BaseBoard.builder()
                     .email(request.getEmail())
