@@ -5,7 +5,7 @@ import NS.pgmg.domain.board.ProPhotoBoard;
 import NS.pgmg.domain.user.User;
 import NS.pgmg.dto.board.*;
 import NS.pgmg.repository.board.ProPhotoAssistanceRepository;
-import NS.pgmg.repository.user.UserRepository;
+import NS.pgmg.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

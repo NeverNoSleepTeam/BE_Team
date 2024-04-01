@@ -5,7 +5,7 @@ import NS.pgmg.domain.board.ModelBoard;
 import NS.pgmg.domain.user.User;
 import NS.pgmg.dto.board.*;
 import NS.pgmg.repository.board.ModelNeedRepository;
-import NS.pgmg.repository.user.UserRepository;
+import NS.pgmg.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

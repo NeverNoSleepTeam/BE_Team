@@ -1,6 +1,6 @@
 package NS.pgmg.service;
 
-import NS.pgmg.repository.user.UserRepository;
+import NS.pgmg.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

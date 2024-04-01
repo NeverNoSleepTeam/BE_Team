@@ -9,7 +9,7 @@ import NS.pgmg.dto.register.BasicRegisterDto;
 import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
 import NS.pgmg.dto.userpage.*;
-import NS.pgmg.repository.user.UserRepository;
+import NS.pgmg.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

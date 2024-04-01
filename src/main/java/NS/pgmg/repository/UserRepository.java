@@ -1,4 +1,4 @@
-package NS.pgmg.repository.user;
+package NS.pgmg.repository;
 
 import NS.pgmg.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -8,7 +8,7 @@ import NS.pgmg.dto.board.CreateModelDto;
 import NS.pgmg.dto.board.FindModelAssistanceResponseDto;
 import NS.pgmg.dto.board.UpdateModelDto;
 import NS.pgmg.repository.board.ModelAssistanceRepository;
-import NS.pgmg.repository.user.UserRepository;
+import NS.pgmg.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
