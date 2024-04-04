@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateProPhotoInfoRequestDto {
     private String email;
-    private String passwd;
     private Gender gender;
     private Nationality nationality;
     private City city;
