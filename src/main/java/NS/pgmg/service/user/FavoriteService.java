@@ -1,10 +1,10 @@
-package NS.pgmg.service;
+package NS.pgmg.service.user;
 
 import NS.pgmg.domain.user.Favorite;
 import NS.pgmg.domain.user.User;
 import NS.pgmg.dto.userpage.FindByNameDto;
-import NS.pgmg.repository.FavoriteRepository;
-import NS.pgmg.repository.UserRepository;
+import NS.pgmg.repository.user.FavoriteRepository;
+import NS.pgmg.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

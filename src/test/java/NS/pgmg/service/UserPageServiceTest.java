@@ -4,7 +4,7 @@ import NS.pgmg.domain.user.User;
 import NS.pgmg.domain.user.enums.*;
 import NS.pgmg.dto.register.ModelRegisterDto;
 import NS.pgmg.dto.register.ProPhotoRegisterDto;
-import NS.pgmg.repository.UserRepository;
+import NS.pgmg.repository.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-public class UserServiceTest {
+public class UserPageServiceTest {
 
     @Autowired
     UserRepository userRepository;
