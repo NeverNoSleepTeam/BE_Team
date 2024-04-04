@@ -21,6 +21,7 @@ public class Favorite {
 
     private String name;
 
+    @Enumerated(EnumType.STRING)
     private UserRank fUserRank;
 
     private String fHeight;
@@ -33,8 +34,10 @@ public class Favorite {
 
     private String fShoes;
 
+    @Enumerated(EnumType.STRING)
     private City fCity;
 
+    @Enumerated(EnumType.STRING)
     private Nationality fNationality;
 
     @Builder
