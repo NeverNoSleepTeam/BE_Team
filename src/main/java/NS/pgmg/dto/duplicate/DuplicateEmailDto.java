@@ -1,6 +1,5 @@
 package NS.pgmg.dto.duplicate;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,9 +7,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DuplicateEmailDto {
     private String email;
-
-    @Builder
-    public DuplicateEmailDto(String email) {
-        this.email = email;
-    }
 }
