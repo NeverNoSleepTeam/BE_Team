@@ -1,6 +1,7 @@
 package NS.pgmg.service.board;
 
 import NS.pgmg.domain.board.BaseBoard;
+import NS.pgmg.domain.board.BigCategory;
 import NS.pgmg.domain.board.ModelBoard;
 import NS.pgmg.domain.user.User;
 import NS.pgmg.dto.board.BoardRequestDto;
@@ -8,7 +9,7 @@ import NS.pgmg.dto.board.CreateModelDto;
 import NS.pgmg.dto.board.FindModelAssistanceResponseDto;
 import NS.pgmg.dto.board.UpdateModelDto;
 import NS.pgmg.repository.board.ModelAssistanceRepository;
-import NS.pgmg.repository.UserRepository;
+import NS.pgmg.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -41,8 +42,8 @@ public class ModelAssistanceService {
                 return ResponseEntity.badRequest().body(Map.of("message", "권한이 없습니다."));
             }
 
-            String titleValue = updateFile(title, null, boardPath);
-            List<String> detailsValue = updateFiles(details, null, boardPath);
+            String titleValue = updateImgFile(title, null);
+            List<String> detailsValue = updateImgFiles(details, null);
 
             BaseBoard baseBoard = BaseBoard.setModelBase(request, requestEmail, titleValue, detailsValue);
             ModelBoard modelBoard = ModelBoard.builder()
@@ -50,6 +51,7 @@ public class ModelAssistanceService {
                     .modelCategory(request.getModelCategory())
                     .place(request.getPlace())
                     .price(request.getPrice())
+                    .bigCategory(BigCategory.해줄게)
                     .build();
             modelAssistanceRepository.save(modelBoard);
 
@@ -98,7 +100,7 @@ public class ModelAssistanceService {
 
     @Transactional
     public List<ModelBoard> findAll() {
-        return modelAssistanceRepository.findAll();
+        return modelAssistanceRepository.findAllByBigCategory(BigCategory.해줄게);
     }
 
     @Transactional
@@ -114,8 +116,8 @@ public class ModelAssistanceService {
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 
-            String titlePath = updateFile(title, baseBoard.getTitlePath(), boardPath);
-            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths(), boardPath);
+            String titlePath = updateImgFile(title, baseBoard.getTitlePath());
+            List<String> detailsPaths = updateImgFiles(details, baseBoard.getDetailPaths());
 
             BaseBoard updateBaseBoard = BaseBoard.builder()
                     .email(request.getEmail())

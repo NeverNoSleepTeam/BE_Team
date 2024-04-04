@@ -19,6 +19,9 @@ public class ModelBoard {
     @Embedded
     private BaseBoard baseBoard;
 
+    @Enumerated(EnumType.STRING)
+    private BigCategory bigCategory;
+
     private List<ModelCategory> modelCategory;
 
     private String place;
@@ -26,11 +29,13 @@ public class ModelBoard {
     private Integer price;
 
     @Builder
-    public ModelBoard(BaseBoard baseBoard, List<ModelCategory> modelCategory, String place, Integer price) {
+    public ModelBoard(BaseBoard baseBoard, List<ModelCategory> modelCategory, String place, Integer price,
+                      BigCategory bigCategory) {
         this.baseBoard = baseBoard;
         this.modelCategory = modelCategory;
         this.place = place;
         this.price = price;
+        this.bigCategory = bigCategory;
     }
 
     public void updateBoard(BaseBoard baseBoard, List<ModelCategory> modelCategory, String place, Integer price) {

@@ -50,6 +50,7 @@ public class User {
     @ElementCollection
     private List<String> profileBasicImgPath;
 
+    @Enumerated(EnumType.STRING)
     private UserRank userRank;
 
     private boolean isSocial;
@@ -111,6 +112,7 @@ public class User {
         this.bottom = modelInfo.getBottom();
         this.shoes = modelInfo.getShoes();
         this.isModel = true;
+        this.userRank = UserRank.모델회원;
     }
 
     public void setProPhotoInfo(ProPhotoRegisterDto proPhotoInfo, String filePath) {
@@ -120,10 +122,10 @@ public class User {
         this.URL = proPhotoInfo.getURL();
         this.portfolioPath = filePath;
         this.isProPhoto = true;
+        this.userRank = UserRank.사진기사회원;
     }
 
     public void updateBasicInfo(UpdateBasicInfoRequestDto basicInfo) {
-        this.passwd = basicInfo.getPasswd();
         this.gender = basicInfo.getGender();
         this.nationality = basicInfo.getNationality();
         this.city = basicInfo.getCity();
@@ -131,7 +133,6 @@ public class User {
     }
 
     public void updateModelInfo(UpdateModelInfoRequestDto modelInfo) {
-        this.passwd = modelInfo.getPasswd();
         this.gender = modelInfo.getGender();
         this.nationality = modelInfo.getNationality();
         this.city = modelInfo.getCity();
@@ -144,7 +145,6 @@ public class User {
     }
 
     public void updateProPhotoInfo(UpdateProPhotoInfoRequestDto proPhotoInfo, String portfolioPath) {
-        this.passwd = proPhotoInfo.getPasswd();
         this.gender = proPhotoInfo.getGender();
         this.nationality = proPhotoInfo.getNationality();
         this.city = proPhotoInfo.getCity();

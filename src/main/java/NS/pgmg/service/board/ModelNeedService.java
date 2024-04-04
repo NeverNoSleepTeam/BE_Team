@@ -1,11 +1,12 @@
 package NS.pgmg.service.board;
 
 import NS.pgmg.domain.board.BaseBoard;
+import NS.pgmg.domain.board.BigCategory;
 import NS.pgmg.domain.board.ModelBoard;
 import NS.pgmg.domain.user.User;
 import NS.pgmg.dto.board.*;
 import NS.pgmg.repository.board.ModelNeedRepository;
-import NS.pgmg.repository.UserRepository;
+import NS.pgmg.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,8 @@ public class ModelNeedService {
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
-            String titleValue = updateFile(title, null, boardPath);
-            List<String> detailsValue = updateFiles(details, null, boardPath);
+            String titleValue = updateImgFile(title, null);
+            List<String> detailsValue = updateImgFiles(details, null);
 
             BaseBoard baseBoard = BaseBoard.setModelBase(request, requestEmail, titleValue, detailsValue);
             ModelBoard modelBoard = ModelBoard.builder()
@@ -39,6 +40,7 @@ public class ModelNeedService {
                     .modelCategory(request.getModelCategory())
                     .place(request.getPlace())
                     .price(request.getPrice())
+                    .bigCategory(BigCategory.해줘)
                     .build();
             modelNeedRepository.save(modelBoard);
 
@@ -79,7 +81,7 @@ public class ModelNeedService {
 
     @Transactional
     public List<ModelBoard> findAll() {
-        return modelNeedRepository.findAll();
+        return modelNeedRepository.findAllByBigCategory(BigCategory.해줘);
     }
 
     @Transactional
@@ -95,8 +97,8 @@ public class ModelNeedService {
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 
-            String titlePath = updateFile(title, baseBoard.getTitlePath(), boardPath);
-            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths(), boardPath);
+            String titlePath = updateImgFile(title, baseBoard.getTitlePath());
+            List<String> detailsPaths = updateImgFiles(details, baseBoard.getDetailPaths());
 
             BaseBoard updateBaseBoard = BaseBoard.builder()
                     .email(request.getEmail())

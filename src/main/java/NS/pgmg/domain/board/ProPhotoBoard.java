@@ -19,6 +19,9 @@ public class ProPhotoBoard {
     @Embedded
     private BaseBoard baseBoard;
 
+    @Enumerated(EnumType.STRING)
+    private BigCategory bigCategory;
+
     private List<ProPhotoCategory> proPhotoCategory;
 
     private String place;
@@ -27,11 +30,12 @@ public class ProPhotoBoard {
 
     @Builder
     public ProPhotoBoard(BaseBoard baseBoard, List<ProPhotoCategory> proPhotoCategory,
-                         String place, Integer price) {
+                         String place, Integer price, BigCategory bigCategory) {
         this.baseBoard = baseBoard;
         this.proPhotoCategory = proPhotoCategory;
         this.place = place;
         this.price = price;
+        this.bigCategory = bigCategory;
     }
 
     public void updateBoard(BaseBoard baseBoard, List<ProPhotoCategory> proPhotoCategory,
