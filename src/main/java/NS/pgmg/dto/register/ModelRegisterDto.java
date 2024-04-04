@@ -1,7 +1,5 @@
 package NS.pgmg.dto.register;
 
-import NS.pgmg.domain.user.enums.City;
-import NS.pgmg.domain.user.enums.Nationality;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

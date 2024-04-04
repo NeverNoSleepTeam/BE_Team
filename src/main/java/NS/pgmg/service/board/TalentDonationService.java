@@ -5,7 +5,7 @@ import NS.pgmg.domain.board.TalentDonationBoard;
 import NS.pgmg.domain.user.User;
 import NS.pgmg.dto.board.*;
 import NS.pgmg.repository.board.TalentDonationRepository;
-import NS.pgmg.repository.UserRepository;
+import NS.pgmg.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,8 +30,8 @@ public class TalentDonationService {
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
-            String titleValue = updateFile(title, null, boardPath);
-            List<String> detailsValue = updateFiles(details, null, boardPath);
+            String titleValue = updateImgFile(title, null);
+            List<String> detailsValue = updateImgFiles(details, null);
 
             BaseBoard baseBoard = BaseBoard.setTalentDonationBase(request, requestEmail, titleValue, detailsValue);
             TalentDonationBoard talentDonationBoard = TalentDonationBoard.builder()
@@ -91,8 +91,8 @@ public class TalentDonationService {
 
             BaseBoard baseBoard = findBoard.getBaseBoard();
 
-            String titlePath = updateFile(title, baseBoard.getTitlePath(), boardPath);
-            List<String> detailsPaths = updateFiles(details, baseBoard.getDetailPaths(), boardPath);
+            String titlePath = updateImgFile(title, baseBoard.getTitlePath());
+            List<String> detailsPaths = updateImgFiles(details, baseBoard.getDetailPaths());
 
             BaseBoard updateBaseBoard = BaseBoard.builder()
                     .email(request.getEmail())
