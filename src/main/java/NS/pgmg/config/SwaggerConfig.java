@@ -27,4 +27,12 @@ public class SwaggerConfig {
                 .pathsToMatch("/user/**", "/favorite/**", "/login", "/social")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi Chat() {
+        return GroupedOpenApi.builder()
+                .group("Chat")
+                .pathsToMatch("/chat/**", "/receive/**", "/pub/**", "/sub/**")
+                .build();
+    }
 }
