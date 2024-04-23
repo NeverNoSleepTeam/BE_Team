@@ -1,6 +1,6 @@
 package NS.pgmg.dto.board;
 
-import NS.pgmg.domain.board.ModelCategory;
+import NS.pgmg.domain.board.enums.ModelCategory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

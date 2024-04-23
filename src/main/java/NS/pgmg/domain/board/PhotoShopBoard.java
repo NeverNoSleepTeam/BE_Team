@@ -1,5 +1,6 @@
 package NS.pgmg.domain.board;
 
+import NS.pgmg.domain.board.enums.PhotoShopCategory;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package NS.pgmg.dto.board;
 
-import NS.pgmg.domain.board.ProPhotoCategory;
+import NS.pgmg.domain.board.enums.ProPhotoCategory;
 import NS.pgmg.domain.user.enums.*;
 import lombok.Builder;
 import lombok.Getter;

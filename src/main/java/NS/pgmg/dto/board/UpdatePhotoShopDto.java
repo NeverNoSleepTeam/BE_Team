@@ -1,6 +1,6 @@
 package NS.pgmg.dto.board;
 
-import NS.pgmg.domain.board.PhotoShopCategory;
+import NS.pgmg.domain.board.enums.PhotoShopCategory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

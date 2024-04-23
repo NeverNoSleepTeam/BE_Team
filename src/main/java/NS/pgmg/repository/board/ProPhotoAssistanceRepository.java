@@ -1,6 +1,6 @@
 package NS.pgmg.repository.board;
 
-import NS.pgmg.domain.board.BigCategory;
+import NS.pgmg.domain.board.enums.BigCategory;
 import NS.pgmg.domain.board.ProPhotoBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 

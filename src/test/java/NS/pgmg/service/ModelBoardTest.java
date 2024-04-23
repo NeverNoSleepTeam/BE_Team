@@ -2,7 +2,7 @@ package NS.pgmg.service;
 
 import NS.pgmg.domain.board.BaseBoard;
 import NS.pgmg.domain.board.ModelBoard;
-import NS.pgmg.domain.board.ModelCategory;
+import NS.pgmg.domain.board.enums.ModelCategory;
 import NS.pgmg.repository.board.ModelAssistanceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

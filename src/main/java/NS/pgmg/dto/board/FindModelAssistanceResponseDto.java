@@ -1,6 +1,6 @@
 package NS.pgmg.dto.board;
 
-import NS.pgmg.domain.board.ModelCategory;
+import NS.pgmg.domain.board.enums.ModelCategory;
 import NS.pgmg.domain.user.enums.City;
 import NS.pgmg.domain.user.enums.Gender;
 import NS.pgmg.domain.user.enums.Nationality;

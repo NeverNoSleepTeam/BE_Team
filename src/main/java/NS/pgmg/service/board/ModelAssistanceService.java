@@ -1,7 +1,7 @@
 package NS.pgmg.service.board;
 
 import NS.pgmg.domain.board.BaseBoard;
-import NS.pgmg.domain.board.BigCategory;
+import NS.pgmg.domain.board.enums.BigCategory;
 import NS.pgmg.domain.board.ModelBoard;
 import NS.pgmg.domain.user.User;
 import NS.pgmg.dto.board.BoardRequestDto;

@@ -1,5 +1,7 @@
 package NS.pgmg.domain.board;
 
+import NS.pgmg.domain.board.enums.BigCategory;
+import NS.pgmg.domain.board.enums.ProPhotoCategory;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
