@@ -43,3 +43,4 @@ Dockerfile
 src/main/resources/application-MySQL.properties
 src/main/resources/application-H2.properties
 src/main/resources/application.properties
+src/main/resources/application-MongoDB.properties
