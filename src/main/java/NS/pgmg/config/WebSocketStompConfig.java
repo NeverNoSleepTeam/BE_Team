@@ -12,13 +12,14 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("*");
+                .setAllowedOriginPatterns("*");
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setPathMatcher(new AntPathMatcher(".")); // url / -> .
+//        registry.setPathMatcher(new AntPathMatcher(".")); // url / -> .
         registry.setApplicationDestinationPrefixes("/pub");
-        registry.enableStompBrokerRelay("/queue", "/topic", "/exchange", "/amq/queue");
+        registry.enableSimpleBroker("/sub");
+//        registry.enableStompBrokerRelay("/queue", "/topic", "/exchange", "/amq/queue");
     }
 }
