@@ -10,25 +10,27 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-@Document(collation = "chat")
+@Document(collection = "chat")
 public class Chat {
 
     @Id
     private String id;
-    private ChatType type;
     private String roomId;
-    private String sender;
-    private String receiver;
+    private String senderEmail;
+    private String receiverEmail;
     private String content;
     private LocalDateTime createdAt;
 
     @Builder
-    public Chat(ChatType type, String roomId, String sender, String receiver, String content) {
-        this.type = type;
+    public Chat(String roomId, String senderEmail, String receiverEmail, String content) {
         this.roomId = roomId;
-        this.sender = sender;
-        this.receiver = receiver;
+        this.senderEmail = senderEmail;
+        this.receiverEmail = receiverEmail;
         this.content = content;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public void updateEmail(String name) {
+        this.receiverEmail = name;
     }
 }
