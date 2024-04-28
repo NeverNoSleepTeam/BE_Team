@@ -14,16 +14,16 @@ public class ChatRoom {
     @Id
     private String id;
     private String roomId;
+    private String senderEmail;
+    private String receiverEmail;
     private String lastMessage;
-    private String sender;
-    private String receiver;
 
     @Builder
-    public ChatRoom(String roomId, String lastMessage, String sender, String receiver) {
+    public ChatRoom(String roomId, String senderEmail, String receiverEmail, String lastMessage) {
         this.roomId = roomId;
+        this.senderEmail = senderEmail;
+        this.receiverEmail = receiverEmail;
         this.lastMessage = lastMessage;
-        this.sender = sender;
-        this.receiver = receiver;
     }
 
     public void updateLastMessage(String lastMessage) {
