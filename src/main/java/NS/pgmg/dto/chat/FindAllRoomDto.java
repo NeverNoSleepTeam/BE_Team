@@ -6,6 +6,5 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class FindAllRoomDto {
-    private String email;
-    private String sender;
+    private String senderEmail;
 }
