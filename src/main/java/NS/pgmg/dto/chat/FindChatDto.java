@@ -5,8 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class FindRoomDto {
-    private String email;
+public class FindChatDto {
+    private String senderEmail;
     private String roomId;
-    private String sender;
 }
