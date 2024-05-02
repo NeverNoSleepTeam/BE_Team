@@ -22,13 +22,14 @@ public class FindProPhotoInfoResponseDto {
     private Correction correction;
     private Production production;
     private String portfolioPath;
+    private String portfolioURL;
     private boolean isSelf;
 
     @Builder
     public FindProPhotoInfoResponseDto(String email, String name, Gender gender, City city, Nationality nationality,
                                        String intro, UserRank userRank, List<String> profileProPhotoImgPath,
                                        BusinessTrip businessTrip, Correction correction, Production production,
-                                       String portfolioPath, boolean isSelf) {
+                                       String portfolioPath, String portfolioURL, boolean isSelf) {
         this.email = email;
         this.name = name;
         this.gender = gender;
@@ -41,6 +42,7 @@ public class FindProPhotoInfoResponseDto {
         this.correction = correction;
         this.production = production;
         this.portfolioPath = portfolioPath;
+        this.portfolioURL = portfolioURL;
         this.isSelf = isSelf;
     }
 }
