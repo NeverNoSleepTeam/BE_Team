@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SendMessageDto {
     private String senderEmail;
-    private String receiverName;
+    private String receiverEmail;
     private String content;
 }
