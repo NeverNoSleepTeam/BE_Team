@@ -108,6 +108,7 @@ public class UserPageService {
                 .production(findUser.getProduction())
                 .profileProPhotoImgPath(findUser.getProfileProPhotoImgPath())
                 .portfolioPath(findUser.getPortfolioPath())
+                .portfolioURL(findUser.getURL())
                 .isSelf(isSelf)
                 .build());
     }
@@ -132,12 +133,14 @@ public class UserPageService {
      * 일반 정보 수정
      */
     @Transactional
-    public ResponseEntity<Map<String, String>> updateBasicInfo(String token, UpdateBasicInfoRequestDto request) {
+    public ResponseEntity<Map<String, String>> updateBasicInfo(String token, MultipartFile file,
+                                                               UpdateBasicInfoRequestDto request) {
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
             User findUser = userRepository.findByEmail(request.getEmail());
-            findUser.updateBasicInfo(request);
+            String profileImg = updateImgFile(file, findUser.getProfileMainImg());
+            findUser.updateBasicInfo(request, profileImg);
             userRepository.save(findUser);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
@@ -146,12 +149,14 @@ public class UserPageService {
     }
 
     @Transactional
-    public ResponseEntity<Map<String, String>> updateModelInfo(String token, UpdateModelInfoRequestDto request) {
+    public ResponseEntity<Map<String, String>> updateModelInfo(String token, MultipartFile file,
+                                                               UpdateModelInfoRequestDto request) {
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
             User findUser = userRepository.findByEmail(request.getEmail());
-            findUser.updateModelInfo(request);
+            String profileImg = updateImgFile(file, findUser.getProfileMainImg());
+            findUser.updateModelInfo(request, profileImg);
             userRepository.save(findUser);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
@@ -161,12 +166,13 @@ public class UserPageService {
 
     @Transactional
     public ResponseEntity<Map<String, String>> updateProPhotoInfo(String token, UpdateProPhotoInfoRequestDto request,
-                                                                  MultipartFile file) {
+                                                                  MultipartFile img, MultipartFile pdf) {
         try {
             String requestEmail = tokenCheck(token);
             emailCheck(requestEmail, request.getEmail());
             User findUser = userRepository.findByEmail(request.getEmail());
-            findUser.updateProPhotoInfo(request, updatePDF(file, findUser.getPortfolioPath()));
+            String profileImg = updateImgFile(img, findUser.getProfileMainImg());
+            findUser.updateProPhotoInfo(request, profileImg, updatePDF(pdf, findUser.getPortfolioPath()));
             userRepository.save(findUser);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
