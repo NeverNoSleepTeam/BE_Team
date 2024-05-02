@@ -62,21 +62,25 @@ public class UserPageController {
     }
 
     @Operation(summary = "일반 정보 수정")
-    @PutMapping("/user/info/basic")
+    @PutMapping(value = "/user/info/basic",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Map<String, String>> updateBasicInfo(
             @RequestHeader(value = "Token") String token,
-            @RequestBody UpdateBasicInfoRequestDto updateBasicInfoRequestDto
+            @RequestPart(value = "RequestBody") UpdateBasicInfoRequestDto updateBasicInfoRequestDto,
+            @RequestPart(value = "File", required = false) MultipartFile file
     ) {
-        return userPageService.updateBasicInfo(token, updateBasicInfoRequestDto);
+        return userPageService.updateBasicInfo(token, file, updateBasicInfoRequestDto);
     }
 
     @Operation(summary = "모델 정보 수정")
-    @PutMapping("/user/info/model")
+    @PutMapping(value = "/user/info/model",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Map<String, String>> updateModelInfo(
             @RequestHeader(value = "Token") String token,
-            @RequestBody UpdateModelInfoRequestDto updateModelInfoRequestDto
+            @RequestPart(value = "RequestBody") UpdateModelInfoRequestDto updateModelInfoRequestDto,
+            @RequestPart(value = "File", required = false) MultipartFile file
     ) {
-        return userPageService.updateModelInfo(token, updateModelInfoRequestDto);
+        return userPageService.updateModelInfo(token, file, updateModelInfoRequestDto);
     }
 
     @Operation(summary = "사진기사 정보 수정")
@@ -85,9 +89,10 @@ public class UserPageController {
     public ResponseEntity<Map<String, String>> updateProPhotoInfo(
             @RequestHeader(value = "Token") String token,
             @RequestPart(value = "RequestBody") UpdateProPhotoInfoRequestDto updateProPhotoInfoRequestDto,
-            @RequestPart(value = "File", required = false) MultipartFile file
+            @RequestPart(value = "ImgFile", required = false) MultipartFile img,
+            @RequestPart(value = "PdfFile", required = false) MultipartFile pdf
     ) {
-        return userPageService.updateProPhotoInfo(token, updateProPhotoInfoRequestDto, file);
+        return userPageService.updateProPhotoInfo(token, updateProPhotoInfoRequestDto, img, pdf);
     }
 
     @Operation(summary = "기본 프로필 사진 수정")
