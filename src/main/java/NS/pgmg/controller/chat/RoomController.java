@@ -3,20 +3,24 @@ package NS.pgmg.controller.chat;
 import NS.pgmg.dto.chat.CreateRoomDto;
 import NS.pgmg.dto.chat.DeleteRoomDto;
 import NS.pgmg.dto.chat.FindAllRoomDto;
-import NS.pgmg.service.chat.ChatRoomService;
+import NS.pgmg.service.chat.RoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Chat", description = "채팅 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/chat")
-public class ChatRoomController {
+public class RoomController {
 
-    private final ChatRoomService chatRoomService;
+    private final RoomService roomService;
 
     @Operation(summary = "채팅방 생성")
     @PostMapping("/room")
@@ -24,7 +28,7 @@ public class ChatRoomController {
             @RequestHeader(value = "Token") String token,
             @RequestBody CreateRoomDto request
     ) {
-        return chatRoomService.createRooms(token, request);
+        return roomService.createRooms(token, request);
     }
 
     @Operation(summary = "채팅방 전체 조회")
@@ -33,15 +37,15 @@ public class ChatRoomController {
             @RequestHeader(value = "Token") String token,
             @RequestBody FindAllRoomDto request
     ) {
-        return chatRoomService.getChatRooms(token, request);
+        return roomService.getChatRooms(token, request);
     }
 
-    @Operation(summary = "채팅방 삭제")
-    @DeleteMapping("/room")
+    @MessageMapping("/{roomId}/exit")
+    @SendTo("/sub/{roomId}")
     public ResponseEntity<?> deleteRoom(
-            @RequestHeader(value = "Token") String token,
-            @RequestBody DeleteRoomDto request
+            @DestinationVariable(value = "roomId") String roomId,
+            @Payload DeleteRoomDto request
     ) {
-        return chatRoomService.deleteChatRoom(token, request);
+        return roomService.deleteChatRoom(roomId, request);
     }
 }
