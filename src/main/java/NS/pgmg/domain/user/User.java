@@ -47,6 +47,8 @@ public class User {
     @Column(columnDefinition = "TEXT")
     private String intro;
 
+    private String profileMainImg;
+
     @ElementCollection
     private List<String> profileBasicImgPath;
 
@@ -125,14 +127,15 @@ public class User {
         this.userRank = UserRank.사진기사회원;
     }
 
-    public void updateBasicInfo(UpdateBasicInfoRequestDto basicInfo) {
+    public void updateBasicInfo(UpdateBasicInfoRequestDto basicInfo, String profileMainImg) {
         this.gender = basicInfo.getGender();
         this.nationality = basicInfo.getNationality();
         this.city = basicInfo.getCity();
         this.intro = basicInfo.getIntro();
+        this.profileMainImg = profileMainImg;
     }
 
-    public void updateModelInfo(UpdateModelInfoRequestDto modelInfo) {
+    public void updateModelInfo(UpdateModelInfoRequestDto modelInfo, String profileMainImg) {
         this.gender = modelInfo.getGender();
         this.nationality = modelInfo.getNationality();
         this.city = modelInfo.getCity();
@@ -142,9 +145,12 @@ public class User {
         this.top = modelInfo.getTop();
         this.bottom = modelInfo.getBottom();
         this.shoes = modelInfo.getShoes();
+        this.profileMainImg = profileMainImg;
+        this.isModel = true;
     }
 
-    public void updateProPhotoInfo(UpdateProPhotoInfoRequestDto proPhotoInfo, String portfolioPath) {
+    public void updateProPhotoInfo(UpdateProPhotoInfoRequestDto proPhotoInfo, String profileMainImg,
+                                   String portfolioPath) {
         this.gender = proPhotoInfo.getGender();
         this.nationality = proPhotoInfo.getNationality();
         this.city = proPhotoInfo.getCity();
@@ -154,6 +160,8 @@ public class User {
         this.production = proPhotoInfo.getProduction();
         this.URL = proPhotoInfo.getURL();
         this.portfolioPath = portfolioPath;
+        this.profileMainImg = profileMainImg;
+        this.isProPhoto = true;
     }
 
     public void updateRank(UserRank userRank) {
