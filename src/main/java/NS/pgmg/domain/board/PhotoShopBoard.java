@@ -19,6 +19,7 @@ public class PhotoShopBoard {
     @Embedded
     private BaseBoard baseBoard;
 
+    @ElementCollection
     private List<PhotoShopCategory> photoShopCategory;
 
     private Integer price;
