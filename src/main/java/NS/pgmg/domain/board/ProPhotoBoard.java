@@ -24,6 +24,7 @@ public class ProPhotoBoard {
     @Enumerated(EnumType.STRING)
     private BigCategory bigCategory;
 
+    @ElementCollection
     private List<ProPhotoCategory> proPhotoCategory;
 
     private String place;
