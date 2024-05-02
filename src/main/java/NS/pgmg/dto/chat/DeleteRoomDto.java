@@ -7,5 +7,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeleteRoomDto {
     private String senderEmail;
-    private String roomId;
+    private String receiverEmail;
 }
