@@ -24,6 +24,7 @@ public class ModelBoard {
     @Enumerated(EnumType.STRING)
     private BigCategory bigCategory;
 
+    @ElementCollection
     private List<ModelCategory> modelCategory;
 
     private String place;
