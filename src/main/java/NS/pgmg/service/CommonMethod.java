@@ -1,7 +1,6 @@
 package NS.pgmg.service;
 
 import NS.pgmg.config.JwtConfig;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
 @Component
 public final class CommonMethod {
 
@@ -84,13 +82,11 @@ public final class CommonMethod {
             deleteFile(fileName, imgPath);
         }
 
-        log.info("file = {}", file);
         if (file != null && !file.isEmpty()) {
             fileName = createRandomUuid() + ".png";
 
             try {
                 file.transferTo(new File(imgPath + fileName));
-                log.info("savedPath = {}", imgPath + fileName);
             } catch (IOException e) {
                 throw new RuntimeException("이미지 저장 오류", e);
             }
@@ -134,42 +130,4 @@ public final class CommonMethod {
             boolean delete = tempFile.delete();
         }
     }
-
-    //    public static String saveFile(MultipartFile file, String filePath) {
-//
-//        if (file == null) {
-//            return null;
-//        }
-//
-//        String fileName = createRandomUuid() + ".png";
-//        try {
-//            file.transferTo(new File(filePath + fileName));
-//        } catch (IOException e) {
-//            throw new RuntimeException("이미지 저장 오류", e);
-//        }
-//
-//        return "/img/" + fileName;
-//    }
-//
-//    public static List<String> saveFiles(List<MultipartFile> files, String filePath) {
-//
-//        if (files == null) {
-//            return null;
-//        }
-//
-//        List<String> imgPaths = new ArrayList<>();
-//
-//        for (MultipartFile f : files) {
-//            String fileName = createRandomUuid() + ".png";
-//
-//            try {
-//                f.transferTo(new File(filePath + fileName));
-//            } catch (IOException e) {
-//                throw new RuntimeException("이미지 저장 오류", e);
-//            }
-//            imgPaths.add("/img/" + fileName);
-//        }
-//
-//        return imgPaths;
-//    }
 }
