@@ -21,18 +21,15 @@ public class StompHandler implements ChannelInterceptor {
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 
-        log.info(message.getHeaders().toString());
-
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-            // 헤더 토큰 얻기
+
             String token = String.valueOf(accessor.getNativeHeader("Token"))
                     .replace("[", "")
                     .replace("]", "");
+
             String senderEmail = String.valueOf(accessor.getNativeHeader("SenderEmail"))
                     .replace("[", "")
                     .replace("]", "");
-
-            log.info("senderEmail={}", senderEmail);
 
             if(token.equals("null")){
                 throw new MessageDeliveryException("UNAUTHORIZED");
@@ -40,9 +37,11 @@ public class StompHandler implements ChannelInterceptor {
 
             try {
                 String requestEmail = tokenCheck(token);
-                log.info("requestEmail={}", requestEmail);
                 emailCheck(requestEmail, senderEmail);
+                log.info("Connection Success");
+                log.info("Connection Email={}", requestEmail);
             } catch (RuntimeException e) {
+                log.info("Connection Failed={}", e.getMessage());
                 throw new MessageDeliveryException("UNAUTHORIZED");
             }
         }
