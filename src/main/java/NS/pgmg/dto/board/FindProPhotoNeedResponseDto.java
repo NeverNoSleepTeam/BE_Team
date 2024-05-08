@@ -17,7 +17,7 @@ public class FindProPhotoNeedResponseDto {
     private String contents;
     private Integer price;
     private String place;
-    private List<ProPhotoCategory> proPhotoCategory;
+    private List<ProPhotoCategory> category;
     private LocalDateTime createdAt;
     private String firstDate;
     private String lastDate;
@@ -27,14 +27,14 @@ public class FindProPhotoNeedResponseDto {
 
     @Builder
     public FindProPhotoNeedResponseDto(String name, String title, String contents, Integer price, String place,
-                                       List<ProPhotoCategory> proPhotoCategory, LocalDateTime createdAt, String firstDate,
+                                       List<ProPhotoCategory> category, LocalDateTime createdAt, String firstDate,
                                        String lastDate, String titlePath, List<String> detailPath, UserRank userRank) {
         this.name = name;
         this.title = title;
         this.contents = contents;
         this.price = price;
         this.place = place;
-        this.proPhotoCategory = proPhotoCategory;
+        this.category = category;
         this.createdAt = createdAt;
         this.firstDate = firstDate;
         this.lastDate = lastDate;

@@ -15,19 +15,19 @@ public class CreateModelDto {
     private String contents;
     private Integer price;
     private String place;
-    private List<ModelCategory> modelCategory;
+    private List<ModelCategory> category;
     private String firstDate;
     private String lastDate;
 
     @Builder
     public CreateModelDto(String email, String title, String contents, Integer price, String place,
-                          List<ModelCategory> modelCategory, String firstDate, String lastDate) {
+                          List<ModelCategory> category, String firstDate, String lastDate) {
         this.email = email;
         this.title = title;
         this.contents = contents;
         this.price = price;
         this.place = place;
-        this.modelCategory = modelCategory;
+        this.category = category;
         this.firstDate = firstDate;
         this.lastDate = lastDate;
     }

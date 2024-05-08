@@ -37,7 +37,7 @@ public class ProPhotoNeedService {
             BaseBoard baseBoard = BaseBoard.setProPhotoBase(request, requestEmail, titleValue, detailsValue);
             ProPhotoBoard proPhotoBoard = ProPhotoBoard.builder()
                     .baseBoard(baseBoard)
-                    .proPhotoCategory(request.getProPhotoCategory())
+                    .proPhotoCategory(request.getCategory())
                     .place(request.getPlace())
                     .price(request.getPrice())
                     .bigCategory(BigCategory.해줘)
@@ -65,7 +65,7 @@ public class ProPhotoNeedService {
                     .contents(findBaseBoard.getContents())
                     .price(findBoard.getPrice())
                     .place(findBoard.getPlace())
-                    .proPhotoCategory(findBoard.getProPhotoCategory())
+                    .category(findBoard.getProPhotoCategory())
                     .createdAt(findBaseBoard.getCreatedAt())
                     .firstDate(findBaseBoard.getFirstDate())
                     .lastDate(findBaseBoard.getLastDate())
@@ -111,7 +111,7 @@ public class ProPhotoNeedService {
                     .detailPaths(detailsPaths)
                     .build();
 
-            findBoard.updateBoard(updateBaseBoard, request.getProPhotoCategory(), request.getPlace(), request.getPrice());
+            findBoard.updateBoard(updateBaseBoard, request.getCategory(), request.getPlace(), request.getPrice());
 
             proPhotoNeedRepository.save(findBoard);
 

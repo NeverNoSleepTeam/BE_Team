@@ -17,7 +17,7 @@ public class FindModelNeedResponseDto {
     private String contents;
     private Integer price;
     private String place;
-    private List<ModelCategory> modelCategory;
+    private List<ModelCategory> category;
     private LocalDateTime createdAt;
     private String firstDate;
     private String lastDate;
@@ -27,14 +27,14 @@ public class FindModelNeedResponseDto {
 
     @Builder
     public FindModelNeedResponseDto(String name, String title, String contents, Integer price, String place,
-                                    List<ModelCategory> modelCategory, LocalDateTime createdAt, String firstDate,
+                                    List<ModelCategory> category, LocalDateTime createdAt, String firstDate,
                                     String lastDate, String titlePath, List<String> detailPath, UserRank userRank) {
         this.name = name;
         this.title = title;
         this.contents = contents;
         this.price = price;
         this.place = place;
-        this.modelCategory = modelCategory;
+        this.category = category;
         this.createdAt = createdAt;
         this.firstDate = firstDate;
         this.lastDate = lastDate;

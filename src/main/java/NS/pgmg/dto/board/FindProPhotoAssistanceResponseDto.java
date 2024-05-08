@@ -17,7 +17,7 @@ public class FindProPhotoAssistanceResponseDto {
     private String contents;
     private Integer price;
     private String place;
-    private List<ProPhotoCategory> proPhotoCategory;
+    private List<ProPhotoCategory> category;
     private LocalDateTime createdAt;
     private String firstDate;
     private String lastDate;
@@ -35,7 +35,7 @@ public class FindProPhotoAssistanceResponseDto {
 
     @Builder
     public FindProPhotoAssistanceResponseDto(String name, String title, String contents, Integer price, String place,
-                                             List<ProPhotoCategory> proPhotoCategory, LocalDateTime createdAt,
+                                             List<ProPhotoCategory> category, LocalDateTime createdAt,
                                              String firstDate, String lastDate, Gender gender, Nationality nationality,
                                              City city, BusinessTrip businessTrip, Correction correction,
                                              Production production, String URL, String portfolioPath, String titlePath,
@@ -45,7 +45,7 @@ public class FindProPhotoAssistanceResponseDto {
         this.contents = contents;
         this.price = price;
         this.place = place;
-        this.proPhotoCategory = proPhotoCategory;
+        this.category = category;
         this.createdAt = createdAt;
         this.firstDate = firstDate;
         this.lastDate = lastDate;

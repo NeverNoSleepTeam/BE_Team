@@ -16,7 +16,7 @@ public class FindPhotoShopResponseDto {
     private String title;
     private String contents;
     private Integer price;
-    private List<PhotoShopCategory> photoShopCategory;
+    private PhotoShopCategory category;
     private LocalDateTime createdAt;
     private String firstDate;
     private String lastDate;
@@ -26,14 +26,14 @@ public class FindPhotoShopResponseDto {
 
     @Builder
     public FindPhotoShopResponseDto(String name, String title, String contents, Integer price,
-                                    List<PhotoShopCategory> photoShopCategory, LocalDateTime createdAt,
+                                    PhotoShopCategory category, LocalDateTime createdAt,
                                     String firstDate, String lastDate, String titlePath, List<String> detailPath,
                                     UserRank userRank) {
         this.name = name;
         this.title = title;
         this.contents = contents;
         this.price = price;
-        this.photoShopCategory = photoShopCategory;
+        this.category = category;
         this.createdAt = createdAt;
         this.firstDate = firstDate;
         this.lastDate = lastDate;

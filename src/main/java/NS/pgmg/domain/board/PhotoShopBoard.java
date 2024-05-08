@@ -19,19 +19,18 @@ public class PhotoShopBoard {
     @Embedded
     private BaseBoard baseBoard;
 
-    @ElementCollection
-    private List<PhotoShopCategory> photoShopCategory;
+    private PhotoShopCategory photoShopCategory;
 
     private Integer price;
 
     @Builder
-    public PhotoShopBoard(BaseBoard baseBoard, List<PhotoShopCategory> photoShopCategory, Integer price) {
+    public PhotoShopBoard(BaseBoard baseBoard, PhotoShopCategory photoShopCategory, Integer price) {
         this.baseBoard = baseBoard;
         this.photoShopCategory = photoShopCategory;
         this.price = price;
     }
 
-    public void updateBoard(BaseBoard baseBoard, List<PhotoShopCategory> photoShopCategory, Integer price) {
+    public void updateBoard(BaseBoard baseBoard, PhotoShopCategory photoShopCategory, Integer price) {
         this.baseBoard = baseBoard;
         this.photoShopCategory = photoShopCategory;
         this.price = price;

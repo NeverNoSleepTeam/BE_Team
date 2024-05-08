@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 public class UpdatePhotoShopDto {
@@ -15,18 +13,18 @@ public class UpdatePhotoShopDto {
     private String title;
     private String contents;
     private Integer price;
-    private List<PhotoShopCategory> photoShopCategory;
+    private PhotoShopCategory category;
     private String firstDate;
     private String lastDate;
 
     @Builder
     public UpdatePhotoShopDto(String email, String title, String contents, Integer price,
-                              List<PhotoShopCategory> photoShopCategory, String firstDate, String lastDate) {
+                              PhotoShopCategory category, String firstDate, String lastDate) {
         this.email = email;
         this.title = title;
         this.contents = contents;
         this.price = price;
-        this.photoShopCategory = photoShopCategory;
+        this.category = category;
         this.firstDate = firstDate;
         this.lastDate = lastDate;
     }

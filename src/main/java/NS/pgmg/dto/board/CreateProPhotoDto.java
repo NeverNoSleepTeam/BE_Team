@@ -15,19 +15,19 @@ public class CreateProPhotoDto {
     private String contents;
     private Integer price;
     private String place;
-    private List<ProPhotoCategory> proPhotoCategory;
+    private List<ProPhotoCategory> category;
     private String firstDate;
     private String lastDate;
 
     @Builder
     public CreateProPhotoDto(String email, String title, String contents, Integer price, String place,
-                             List<ProPhotoCategory> proPhotoCategory, String firstDate, String lastDate) {
+                             List<ProPhotoCategory> category, String firstDate, String lastDate) {
         this.email = email;
         this.title = title;
         this.contents = contents;
         this.price = price;
         this.place = place;
-        this.proPhotoCategory = proPhotoCategory;
+        this.category = category;
         this.firstDate = firstDate;
         this.lastDate = lastDate;
     }

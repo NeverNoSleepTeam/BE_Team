@@ -14,13 +14,13 @@ public class CreatePhotoShopDto {
     private String title;
     private String contents;
     private Integer price;
-    private List<PhotoShopCategory> photoShopCategory;
+    private PhotoShopCategory photoShopCategory;
     private String firstDate;
     private String lastDate;
 
     @Builder
     public CreatePhotoShopDto(String email, String title, String contents, Integer price,
-                              List<PhotoShopCategory> photoShopCategory, String firstDate, String lastDate) {
+                              PhotoShopCategory photoShopCategory, String firstDate, String lastDate) {
         this.email = email;
         this.title = title;
         this.contents = contents;
