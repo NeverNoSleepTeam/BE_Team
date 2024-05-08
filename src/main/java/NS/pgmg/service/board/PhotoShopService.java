@@ -36,7 +36,7 @@ public class PhotoShopService {
             BaseBoard baseBoard = BaseBoard.setPhotoShopBase(request, requestEmail, titleValue, detailsValue);
             PhotoShopBoard photoShopBoard = PhotoShopBoard.builder()
                     .baseBoard(baseBoard)
-                    .category(request.getPhotoShopCategory())
+                    .category(request.getCategory())
                     .price(request.getPrice())
                     .build();
             photoShopRepository.save(photoShopBoard);
