@@ -42,7 +42,7 @@ public class ModelBoardTest {
 
         ModelBoard modelBoard = ModelBoard.builder()
                 .baseBoard(baseBoard)
-                .modelCategory(modelCategory)
+                .category(modelCategory)
                 .price(10000)
                 .place("place")
                 .build();
