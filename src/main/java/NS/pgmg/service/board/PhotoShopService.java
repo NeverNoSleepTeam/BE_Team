@@ -36,7 +36,7 @@ public class PhotoShopService {
             BaseBoard baseBoard = BaseBoard.setPhotoShopBase(request, requestEmail, titleValue, detailsValue);
             PhotoShopBoard photoShopBoard = PhotoShopBoard.builder()
                     .baseBoard(baseBoard)
-                    .photoShopCategory(request.getPhotoShopCategory())
+                    .category(request.getPhotoShopCategory())
                     .price(request.getPrice())
                     .build();
             photoShopRepository.save(photoShopBoard);
@@ -61,7 +61,7 @@ public class PhotoShopService {
                     .title(findBaseBoard.getTitle())
                     .contents(findBaseBoard.getContents())
                     .price(findBoard.getPrice())
-                    .category(findBoard.getPhotoShopCategory())
+                    .category(findBoard.getCategory())
                     .createdAt(findBaseBoard.getCreatedAt())
                     .firstDate(findBaseBoard.getFirstDate())
                     .lastDate(findBaseBoard.getLastDate())

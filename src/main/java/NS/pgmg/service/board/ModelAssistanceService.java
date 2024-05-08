@@ -48,7 +48,7 @@ public class ModelAssistanceService {
             BaseBoard baseBoard = BaseBoard.setModelBase(request, requestEmail, titleValue, detailsValue);
             ModelBoard modelBoard = ModelBoard.builder()
                     .baseBoard(baseBoard)
-                    .modelCategory(request.getCategory())
+                    .category(request.getCategory())
                     .place(request.getPlace())
                     .price(request.getPrice())
                     .bigCategory(BigCategory.해줄게)
@@ -77,7 +77,7 @@ public class ModelAssistanceService {
                     .contents(findBaseBoard.getContents())
                     .price(findBoard.getPrice())
                     .place(findBoard.getPlace())
-                    .category(findBoard.getModelCategory())
+                    .category(findBoard.getCategory())
                     .firstDate(findBaseBoard.getFirstDate())
                     .lastDate(findBaseBoard.getLastDate())
                     .gender(findUser.getGender())

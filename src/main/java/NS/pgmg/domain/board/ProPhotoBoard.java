@@ -25,17 +25,17 @@ public class ProPhotoBoard {
     private BigCategory bigCategory;
 
     @ElementCollection
-    private List<ProPhotoCategory> proPhotoCategory;
+    private List<ProPhotoCategory> category;
 
     private String place;
 
     private Integer price;
 
     @Builder
-    public ProPhotoBoard(BaseBoard baseBoard, List<ProPhotoCategory> proPhotoCategory,
+    public ProPhotoBoard(BaseBoard baseBoard, List<ProPhotoCategory> category,
                          String place, Integer price, BigCategory bigCategory) {
         this.baseBoard = baseBoard;
-        this.proPhotoCategory = proPhotoCategory;
+        this.category = category;
         this.place = place;
         this.price = price;
         this.bigCategory = bigCategory;
@@ -44,7 +44,7 @@ public class ProPhotoBoard {
     public void updateBoard(BaseBoard baseBoard, List<ProPhotoCategory> proPhotoCategory,
                             String place, Integer price) {
         this.baseBoard = baseBoard;
-        this.proPhotoCategory = proPhotoCategory;
+        this.category = proPhotoCategory;
         this.place = place;
         this.price = price;
     }
@@ -54,7 +54,7 @@ public class ProPhotoBoard {
         return "ModelAssistanceBoard{" +
                 "bid=" + bid +
                 ", base=" + baseBoard +
-                ", proPhotoCategory=" + proPhotoCategory +
+                ", proPhotoCategory=" + category +
                 ", place='" + place + '\'' +
                 ", price=" + price +
                 '}';

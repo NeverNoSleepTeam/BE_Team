@@ -44,7 +44,7 @@ public class ProPhotoAssistanceService {
             BaseBoard baseBoard = BaseBoard.setProPhotoBase(request, requestEmail, titleValue, detailsValue);
             ProPhotoBoard proPhotoBoard = ProPhotoBoard.builder()
                     .baseBoard(baseBoard)
-                    .proPhotoCategory(request.getCategory())
+                    .category(request.getCategory())
                     .place(request.getPlace())
                     .price(request.getPrice())
                     .bigCategory(BigCategory.해줄게)
@@ -72,7 +72,7 @@ public class ProPhotoAssistanceService {
                     .title(findBaseBoard.getTitle())
                     .contents(findBaseBoard.getContents())
                     .price(findBoard.getPrice())
-                    .category(findBoard.getProPhotoCategory())
+                    .category(findBoard.getCategory())
                     .firstDate(findBaseBoard.getFirstDate())
                     .lastDate(findBaseBoard.getLastDate())
                     .place(findBoard.getPlace())

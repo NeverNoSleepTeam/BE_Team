@@ -25,17 +25,17 @@ public class ModelBoard {
     private BigCategory bigCategory;
 
     @ElementCollection
-    private List<ModelCategory> modelCategory;
+    private List<ModelCategory> category;
 
     private String place;
 
     private Integer price;
 
     @Builder
-    public ModelBoard(BaseBoard baseBoard, List<ModelCategory> modelCategory, String place, Integer price,
+    public ModelBoard(BaseBoard baseBoard, List<ModelCategory> category, String place, Integer price,
                       BigCategory bigCategory) {
         this.baseBoard = baseBoard;
-        this.modelCategory = modelCategory;
+        this.category = category;
         this.place = place;
         this.price = price;
         this.bigCategory = bigCategory;
@@ -43,7 +43,7 @@ public class ModelBoard {
 
     public void updateBoard(BaseBoard baseBoard, List<ModelCategory> modelCategory, String place, Integer price) {
         this.baseBoard = baseBoard;
-        this.modelCategory = modelCategory;
+        this.category = modelCategory;
         this.place = place;
         this.price = price;
     }
@@ -53,7 +53,7 @@ public class ModelBoard {
         return "ModelAssistanceBoard{" +
                 "bid=" + bid +
                 ", base=" + baseBoard +
-                ", modelCategory=" + modelCategory +
+                ", modelCategory=" + category +
                 ", place='" + place + '\'' +
                 ", price=" + price +
                 '}';

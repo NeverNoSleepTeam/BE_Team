@@ -37,7 +37,7 @@ public class ModelNeedService {
             BaseBoard baseBoard = BaseBoard.setModelBase(request, requestEmail, titleValue, detailsValue);
             ModelBoard modelBoard = ModelBoard.builder()
                     .baseBoard(baseBoard)
-                    .modelCategory(request.getCategory())
+                    .category(request.getCategory())
                     .place(request.getPlace())
                     .price(request.getPrice())
                     .bigCategory(BigCategory.해줘)
@@ -65,7 +65,7 @@ public class ModelNeedService {
                     .contents(findBaseBoard.getContents())
                     .price(findBoard.getPrice())
                     .place(findBoard.getPlace())
-                    .category(findBoard.getModelCategory())
+                    .category(findBoard.getCategory())
                     .createdAt(findBaseBoard.getCreatedAt())
                     .firstDate(findBaseBoard.getFirstDate())
                     .lastDate(findBaseBoard.getLastDate())
