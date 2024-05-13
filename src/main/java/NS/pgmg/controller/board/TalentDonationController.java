@@ -6,6 +6,7 @@ import NS.pgmg.service.board.TalentDonationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Tag(name = "Talent Donation Board", description = "재능기부 게시판 관련 API")
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class TalentDonationController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
+        log.info("Call TalentDonationController.create");
         return talentDonationService.create(token, createTalentDonationDto, title, details);
     }
 
@@ -38,12 +41,14 @@ public class TalentDonationController {
     public ResponseEntity<?> find(
             @RequestBody BoardRequestDto boardRequestDto
     ) {
+        log.info("Call TalentDonationController.find");
         return talentDonationService.find(boardRequestDto);
     }
 
     @Operation(summary = "게시판 전체 조회")
     @GetMapping
     public List<TalentDonationBoard> findAll() {
+        log.info("Call TalentDonationController.findAll");
         return talentDonationService.findAll();
     }
 
@@ -55,6 +60,7 @@ public class TalentDonationController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
+        log.info("Call TalentDonationController.update");
         return talentDonationService.update(token, updateTalentDonationDto, title, details);
     }
 
@@ -64,6 +70,7 @@ public class TalentDonationController {
             @RequestHeader(value = "Token") String token,
             @RequestBody BoardRequestDto boardRequestDto
     ) {
+        log.info("Call TalentDonationController.delete");
         return talentDonationService.delete(token, boardRequestDto);
     }
 }

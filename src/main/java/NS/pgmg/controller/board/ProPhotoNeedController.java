@@ -8,6 +8,7 @@ import NS.pgmg.service.board.ProPhotoNeedService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Tag(name = "ProPhoto Need Board", description = "사진기사 필요해 게시판 관련 API")
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +34,7 @@ public class ProPhotoNeedController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
+        log.info("Call ProPhotoNeedController.create");
         return proPhotoNeedService.create(token, createProPhotoDto, title, details);
     }
 
@@ -40,12 +43,14 @@ public class ProPhotoNeedController {
     public ResponseEntity<?> find(
             @RequestBody BoardRequestDto boardRequestDto
     ) {
+        log.info("Call ProPhotoNeedController.find");
         return proPhotoNeedService.find(boardRequestDto);
     }
 
     @Operation(summary = "게시판 전체 조회")
     @GetMapping
     public List<ProPhotoBoard> findAll() {
+        log.info("Call ProPhotoNeedController.findAll");
         return proPhotoNeedService.findAll();
     }
 
@@ -57,6 +62,7 @@ public class ProPhotoNeedController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
+        log.info("Call ProPhotoNeedController.update");
         return proPhotoNeedService.update(token, updateProPhotoDto, title, details);
     }
 
@@ -66,6 +72,7 @@ public class ProPhotoNeedController {
             @RequestHeader(value = "Token") String token,
             @RequestBody BoardRequestDto boardRequestDto
     ) {
+        log.info("Call ProPhotoNeedController.delete");
         return proPhotoNeedService.delete(token, boardRequestDto);
     }
 }

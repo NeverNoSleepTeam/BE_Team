@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Tag(name = "Rank", description = "회원 등급 변경 관련 API")
 @Slf4j
+@Tag(name = "Rank", description = "회원 등급 변경 관련 API")
 @RestController
 @RequiredArgsConstructor
 public class RankController {
@@ -25,6 +25,7 @@ public class RankController {
             @RequestHeader(value = "Token") String token,
             @RequestBody FindByEmailDto findByEmailDto
     ) {
+        log.info("Call RankController.transformBasic");
         return rankService.changeBasicRank(token, findByEmailDto);
     }
 
@@ -34,6 +35,7 @@ public class RankController {
             @RequestHeader(value = "Token") String token,
             @RequestBody FindByEmailDto findByEmailDto
     ) {
+        log.info("Call RankController.transformModel");
         return rankService.changeModelRank(token, findByEmailDto);
     }
 
@@ -43,6 +45,7 @@ public class RankController {
             @RequestHeader(value = "Token") String token,
             @RequestBody FindByEmailDto findByEmailDto
     ) {
+        log.info("Call RankController.transformProPhoto");
         return rankService.changeProPhotoRank(token, findByEmailDto);
     }
 }

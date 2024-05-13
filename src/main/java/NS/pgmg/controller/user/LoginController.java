@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Tag(name = "Login", description = "로그인 관련 API")
 @Slf4j
+@Tag(name = "Login", description = "로그인 관련 API")
 @RestController
 @RequiredArgsConstructor
 public class LoginController {
@@ -25,6 +25,7 @@ public class LoginController {
     public ResponseEntity<Map<String, String>> basicUserLogin(
             @RequestBody LoginDto loginDto
     ) {
+        log.info("Call LoginController.basicUserLogin");
         return loginService.login(loginDto);
     }
 
@@ -33,6 +34,7 @@ public class LoginController {
     public ResponseEntity<Map<String, String>> socialRegisterAndLogin(
             @RequestBody SocialRegisterAndLoginDto socialRegisterAndLoginDto
     ) {
+        log.info("Call LoginController.socialRegisterAndLogin");
         return loginService.socialLogin(socialRegisterAndLoginDto);
     }
 }

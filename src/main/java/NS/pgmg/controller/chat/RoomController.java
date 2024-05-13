@@ -7,6 +7,7 @@ import NS.pgmg.service.chat.RoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -14,6 +15,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Tag(name = "Chat", description = "채팅 관련 API")
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +30,7 @@ public class RoomController {
             @RequestHeader(value = "Token") String token,
             @RequestBody CreateRoomDto request
     ) {
+        log.info("Call RoomController.createRoom");
         return roomService.createRooms(token, request);
     }
 
@@ -37,6 +40,7 @@ public class RoomController {
             @RequestHeader(value = "Token") String token,
             @RequestBody FindAllRoomDto request
     ) {
+        log.info("Call RoomController.getRooms");
         return roomService.getChatRooms(token, request);
     }
 
@@ -46,6 +50,7 @@ public class RoomController {
             @DestinationVariable(value = "roomId") String roomId,
             @Payload DeleteRoomDto request
     ) {
+        log.info("Call RoomController.deleteRoom");
         return roomService.deleteChatRoom(roomId, request);
     }
 }

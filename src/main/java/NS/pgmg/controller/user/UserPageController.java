@@ -17,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
-@Tag(name = "User Page", description = "유저페이지(마이페이지) 관련 API")
 @Slf4j
+@Tag(name = "User Page", description = "유저페이지(마이페이지) 관련 API")
 @RestController
 @RequiredArgsConstructor
 public class UserPageController {
@@ -31,6 +31,7 @@ public class UserPageController {
             @RequestHeader(value = "Token", required = false) String token,
             @RequestBody FindByEmailDto findByEmailDto
     ) {
+        log.info("Call UserPageController.findBasicInfo");
         return userPageService.findBasicInfo(token, findByEmailDto);
     }
 
@@ -40,6 +41,7 @@ public class UserPageController {
             @RequestHeader(value = "Token", required = false) String token,
             @RequestBody FindByEmailDto findByEmailDto
     ) {
+        log.info("Call UserPageController.findModelInfo");
         return userPageService.findModelInfo(token, findByEmailDto);
     }
 
@@ -49,6 +51,7 @@ public class UserPageController {
             @RequestHeader(value = "Token", required = false) String token,
             @RequestBody FindByEmailDto findByEmailDto
     ) {
+        log.info("Call UserPageController.findProPhotoInfo");
         return userPageService.findProPhotoInfo(token, findByEmailDto);
     }
 
@@ -58,6 +61,7 @@ public class UserPageController {
             @RequestHeader(value = "Token", required = false) String token,
             @RequestBody FindByEmailDto findByEmailDto
     ) {
+        log.info("Call UserPageController.findAllInfo");
         return userPageService.findAllInfo(token, findByEmailDto);
     }
 
@@ -69,6 +73,7 @@ public class UserPageController {
             @RequestPart(value = "RequestBody") UpdateBasicInfoRequestDto updateBasicInfoRequestDto,
             @RequestPart(value = "File", required = false) MultipartFile file
     ) {
+        log.info("Call UserPageController.updateBasicInfo");
         return userPageService.updateBasicInfo(token, file, updateBasicInfoRequestDto);
     }
 
@@ -80,6 +85,7 @@ public class UserPageController {
             @RequestPart(value = "RequestBody") UpdateModelInfoRequestDto updateModelInfoRequestDto,
             @RequestPart(value = "File", required = false) MultipartFile file
     ) {
+        log.info("Call UserPageController.updateModelInfo");
         return userPageService.updateModelInfo(token, file, updateModelInfoRequestDto);
     }
 
@@ -92,6 +98,7 @@ public class UserPageController {
             @RequestPart(value = "ImgFile", required = false) MultipartFile img,
             @RequestPart(value = "PdfFile", required = false) MultipartFile pdf
     ) {
+        log.info("Call UserPageController.updateProPhotoInfo");
         return userPageService.updateProPhotoInfo(token, updateProPhotoInfoRequestDto, img, pdf);
     }
 
@@ -103,6 +110,7 @@ public class UserPageController {
             @RequestPart(value = "RequestBody") FindByEmailDto findByEmailDto,
             @RequestPart(value = "Files", required = false) List<MultipartFile> files
     ) {
+        log.info("Call UserPageController.transformBasicImg");
         return userPageService.changeBasicImg(token, findByEmailDto, files);
     }
 
@@ -114,6 +122,7 @@ public class UserPageController {
             @RequestPart(value = "RequestBody") FindByEmailDto findByEmailDto,
             @RequestPart(value = "Files", required = false) List<MultipartFile> files
     ) {
+        log.info("Call UserPageController.transformModelImg");
         return userPageService.changeModelImg(token, findByEmailDto, files);
     }
 
@@ -125,6 +134,7 @@ public class UserPageController {
             @RequestPart(value = "RequestBody") FindByEmailDto findByEmailDto,
             @RequestPart(value = "Files", required = false) List<MultipartFile> files
     ) {
+        log.info("Call UserPageController.transformProPhotoImg");
         return userPageService.changeProPhotoImg(token, findByEmailDto, files);
     }
 }

@@ -17,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
-@Tag(name = "Register", description = "회원가입 관련 API")
 @Slf4j
+@Tag(name = "Register", description = "회원가입 관련 API")
 @RestController
 @RequiredArgsConstructor
 public class RegisterController {
@@ -30,6 +30,7 @@ public class RegisterController {
     public ResponseEntity<Map<String, String>> basicUserRegister(
             @RequestBody BasicRegisterDto basicRegisterDto
     ) {
+        log.info("Call RegisterController.basicUserRegister");
         return registerService.createBasicUser(basicRegisterDto);
     }
 
@@ -38,6 +39,7 @@ public class RegisterController {
     public ResponseEntity<Map<String, String>> ModelUserRegister(
             @RequestBody ModelRegisterDto modelRegisterDto
     ) {
+        log.info("Call RegisterController.ModelUserRegister");
         return registerService.createModelUser(modelRegisterDto);
     }
 
@@ -48,6 +50,7 @@ public class RegisterController {
             @RequestPart(value = "RequestBody") ProPhotoRegisterDto proPhotoRegisterDto,
             @RequestPart(value = "File", required = false) MultipartFile file
     ) {
+        log.info("Call RegisterController.proPhotoRegister");
         return registerService.createProPhotoUser(proPhotoRegisterDto, file);
     }
 
@@ -56,6 +59,7 @@ public class RegisterController {
     public ResponseEntity<Map<String, String>> duplicateEmailCheck(
             @RequestBody DuplicateEmailDto duplicateEmailDto
     ) {
+        log.info("Call RegisterController.duplicateEmailCheck");
         try {
             registerService.basicUserEmailDuplicateCheck(duplicateEmailDto.getEmail());
             return ResponseEntity.ok().body(Map.of("message", "사용가능한 이메일입니다."));
@@ -70,6 +74,7 @@ public class RegisterController {
     public ResponseEntity<Map<String, String>> duplicateNameCheck(
             @RequestBody DuplicateNameDto duplicateNameDto
     ) {
+        log.info("Call RegisterController.duplicateNameCheck");
         try {
             registerService.basicUserNameDuplicateCheck(duplicateNameDto.getName());
             return ResponseEntity.ok().body(Map.of("message", "사용가능한 닉네임입니다."));

@@ -6,6 +6,7 @@ import NS.pgmg.service.board.ProPhotoAssistanceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Tag(name = "ProPhoto Assistance Board", description = "사진기사 해줄게 게시판 관련 API")
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class ProPhotoAssistanceController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
+        log.info("Call ProPhotoAssistanceController.create");
         return proPhotoAssistanceService.create(token, createProPhotoDto, title, details);
     }
 
@@ -38,12 +41,14 @@ public class ProPhotoAssistanceController {
     public ResponseEntity<?> find(
             @RequestBody BoardRequestDto boardRequestDto
     ) {
+        log.info("Call ProPhotoAssistanceController.find");
         return proPhotoAssistanceService.find(boardRequestDto);
     }
 
     @Operation(summary = "게시판 전체 조회")
     @GetMapping
     public List<ProPhotoBoard> findAll() {
+        log.info("Call ProPhotoAssistanceController.findAll");
         return proPhotoAssistanceService.findAll();
     }
 
@@ -55,6 +60,7 @@ public class ProPhotoAssistanceController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
+        log.info("Call ProPhotoAssistanceController.update");
         return proPhotoAssistanceService.update(token, updateProPhotoDto, title, details);
     }
 
@@ -64,6 +70,7 @@ public class ProPhotoAssistanceController {
             @RequestHeader(value = "Token") String token,
             @RequestBody BoardRequestDto boardRequestDto
     ) {
+        log.info("Call ProPhotoAssistanceController.delete");
         return proPhotoAssistanceService.delete(token, boardRequestDto);
     }
 }

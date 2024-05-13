@@ -6,6 +6,7 @@ import NS.pgmg.service.board.PhotoShopService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Tag(name = "PhotoShop Board", description = "포토샵 게시판 관련 API")
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class PhotoShopController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
+        log.info("Call PhotoShopController.create");
         return photoShopService.create(token, createPhotoShopDto, title, details);
     }
 
@@ -38,12 +41,14 @@ public class PhotoShopController {
     public ResponseEntity<?> find(
             @RequestBody BoardRequestDto boardRequestDto
     ) {
+        log.info("Call PhotoShopController.find");
         return photoShopService.find(boardRequestDto);
     }
 
     @Operation(summary = "게시판 전체 조회")
     @GetMapping
     public List<PhotoShopBoard> findAll() {
+        log.info("Call PhotoShopController.findAll");
         return photoShopService.findAll();
     }
 
@@ -55,6 +60,7 @@ public class PhotoShopController {
             @RequestPart(value = "Title", required = false) MultipartFile title,
             @RequestPart(value = "Details", required = false) List<MultipartFile> details
     ) {
+        log.info("Call PhotoShopController.update");
         return photoShopService.update(token, updatePhotoShopDto, title, details);
     }
 
@@ -64,6 +70,7 @@ public class PhotoShopController {
             @RequestHeader(value = "Token") String token,
             @RequestBody BoardRequestDto boardRequestDto
     ) {
+        log.info("Call PhotoShopController.delete");
         return photoShopService.delete(token, boardRequestDto);
     }
 }
