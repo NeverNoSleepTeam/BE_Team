@@ -133,6 +133,7 @@ public class User {
         this.city = basicInfo.getCity();
         this.intro = basicInfo.getIntro();
         this.profileMainImg = profileMainImg;
+        this.userRank = UserRank.일반회원;
     }
 
     public void updateModelInfo(UpdateModelInfoRequestDto modelInfo, String profileMainImg) {
@@ -146,6 +147,7 @@ public class User {
         this.bottom = modelInfo.getBottom();
         this.shoes = modelInfo.getShoes();
         this.profileMainImg = profileMainImg;
+        this.userRank = UserRank.모델회원;
         this.isModel = true;
     }
 
@@ -161,6 +163,7 @@ public class User {
         this.URL = proPhotoInfo.getURL();
         this.portfolioPath = portfolioPath;
         this.profileMainImg = profileMainImg;
+        this.userRank = UserRank.사진기사회원;
         this.isProPhoto = true;
     }
 
