@@ -26,6 +26,7 @@ public class LoginController {
             @RequestBody LoginDto loginDto
     ) {
         log.info("Call LoginController.basicUserLogin");
+        log.info("email: {}, passwd: {}", loginDto.getEmail(), loginDto.getPasswd());
         return loginService.login(loginDto);
     }
 
