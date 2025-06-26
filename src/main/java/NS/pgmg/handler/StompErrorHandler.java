@@ -1,4 +1,4 @@
-package NS.pgmg.Handler;
+package NS.pgmg.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;

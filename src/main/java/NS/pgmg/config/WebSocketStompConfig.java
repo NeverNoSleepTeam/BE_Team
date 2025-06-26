@@ -1,7 +1,7 @@
 package NS.pgmg.config;
 
-import NS.pgmg.Handler.StompErrorHandler;
-import NS.pgmg.Handler.StompHandler;
+import NS.pgmg.handler.StompErrorHandler;
+import NS.pgmg.handler.StompHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
