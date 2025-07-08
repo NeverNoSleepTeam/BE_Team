@@ -92,6 +92,7 @@ public final class CommonMethod {
                 file.transferTo(new File(imgPath + fileName));
             } catch (IOException e) {
                 log.warn("이미지 저장 오류", e);
+                return null;
             }
 
             return "/img/" + fileName;
@@ -117,7 +118,8 @@ public final class CommonMethod {
                     f.transferTo(new File(imgPath + fileName));
                     paths.add("/img/" + fileName);
                 } catch (IOException e) {
-                    throw new RuntimeException("이미지 저장 오류", e);
+                    log.warn("이미지 저장 오류", e);
+                    return null;
                 }
             }
             return paths;
