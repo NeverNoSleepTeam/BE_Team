@@ -27,7 +27,7 @@ public class ProPhotoNeedController {
     private final ProPhotoNeedService proPhotoNeedService;
 
     @Operation(summary = "게시판 생성")
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Map<String, String>> create(
             @RequestHeader(value = "Token") String token,
             @RequestPart(value = "RequestBody") CreateProPhotoDto createProPhotoDto,
